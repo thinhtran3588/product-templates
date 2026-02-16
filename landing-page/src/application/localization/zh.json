@@ -1,0 +1,294 @@
+{
+  "common": {
+    "navigation": {
+      "home": "主页",
+      "privacy": "隐私",
+      "terms": "条款",
+      "app": "应用",
+      "goToApp": "进入主应用",
+      "backToHome": "返回主页",
+      "contact": "联系我们",
+      "menu": "菜单"
+    },
+    "footer": {
+      "copyright": "© 2026 SparkMap。保留所有权利。"
+    },
+    "app": {
+      "metadata": {
+        "title": "SparkMap",
+        "description": "使用 Clean Architecture、TypeScript 和 100% 测试覆盖率构建可扩展的 Next.js 应用。"
+      }
+    },
+    "errors": {
+      "notFound": {
+        "eyebrow": "未找到",
+        "title": "页面未找到",
+        "description": "您访问的页面不存在或已被移动。",
+        "cta": "返回主页"
+      },
+      "serverError": {
+        "eyebrow": "错误",
+        "title": "出错了",
+        "description": "发生意外错误，请重试。",
+        "tryAgain": "重试",
+        "cta": "返回主页"
+      },
+      "generic": {
+        "eyebrow": "错误",
+        "title": "出错了",
+        "description": "发生错误，请稍后再试。",
+        "cta": "返回主页"
+      }
+    }
+  },
+  "settings": {
+    "error": {
+      "saveFailed": "无法保存设置。"
+    },
+    "language": {
+      "label": "语言",
+      "options": {
+        "en": "英语",
+        "vi": "越南语",
+        "zh": "中文"
+      },
+      "flags": {
+        "en": "🇺🇸",
+        "vi": "🇻🇳",
+        "zh": "🇨🇳"
+      }
+    },
+    "theme": {
+      "label": "主题",
+      "options": {
+        "system": "跟随系统",
+        "light": "浅色",
+        "dark": "深色"
+      }
+    }
+  },
+  "modules": {
+    "legal": {
+      "pages": {
+        "privacy-policy": {
+          "title": "隐私政策",
+          "metadata": {
+            "description": "了解 Next.js Starter Kit 如何收集、使用和保护您的数据。"
+          },
+          "lastUpdated": "最后更新：2026年1月31日",
+          "sections": {
+            "overview": {
+              "title": "概述",
+              "body": "SparkMap 是一个跨平台思维导图应用。本政策说明我们如何处理您的数据。您的数据安全地存储在我们的服务器上，以实现跨设备同步。"
+            },
+            "collection": {
+              "title": "我们收集的信息",
+              "body": "我们收集以下信息以提供服务：",
+              "items": {
+                "auth": "账户信息：我们收集您的电子邮件地址和全名仅用于身份验证和账户管理。我们要不会使用此信息来跟踪您。",
+                "content": "用户内容：我们将您的思维导图及相关内容存储在我们的安全服务器上，以提供跨设备同步。"
+              }
+            },
+            "usage": {
+              "title": "信息使用方式",
+              "body": "我们使用您的账户信息来验证您的身份并保护您的账户。我们使用匿名分析数据（如果启用）来监控应用稳定性并改进用户体验。",
+              "note": "我们不会将您的个人信息用于跟踪或广告目的。"
+            },
+
+            "sharing": {
+              "title": "共享与披露",
+              "body": "我们不会出售您的个人信息。我们仅与 Firebase 共享匿名分析数据以运营我们的分析服务。"
+            },
+            "retention": {
+              "title": "数据保留",
+              "body": "只要您的账户处于活跃状态，我们就会保留您的账户信息和思维导图。您可以随时请求删除您的账户和数据。"
+            },
+            "security": {
+              "title": "安全",
+              "body": "我们使用行业标准的加密和安全措施来保护存储在我们服务器上和传输过程中的数据。"
+            },
+            "changes": {
+              "title": "政策变更",
+              "body": "随着 SparkMap 的演进，我们可能更新本政策。请定期查看。"
+            },
+            "contact": {
+              "title": "联系",
+              "body": "如有关于隐私的问题，请联系 SparkMap 团队。"
+            }
+          }
+        },
+        "terms-of-service": {
+          "title": "服务条款",
+          "metadata": {
+            "description": "查看使用 Next.js Starter Kit 的条款和条件。"
+          },
+          "lastUpdated": "最后更新：2026年1月31日",
+          "sections": {
+            "overview": {
+              "title": "概述",
+              "body": "这些条款描述了 SparkMap 应用程序的使用方式。"
+            },
+            "acceptance": {
+              "title": "接受",
+              "body": "通过访问或使用 SparkMap，即表示您同意这些条款。如果您不同意，请勿使用本应用。"
+            },
+            "accounts": {
+              "title": "账户与认证",
+              "body": "SparkMap 使用安全认证。您有责任保护您的凭据以及在您账户下发生的任何活动。"
+            },
+            "acceptableUse": {
+              "title": "可接受使用",
+              "body": "你同意不进行以下行为：",
+              "items": {
+                "unlawful": "将服务用于违法、有害或滥用目的。",
+                "access": "尝试访问或探测其他账户或数据。",
+                "interference": "干扰或破坏服务及其基础设施。"
+              }
+            },
+            "thirdParty": {
+              "title": "第三方服务",
+              "body": "SparkMap 集成 Firebase 等第三方服务。你对这些服务的使用同样受其条款与隐私政策约束。"
+            },
+            "starterKit": {
+              "title": "服务性质",
+              "body": "SparkMap 作为一项服务提供。我们保留随时修改、暂停或终止服务的权利。"
+            },
+            "termination": {
+              "title": "终止",
+              "body": "如果违反这些条款或出于运营原因，可能会随时暂停或终止访问权限。"
+            },
+            "disclaimers": {
+              "title": "免责声明",
+              "body": "本服务按“原样”和“可用”基础提供。不提供任何保证，您需自行承担使用风险。"
+            },
+            "liability": {
+              "title": "责任限制",
+              "body": "在法律允许的最大范围内，SparkMap 及其创建者不对因使用本应用而产生的间接、附带、特殊、后果性或惩罚性损害承担责任。"
+            },
+            "changes": {
+              "title": "变更",
+              "body": "随着应用的发展，这些条款可能会更新。请定期查看。"
+            },
+            "contact": {
+              "title": "联系",
+              "body": "如有关于这些条款的问题，请联系 SparkMap 团队。"
+            }
+          }
+        }
+      }
+    },
+    "contact": {
+      "pages": {
+        "contact": {
+          "title": "联系我们",
+          "metadata": {
+            "description": "联系我们。发送消息或直接发送电子邮件。"
+          },
+          "subtitle": "有问题或需要帮助？填写下方表单或直接发送邮件至",
+          "form": {
+            "nameLabel": "姓名",
+            "namePlaceholder": "您的姓名",
+            "emailLabel": "邮箱",
+            "emailPlaceholder": "your.email@example.com",
+            "subjectLabel": "主题",
+            "subjectPlaceholder": "关于什么？",
+            "messageLabel": "消息",
+            "messagePlaceholder": "请告诉我们更多关于您的需求...",
+            "submitButton": "发送消息",
+            "submittingButton": "发送中...",
+            "validation": {
+              "nameRequired": "请输入姓名",
+              "nameMaxLength": "姓名最多 50 个字符",
+              "emailRequired": "请输入电子邮箱",
+              "invalidEmail": "邮箱格式不正确",
+              "subjectRequired": "请输入主题",
+              "subjectMaxLength": "主题最多 200 个字符",
+              "messageRequired": "请输入消息",
+              "messageMaxLength": "消息最多 1000 个字符",
+              "sourceRequired": "请输入来源",
+              "sourceMaxLength": "来源最多 200 个字符"
+            }
+          },
+          "emailNote": "您也可以直接通过以下邮箱联系我们",
+          "successMessage": "您的消息已成功发送。我们会尽快回复您。",
+          "errorMessage": "发送消息失败。请稍后再试。"
+        }
+      }
+    },
+    "landing": {
+      "pages": {
+        "home": {
+          "badge": "SparkMap",
+          "hero": {
+            "eyebrow": "重塑视觉思维",
+            "title": "SparkMap",
+            "subtitle": "极致的思维导图工具，专为创意思维者打造。整理思绪，规划项目，释放创意。美观直观的界面，支持所有设备。"
+          },
+          "features": {
+            "title": "为什么选择 SparkMap？",
+            "description": "专为清晰思考和高效工作而设计。",
+            "items": {
+              "visualThinking": {
+                "title": "视觉思维",
+                "description": "将复杂的想法分解为易于管理的视觉节点。无缝连接各个概念。"
+              },
+              "collaboration": {
+                "title": "实时协作",
+                "description": "与团队实时协作。即时查看更改。"
+              },
+              "templates": {
+                "title": "智能模板",
+                "description": "使用专业设计的模板库快速启动头脑风暴。"
+              },
+              "crossPlatform": {
+                "title": "跨平台同步",
+                "description": "在 Web、Android、iOS 和 macOS 之间即时同步您的思维导图。"
+              },
+              "aiAssistance": {
+                "title": "AI 助手",
+                "description": "让 AI 帮助您扩展想法，生成大纲和总结分支。"
+              },
+              "export": {
+                "title": "灵活导出",
+                "description": "将导图导出为 PDF、PNG、Markdown 或 Word 文档，轻松分享。"
+              }
+            }
+          },
+          "testimonials": {
+            "title": "深受思考者喜爱",
+            "description": "看看用户如何评价 SparkMap 改变了他们的工作流程。",
+            "items": {
+              "user1": {
+                "name": "Sarah Chen",
+                "role": "产品经理",
+                "quote": "SparkMap 完全改变了我规划产品路线图的方式。视觉界面直观，同步功能完美。"
+              },
+              "user2": {
+                "name": "Mark Johnson",
+                "role": "软件架构师",
+                "quote": "可视化系统架构的最佳工具。我喜欢深色模式和键盘快捷键。"
+              },
+              "user3": {
+                "name": "Emily Rodriguez",
+                "role": "创意总监",
+                "quote": "终于有一个既美观又实用的思维导图工具了。精美的设计让我保持心流状态。"
+              }
+            }
+          },
+          "download": {
+            "title": "下载",
+            "description": "下载适用于您喜欢平台的 SparkMap，立即开始绘制创意。",
+            "platforms": {
+              "web": "Web 版",
+              "android": "Android 版",
+              "ios": "iOS 版",
+              "macos": "macOS 版"
+            },
+            "footer": "个人使用免费。升级以获取团队功能。",
+            "comingSoon": "即将推出"
+          }
+        }
+      }
+    }
+  }
+}

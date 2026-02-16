@@ -1,0 +1,294 @@
+{
+  "common": {
+    "navigation": {
+      "home": "Trang chủ",
+      "privacy": "Quyền riêng tư",
+      "terms": "Điều khoản",
+      "app": "Ứng dụng",
+      "goToApp": "Đi đến ứng dụng chính",
+      "backToHome": "Quay lại trang chủ",
+      "contact": "Liên hệ",
+      "menu": "Menu"
+    },
+    "footer": {
+      "copyright": "© 2026 SparkMap. Bảo lưu mọi quyền."
+    },
+    "app": {
+      "metadata": {
+        "title": "SparkMap",
+        "description": "Công cụ bản đồ tư duy tối ưu cho những người có tư duy sáng tạo."
+      }
+    },
+    "errors": {
+      "notFound": {
+        "eyebrow": "Không tìm thấy",
+        "title": "Không tìm thấy trang",
+        "description": "Trang bạn tìm kiếm không tồn tại hoặc đã được di chuyển.",
+        "cta": "Quay lại trang chủ"
+      },
+      "serverError": {
+        "eyebrow": "Lỗi",
+        "title": "Đã xảy ra lỗi",
+        "description": "Đã xảy ra lỗi không mong muốn. Vui lòng thử lại.",
+        "tryAgain": "Thử lại",
+        "cta": "Quay lại trang chủ"
+      },
+      "generic": {
+        "eyebrow": "Lỗi",
+        "title": "Đã xảy ra lỗi",
+        "description": "Đã xảy ra lỗi. Vui lòng thử lại sau.",
+        "cta": "Quay lại trang chủ"
+      }
+    }
+  },
+  "settings": {
+    "error": {
+      "saveFailed": "Không thể lưu cài đặt."
+    },
+    "language": {
+      "label": "Ngôn ngữ",
+      "options": {
+        "en": "Tiếng Anh",
+        "vi": "Tiếng Việt",
+        "zh": "Tiếng Trung"
+      },
+      "flags": {
+        "en": "🇺🇸",
+        "vi": "🇻🇳",
+        "zh": "🇨🇳"
+      }
+    },
+    "theme": {
+      "label": "Giao diện",
+      "options": {
+        "system": "Hệ thống",
+        "light": "Sáng",
+        "dark": "Tối"
+      }
+    }
+  },
+  "modules": {
+    "legal": {
+      "pages": {
+        "privacy-policy": {
+          "title": "Chính sách quyền riêng tư",
+          "metadata": {
+            "description": "Tìm hiểu cách Next.js Starter Kit thu thập, sử dụng và bảo vệ dữ liệu của bạn."
+          },
+          "lastUpdated": "Cập nhật lần cuối: 31 tháng 1, 2026",
+          "sections": {
+            "overview": {
+              "title": "Tổng quan",
+              "body": "SparkMap là ứng dụng bản đồ tư duy đa nền tảng. Chính sách này giải thích cách chúng tôi xử lý dữ liệu của bạn. Dữ liệu của bạn được lưu trữ an toàn trên máy chủ của chúng tôi để cho phép đồng bộ hóa trên tất cả các thiết bị của bạn."
+            },
+            "collection": {
+              "title": "Thông tin chúng tôi thu thập",
+              "body": "Chúng tôi thu thập các thông tin sau để cung cấp dịch vụ:",
+              "items": {
+                "auth": "Thông tin tài khoản: Chúng tôi thu thập địa chỉ email và họ tên đầy đủ của bạn chỉ nhằm mục đích xác thực và quản lý tài khoản. Chúng tôi không sử dụng thông tin này để theo dõi bạn.",
+                "content": "Nội dung người dùng: Chúng tôi lưu trữ bản đồ tư duy và nội dung liên quan của bạn trên máy chủ bảo mật của chúng tôi để cung cấp khả năng đồng bộ hóa giữa các thiết bị."
+              }
+            },
+            "usage": {
+              "title": "Cách chúng tôi sử dụng thông tin",
+              "body": "Chúng tôi sử dụng thông tin tài khoản của bạn để xác thực và bảo mật tài khoản. Chúng tôi sử dụng dữ liệu phân tích ẩn danh (nếu được bật) để giám sát độ ổn định và cải thiện trải nghiệm người dùng.",
+              "note": "Chúng tôi không sử dụng thông tin cá nhân của bạn cho mục đích theo dõi hoặc quảng cáo."
+            },
+
+            "sharing": {
+              "title": "Chia sẻ và công bố",
+              "body": "Chúng tôi không bán thông tin cá nhân của bạn. Chúng tôi chỉ chia sẻ dữ liệu phân tích ẩn danh với Firebase để vận hành các dịch vụ phân tích."
+            },
+            "retention": {
+              "title": "Lưu trữ dữ liệu",
+              "body": "Thông tin tài khoản và bản đồ tư duy của bạn được lưu giữ chừng nào tài khoản của bạn còn hoạt động. Bạn có thể yêu cầu xóa tài khoản và dữ liệu bất cứ lúc nào."
+            },
+            "security": {
+              "title": "Bảo mật",
+              "body": "Chúng tôi sử dụng các biện pháp mã hóa và bảo mật tiêu chuẩn ngành để bảo vệ dữ liệu của bạn được lưu trữ trên máy chủ và trong quá trình truyền tải."
+            },
+            "changes": {
+              "title": "Thay đổi chính sách",
+              "body": "Chúng tôi có thể cập nhật chính sách này khi SparkMap phát triển. Hãy xem lại định kỳ."
+            },
+            "contact": {
+              "title": "Liên hệ",
+              "body": "Nếu có câu hỏi về quyền riêng tư, vui lòng liên hệ với đội ngũ SparkMap."
+            }
+          }
+        },
+        "terms-of-service": {
+          "title": "Điều khoản dịch vụ",
+          "metadata": {
+            "description": "Xem các điều khoản và điều kiện khi sử dụng Next.js Starter Kit."
+          },
+          "lastUpdated": "Cập nhật lần cuối: 31 tháng 1, 2026",
+          "sections": {
+            "overview": {
+              "title": "Tổng quan",
+              "body": "Các điều khoản này mô tả cách sử dụng starter kit. Nếu bạn triển khai sản phẩm thực dựa trên starter kit, hãy cập nhật điều khoản để phù hợp với sản phẩm, mô hình kinh doanh và yêu cầu pháp lý."
+            },
+            "acceptance": {
+              "title": "Chấp thuận",
+              "body": "Bằng việc truy cập hoặc sử dụng SparkMap, bạn đồng ý với các điều khoản. Nếu không đồng ý, vui lòng không sử dụng ứng dụng."
+            },
+            "accounts": {
+              "title": "Tài khoản và xác thực",
+              "body": "SparkMap sử dụng Firebase Authentication và hỗ trợ đăng nhập bằng email, Google và Apple. Bạn chịu trách nhiệm bảo vệ thông tin đăng nhập và mọi hoạt động diễn ra trong tài khoản của mình."
+            },
+            "acceptableUse": {
+              "title": "Sử dụng hợp lệ",
+              "body": "Bạn đồng ý không:",
+              "items": {
+                "unlawful": "Sử dụng dịch vụ cho mục đích trái pháp luật, gây hại hoặc lạm dụng.",
+                "access": "Cố gắng truy cập hoặc thăm dò tài khoản hoặc dữ liệu khác.",
+                "interference": "Can thiệp hoặc làm gián đoạn dịch vụ hay hạ tầng của dịch vụ."
+              }
+            },
+            "thirdParty": {
+              "title": "Dịch vụ bên thứ ba",
+              "body": "SparkMap tích hợp các dịch vụ bên thứ ba như Firebase. Việc bạn sử dụng các dịch vụ đó cũng tuân theo điều khoản và chính sách quyền riêng tư của họ."
+            },
+            "starterKit": {
+              "title": "Bản chất dịch vụ",
+              "body": "SparkMap được cung cấp dưới dạng dịch vụ. Chúng tôi có quyền sửa đổi, tạm ngừng hoặc chấm dứt dịch vụ bất cứ lúc nào."
+            },
+            "termination": {
+              "title": "Chấm dứt",
+              "body": "Quyền truy cập có thể bị tạm ngưng hoặc chấm dứt bất cứ lúc nào do vi phạm điều khoản hoặc vì lý do vận hành."
+            },
+            "disclaimers": {
+              "title": "Miễn trừ trách nhiệm",
+              "body": "Dịch vụ được cung cấp theo trạng thái \"nguyên trạng\" và \"sẵn có\". Không có bảo đảm nào được đưa ra, và bạn tự chịu rủi ro khi sử dụng."
+            },
+            "liability": {
+              "title": "Giới hạn trách nhiệm",
+              "body": "Trong phạm vi tối đa luật cho phép, SparkMap và đội ngũ phát triển không chịu trách nhiệm về các thiệt hại gián tiếp, ngẫu nhiên, đặc biệt, phát sinh hoặc mang tính trừng phạt do việc bạn sử dụng ứng dụng."
+            },
+            "changes": {
+              "title": "Thay đổi",
+              "body": "Các điều khoản này có thể được cập nhật khi ứng dụng phát triển. Hãy xem lại định kỳ."
+            },
+            "contact": {
+              "title": "Liên hệ",
+              "body": "Nếu có câu hỏi về các điều khoản này, hãy liên hệ với đội ngũ SparkMap."
+            }
+          }
+        }
+      }
+    },
+    "contact": {
+      "pages": {
+        "contact": {
+          "title": "Liên hệ",
+          "metadata": {
+            "description": "Liên hệ với chúng tôi. Gửi tin nhắn hoặc email trực tiếp cho chúng tôi."
+          },
+          "subtitle": "Bạn có câu hỏi hoặc cần trợ giúp? Điền biểu mẫu bên dưới hoặc gửi email trực tiếp đến",
+          "form": {
+            "nameLabel": "Họ tên",
+            "namePlaceholder": "Họ tên của bạn",
+            "emailLabel": "Email",
+            "emailPlaceholder": "email.cua.ban@example.com",
+            "subjectLabel": "Chủ đề",
+            "subjectPlaceholder": "Nội dung liên hệ?",
+            "messageLabel": "Tin nhắn",
+            "messagePlaceholder": "Cho chúng tôi biết thêm về yêu cầu của bạn...",
+            "submitButton": "Gửi tin nhắn",
+            "submittingButton": "Đang gửi...",
+            "validation": {
+              "nameRequired": "Vui lòng nhập họ tên",
+              "nameMaxLength": "Họ tên tối đa 50 ký tự",
+              "emailRequired": "Vui lòng nhập email",
+              "invalidEmail": "Email không hợp lệ",
+              "subjectRequired": "Vui lòng nhập chủ đề",
+              "subjectMaxLength": "Chủ đề tối đa 200 ký tự",
+              "messageRequired": "Vui lòng nhập tin nhắn",
+              "messageMaxLength": "Tin nhắn tối đa 1000 ký tự",
+              "sourceRequired": "Vui lòng nhập nguồn",
+              "sourceMaxLength": "Nguồn tối đa 200 ký tự"
+            }
+          },
+          "emailNote": "Bạn cũng có thể liên hệ trực tiếp với chúng tôi tại",
+          "successMessage": "Tin nhắn của bạn đã được gửi thành công. Chúng tôi sẽ phản hồi sớm nhất có thể.",
+          "errorMessage": "Không thể gửi tin nhắn. Vui lòng thử lại sau."
+        }
+      }
+    },
+    "landing": {
+      "pages": {
+        "home": {
+          "badge": "SparkMap",
+          "hero": {
+            "eyebrow": "Tư duy trực quan được tái định nghĩa",
+            "title": "SparkMap",
+            "subtitle": "Công cụ bản đồ tư duy tối ưu cho những người có tư duy sáng tạo. Tổ chức suy nghĩ, lập kế hoạch dự án và giải phóng sự sáng tạo của bạn với giao diện đẹp, trực quan có sẵn trên mọi thiết bị."
+          },
+          "features": {
+            "title": "Tại sao chọn SparkMap?",
+            "description": "Được thiết kế để giúp bạn suy nghĩ rõ ràng và làm việc hiệu quả.",
+            "items": {
+              "visualThinking": {
+                "title": "Tư duy trực quan",
+                "description": "Chia nhỏ các ý tưởng phức tạp thành các nút trực quan dễ quản lý. Kết nối các khái niệm một cách liền mạch."
+              },
+              "collaboration": {
+                "title": "Cộng tác thời gian thực",
+                "description": "Làm việc cùng nhóm của bạn trong thời gian thực. Xem các thay đổi ngay khi chúng diễn ra."
+              },
+              "templates": {
+                "title": "Mẫu thông minh",
+                "description": "Bắt đầu buổi brainstorming của bạn với thư viện các mẫu được thiết kế chuyên nghiệp."
+              },
+              "crossPlatform": {
+                "title": "Đồng bộ đa nền tảng",
+                "description": "Bản đồ tư duy của bạn đồng bộ ngay lập tức trên Web, Android, iOS và macOS."
+              },
+              "aiAssistance": {
+                "title": "Trợ lý AI",
+                "description": "Để AI giúp bạn mở rộng ý tưởng, tạo dàn ý và tóm tắt các nhánh."
+              },
+              "export": {
+                "title": "Xuất linh hoạt",
+                "description": "Xuất bản đồ của bạn sang PDF, PNG, Markdown hoặc Word để dễ dàng chia sẻ."
+              }
+            }
+          },
+          "testimonials": {
+            "title": "Được yêu thích bởi các nhà tư tưởng",
+            "description": "Xem người dùng nói gì về cách SparkMap đã thay đổi quy trình làm việc của họ.",
+            "items": {
+              "user1": {
+                "name": "Sarah Chen",
+                "role": "Giám đốc sản phẩm",
+                "quote": "SparkMap đã thay đổi hoàn toàn cách tôi lập lộ trình sản phẩm. Giao diện trực quan và khả năng đồng bộ hoàn hảo."
+              },
+              "user2": {
+                "name": "Mark Johnson",
+                "role": "Kiến trúc sư phần mềm",
+                "quote": "Công cụ tốt nhất để trực quan hóa kiến trúc hệ thống. Tôi thích chế độ tối và các phím tắt."
+              },
+              "user3": {
+                "name": "Emily Rodriguez",
+                "role": "Giám đốc sáng tạo",
+                "quote": "Cuối cùng cũng có một công cụ bản đồ tư duy đẹp như chức năng của nó. Thiết kế tuyệt đẹp giúp tôi duy trì dòng chảy sáng tạo."
+              }
+            }
+          },
+          "download": {
+            "title": "Tải xuống",
+            "description": "Tải SparkMap cho nền tảng yêu thích của bạn và bắt đầu vẽ bản đồ ý tưởng ngay hôm nay.",
+            "platforms": {
+              "web": "Mở trên Web",
+              "android": "Tải trên Android",
+              "ios": "Tải trên iOS",
+              "macos": "Tải cho macOS"
+            },
+            "footer": "Miễn phí cho sử dụng cá nhân. Nâng cấp cho tính năng nhóm.",
+            "comingSoon": "Sắp ra mắt"
+          }
+        }
+      }
+    }
+  }
+}
