@@ -1,0 +1,298 @@
+{
+  "common": {
+    "navigation": {
+      "home": "Home",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "app": "App",
+      "goToApp": "Go to main app",
+      "backToHome": "Back to home",
+      "contact": "Contact",
+      "menu": "Menu"
+    },
+    "footer": {
+      "copyright": "© 2026 SparkMap. All rights reserved."
+    },
+    "app": {
+      "metadata": {
+        "title": "SparkMap",
+        "description": "The ultimate mind mapping tool for creative thinkers."
+      }
+    },
+    "errors": {
+      "notFound": {
+        "eyebrow": "Not found",
+        "title": "Page not found",
+        "description": "The page you're looking for doesn't exist or has been moved.",
+        "cta": "Back to home"
+      },
+      "serverError": {
+        "eyebrow": "Error",
+        "title": "Something went wrong",
+        "description": "An unexpected error occurred. Please try again.",
+        "tryAgain": "Try again",
+        "cta": "Back to home"
+      },
+      "generic": {
+        "eyebrow": "Error",
+        "title": "Something went wrong",
+        "description": "An error occurred. Please try again later.",
+        "cta": "Back to home"
+      }
+    }
+  },
+  "settings": {
+    "error": {
+      "saveFailed": "Could not save settings."
+    },
+    "language": {
+      "label": "Language",
+      "options": {
+        "en": "English",
+        "vi": "Vietnamese",
+        "zh": "Chinese"
+      },
+      "flags": {
+        "en": "🇺🇸",
+        "vi": "🇻🇳",
+        "zh": "🇨🇳"
+      }
+    },
+    "theme": {
+      "label": "Theme",
+      "options": {
+        "system": "System",
+        "light": "Light",
+        "dark": "Dark"
+      }
+    }
+  },
+  "modules": {
+    "legal": {
+      "pages": {
+        "privacy-policy": {
+          "title": "Privacy Policy",
+          "metadata": {
+            "description": "Learn how Next.js Starter Kit collects, uses, and protects your data."
+          },
+          "lastUpdated": "Last updated: January 31, 2026",
+          "sections": {
+            "overview": {
+              "title": "Overview",
+              "body": "SparkMap is a cross-platform mind mapping application. This policy explains how we handle your data. Your data is stored securely on our servers to enable synchronization across all your devices."
+            },
+            "collection": {
+              "title": "Information we collect",
+              "body": "We collect the following information to provide our services:",
+              "items": {
+                "auth": "Account Information: We collect your email address and full name solely for authentication and account management purposes. We do not use this information to track you.",
+                "content": "User Content: We store your mind maps and related content on our secure servers to provide cross-device synchronization."
+              }
+            },
+            "usage": {
+              "title": "How we use information",
+              "body": "We use your account information to authenticate you and secure your account. We use anonymous analytics data (if enabled) to monitor application stability and improve the user experience.",
+              "note": "We do not use your personal information for tracking or advertising purposes."
+            },
+
+            "sharing": {
+              "title": "Sharing and disclosure",
+              "body": "We do not sell your personal information. We only share anonymous analytics data with Firebase to operate our analytics services."
+            },
+            "retention": {
+              "title": "Data retention",
+              "body": "Your account information and mind maps are retained as long as your account is active. You can request deletion of your account and data at any time."
+            },
+            "security": {
+              "title": "Security",
+              "body": "We use industry-standard encryption and security measures to protect your data stored on our servers and during transmission."
+            },
+            "children": {
+              "title": "Children's privacy",
+              "body": "SparkMap does not knowingly collect personal information from children under 13."
+            },
+            "changes": {
+              "title": "Changes to this policy",
+              "body": "We may update this policy as SparkMap evolves. Review it periodically."
+            },
+            "contact": {
+              "title": "Contact",
+              "body": "For questions about privacy, please contact the SparkMap team."
+            }
+          }
+        },
+        "terms-of-service": {
+          "title": "Terms of Service",
+          "metadata": {
+            "description": "Review the terms and conditions for using Next.js Starter Kit."
+          },
+          "lastUpdated": "Last updated: January 31, 2026",
+          "sections": {
+            "overview": {
+              "title": "Overview",
+              "body": "These terms describe how the SparkMap application can be used."
+            },
+            "acceptance": {
+              "title": "Acceptance",
+              "body": "By accessing or using SparkMap, you agree to these terms. If you do not agree, do not use the application."
+            },
+            "accounts": {
+              "title": "Accounts and authentication",
+              "body": "SparkMap uses secure authentication. You are responsible for safeguarding your credentials and for any activity that occurs under your account."
+            },
+            "acceptableUse": {
+              "title": "Acceptable use",
+              "body": "You agree not to:",
+              "items": {
+                "unlawful": "Use the service for unlawful, harmful, or abusive purposes.",
+                "access": "Attempt to access or probe other accounts or data.",
+                "interference": "Interfere with or disrupt the service or its infrastructure."
+              }
+            },
+            "thirdParty": {
+              "title": "Third-party services",
+              "body": "SparkMap integrates third-party services such as Firebase. Your use of those services is also subject to their terms and privacy policies."
+            },
+            "starterKit": {
+              "title": "Service nature",
+              "body": "SparkMap is provided as a service. We reserve the right to modify, suspend, or discontinue the service at any time."
+            },
+            "termination": {
+              "title": "Termination",
+              "body": "Access may be suspended or terminated at any time for violations of these terms or for operational reasons."
+            },
+            "disclaimers": {
+              "title": "Disclaimers",
+              "body": "The service is provided on an \"as is\" and \"as available\" basis. No warranties are provided, and you use it at your own risk."
+            },
+            "liability": {
+              "title": "Limitation of liability",
+              "body": "To the fullest extent permitted by law, SparkMap and its creators are not liable for indirect, incidental, special, consequential, or punitive damages arising from your use of the application."
+            },
+            "changes": {
+              "title": "Changes",
+              "body": "These terms may be updated as the application evolves. Review them periodically."
+            },
+            "contact": {
+              "title": "Contact",
+              "body": "For questions about these terms, please contact the SparkMap team."
+            }
+          }
+        }
+      }
+    },
+    "contact": {
+      "pages": {
+        "contact": {
+          "title": "Contact Us",
+          "metadata": {
+            "description": "Get in touch with us. Send us a message or email us directly."
+          },
+          "subtitle": "Have a question or need help? Fill out the form below or email us directly at",
+          "form": {
+            "nameLabel": "Name",
+            "namePlaceholder": "Your name",
+            "emailLabel": "Email",
+            "emailPlaceholder": "your.email@example.com",
+            "subjectLabel": "Subject",
+            "subjectPlaceholder": "What is this about?",
+            "messageLabel": "Message",
+            "messagePlaceholder": "Tell us more about your inquiry...",
+            "submitButton": "Send message",
+            "submittingButton": "Sending...",
+            "validation": {
+              "nameRequired": "Name is required",
+              "nameMaxLength": "Name must be at most 50 characters",
+              "emailRequired": "Email is required",
+              "invalidEmail": "Invalid email",
+              "subjectRequired": "Subject is required",
+              "subjectMaxLength": "Subject must be at most 200 characters",
+              "messageRequired": "Message is required",
+              "messageMaxLength": "Message must be at most 1000 characters",
+              "sourceRequired": "Source is required",
+              "sourceMaxLength": "Source must be at most 200 characters"
+            }
+          },
+          "emailNote": "You can also reach us directly at",
+          "successMessage": "Your message has been sent successfully. We will get back to you soon.",
+          "errorMessage": "Failed to send message. Please try again later."
+        }
+      }
+    },
+    "landing": {
+      "pages": {
+        "home": {
+          "badge": "SparkMap",
+          "hero": {
+            "eyebrow": "Visual Thinking Reimagined",
+            "title": "SparkMap",
+            "subtitle": "The ultimate mind mapping tool for creative thinkers. Organize your thoughts, plan projects, and unleash your creativity with a beautiful, intuitive interface available on all your devices."
+          },
+          "features": {
+            "title": "Why SparkMap?",
+            "description": "Designed to help you think clearly and work efficiently.",
+            "items": {
+              "visualThinking": {
+                "title": "Visual Thinking",
+                "description": "Break down complex ideas into manageable visual nodes. Connect concepts seamlessly."
+              },
+              "collaboration": {
+                "title": "Real-time Collaboration",
+                "description": "Work together with your team in real-time. See changes as they happen."
+              },
+              "templates": {
+                "title": "Smart Templates",
+                "description": "Jumpstart your brainstorming with library of professionally designed templates."
+              },
+              "crossPlatform": {
+                "title": "Cross-Platform Sync",
+                "description": "Your mind maps sync instantly across Web, Android, iOS, and macOS."
+              },
+              "aiAssistance": {
+                "title": "AI Copilot",
+                "description": "Let AI help you expand your ideas, generate outlines, and summarize branches."
+              },
+              "export": {
+                "title": "Versatile Export",
+                "description": "Export your maps to PDF, PNG, Markdown, or Word documents for easy sharing."
+              }
+            }
+          },
+          "testimonials": {
+            "title": "Loved by Thinkers",
+            "description": "See what our users are saying about how SparkMap transformed their workflow.",
+            "items": {
+              "user1": {
+                "name": "Sarah Chen",
+                "role": "Product Manager",
+                "quote": "SparkMap has completely changed how I plan product roadmaps. The visual interface is intuitive and the sync is flawless."
+              },
+              "user2": {
+                "name": "Mark Johnson",
+                "role": "Software Architect",
+                "quote": "The best tool for visualizing system architecture. I love the dark mode and the keyboard shortcuts."
+              },
+              "user3": {
+                "name": "Emily Rodriguez",
+                "role": "Creative Director",
+                "quote": "Finally, a mind map tool that looks as good as it works. The design is beautiful and keeps me in the flow."
+              }
+            }
+          },
+          "download": {
+            "title": "Download",
+            "description": "Download SparkMap for your favorite platform and start mapping your ideas today.",
+            "platforms": {
+              "web": "Open in Web",
+              "android": "Download on Android",
+              "ios": "Download on iOS",
+              "macos": "Download for macOS"
+            },
+            "footer": "Free for personal use. Upgrade for team features.",
+            "comingSoon": "Coming soon"
+          }
+        }
+      }
+    }
+  }
+}
