@@ -1,0 +1,50 @@
+name: "Landing Page: Release - Production"
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  validate-and-deploy:
+    name: Validate & Deploy (Production)
+    runs-on: ubuntu-latest
+    environment: Production
+    defaults:
+      run:
+        working-directory: landing-page
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 24.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+          cache: "npm"
+          cache-dependency-path: landing-page/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Cache Next.js build
+        uses: actions/cache@v4
+        with:
+          path: landing-page/.next/cache
+          key: nextjs-${{ runner.os }}-${{ hashFiles('landing-page/package-lock.json') }}-${{ hashFiles('landing-page/src/**', 'landing-page/app/**', 'landing-page/public/**') }}
+          restore-keys: |
+            nextjs-${{ runner.os }}-${{ hashFiles('landing-page/package-lock.json') }}-
+            nextjs-${{ runner.os }}-
+
+      - name: Run validation
+        run: npm run validate
+        env:
+          NEXT_PUBLIC_FIREBASE_CONFIG: ${{ secrets.NEXT_PUBLIC_FIREBASE_CONFIG }}
+
+      - name: Deploy to Cloudflare Pages (Production)
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy out --project-name=landing-page-demo --branch=main
+          workingDirectory: landing-page
