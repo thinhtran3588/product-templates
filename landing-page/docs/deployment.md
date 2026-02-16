@@ -1,6 +1,6 @@
 # Deployment
 
-This guide covers deploying the Next.js Starter Kit to production using **Firebase** for backend services and **Cloudflare Pages** for static hosting, with **GitHub Actions** for CI/CD automation.
+This guide covers deploying the landing page to production using **Firebase** for analytics and **Cloudflare Pages** for static hosting, with **GitHub Actions** for CI/CD automation.
 
 ## Table of Contents
 
@@ -16,7 +16,7 @@ The deployment pipeline consists of three parts:
 
 | Component | Purpose |
 |-----------|---------|
-| **Firebase** | Authentication, Firestore database, and security rules |
+| **Firebase** | Analytics (see [Firebase Integration](firebase-integration.md)) |
 | **Cloudflare Pages** | Static site hosting with global CDN |
 | **GitHub Actions** | Automated build, test, and deploy on push |
 
@@ -30,23 +30,9 @@ Developer → Push to GitHub → GitHub Actions → Build → Deploy to Cloudfla
 
 1. Go to the [Firebase Console](https://console.firebase.google.com/)
 2. Click **Add project** and follow the wizard
-3. Enable **Google Analytics** if desired (used by the Analytics module)
+3. Enable **Google Analytics** (used by the Analytics module)
 
-### 2. Enable Authentication
-
-1. Navigate to **Authentication** → **Sign-in method**
-2. Enable the providers you need:
-   - **Email/Password** — required for email sign-in/sign-up
-   - **Google** — required for "Continue with Google" flow
-3. Under **Authorized domains**, add your production domain (e.g., `yourdomain.com`)
-
-### 3. Create a Firestore Database
-
-1. Navigate to **Firestore Database** → **Create database**
-2. Choose a region close to your users
-3. Start in **production mode** (rules will be deployed separately)
-
-### 4. Get Firebase Client Configuration
+### 2. Get Firebase Client Configuration
 
 1. Navigate to **Project settings** → **General**
 2. Under **Your apps**, click the **Web** icon (`</>`) to register a web app
@@ -65,16 +51,6 @@ Developer → Push to GitHub → GitHub Actions → Build → Deploy to Cloudfla
 ```
 
 4. This entire JSON object is stored as a single environment variable `NEXT_PUBLIC_FIREBASE_CONFIG` (see [Environment Variables](#environment-variables))
-
-### 5. Deploy Firestore Security Rules
-
-Firestore security rules live in `firestore.rules` at the project root. Deploy them manually through the [Firebase Console](https://console.firebase.google.com/):
-
-1. Navigate to **Firestore Database** → **Rules**
-2. Copy the contents of `firestore.rules` into the editor
-3. Click **Publish**
-
-> **Note**: Security rules rarely change, so manual deployment through the console is sufficient.
 
 ## Cloudflare Pages Setup
 
@@ -123,7 +99,7 @@ Add these secrets in your repository under **Settings** → **Secrets and variab
 
 | Secret | Description |
 |--------|-------------|
-| `NEXT_PUBLIC_FIREBASE_CONFIG` | Firebase web config JSON (see [Firebase Setup](#4-get-firebase-client-configuration)) |
+| `NEXT_PUBLIC_FIREBASE_CONFIG` | Firebase web config JSON (see [Firebase Setup](#2-get-firebase-client-configuration)) |
 | `CLOUDFLARE_API_TOKEN` | Cloudflare API token (for Pages deployment) |
 | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account ID |
 

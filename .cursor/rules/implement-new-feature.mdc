@@ -1,0 +1,45 @@
+---
+description: Workflow for implementing a new feature following Clean Architecture patterns
+alwaysApply: false
+---
+
+# Implement a New Feature
+
+## 1. Understand and Plan
+
+1. Analyze the requirements — identify user stories and acceptance criteria.
+2. Explore the codebase to find the target module under `src/modules/`.
+3. Review [Architecture](landing-page/docs/architecture.md) and [Development Guide](landing-page/docs/development-guide.md).
+4. Propose a plan if the feature is complex.
+
+## 2. Branch Setup
+
+```bash
+git checkout develop && git pull origin develop
+git checkout -b feature/[short-description]
+```
+
+## 3. Implementation Steps
+
+1. **Domain** — Add types/schemas in `src/modules/{module}/domain/`
+2. **Infrastructure** — Implement services/repositories in `infrastructure/`
+3. **Application** — Create use case in `application/` extending `BaseUseCase`
+4. **Register** — Wire DI in `module-configuration.ts` and `register-container.ts`
+5. **Presentation** — Build pages/components in `presentation/`
+6. **Route** — Add thin route in `app/[locale]/`
+
+Keep changes atomic. Use feature flags for risky/incomplete features.
+
+## 4. Testing & Validation
+
+1. Write tests covering happy path and edge cases (100% coverage required).
+2. Run full validation:
+   ```bash
+   npm run validate  # lint + format:check + test:coverage + build
+   ```
+
+## 5. Finalize
+
+1. Commit with Conventional Commits: `feat(scope): description`
+2. Push and create PR targeting `develop`
+3. Squash merge after approval
