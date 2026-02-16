@@ -52,37 +52,6 @@ The app runs at `http://localhost:3000`.
 | [Firebase Integration](docs/firebase-integration.md) | Analytics setup                                    |
 | [Deployment](docs/deployment.md)                     | Firebase, Cloudflare Pages, GitHub Actions CI/CD   |
 
-## AI Agent Integration
-
-This project includes configuration for AI-assisted development, supporting both [Antigravity](https://github.com/google-deepmind/antigravity) and [Cursor](https://cursor.com/).
-
-### Antigravity
-
-| Path                                   | Purpose                                       |
-| -------------------------------------- | --------------------------------------------- |
-| `.agent/workflows/branch-and-pr.md`    | Mandatory Git workflow and validation process |
-| `.agent/skills/project-rules/SKILL.md` | Project conventions and code style            |
-| `.agent/skills/`                       | Specialized skills (reviewer, frontend, arch) |
-
-### Cursor
-
-| Path                                       | Purpose                                          |
-| ------------------------------------------ | ------------------------------------------------ |
-| `.cursor/rules/general.mdc`                | Project conventions and code style               |
-| `.cursor/rules/branch-and-pr-workflow.mdc` | Git workflow, validation, and PR creation        |
-| `.cursor/skills/`                          | Specialized agents (code review, frontend, arch) |
-
-For other AI tools, copy rules to the agent's config location and adapt as needed.
-
-## Contributing
-
-1. Create a feature branch from `develop`
-2. Write/update tests to maintain 100% coverage
-3. Run `npm run validate` before committing
-4. Open a Pull Request targeting `develop`
-
-See [Development Guide](docs/development-guide.md) for detailed workflow.
-
 ## License
 
 MIT
