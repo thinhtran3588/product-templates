@@ -10,3 +10,7 @@ Templates for building a new software product
   - [Development](./docs/development-workflow/02-development.md)
   - [Review & Quality](./docs/development-workflow/03-review-quality.md)
   - [Release](./docs/development-workflow/04-release.md)
+
+## Templates
+
+- [**Landing Page**](./landing-page/README.md) - A production-ready landing page template built with Next.js, TypeScript, and Tailwind CSS. Features Clean Architecture with Awilix DI, modular structure, Firebase integration, i18n support, and 100% test coverage requirement.
