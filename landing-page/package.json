@@ -1,7 +1,7 @@
 {
-  "name": "nextjs-starter-kit",
+  "name": "landing-page-demo",
   "version": "0.0.1",
-  "description": "A production-ready Next.js starter kit with Clean Architecture and modular structure for scalable frontend development.",
+  "description": "A production-ready landing page template with Clean Architecture and modular structure for scalable frontend development.",
   "private": true,
   "scripts": {
     "dev": "next dev",
