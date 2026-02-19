@@ -19,7 +19,7 @@ export class FirebaseAnalyticsService implements AnalyticsService {
       return;
     }
 
-    const config = process.env.NEXT_PUBLIC_FIREBASE_CONFIG;
+    const config = process.env.NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG;
     console.log("Config present:", !!config);
     if (!config) {
       console.warn("Firebase config is missing");

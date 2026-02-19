@@ -50,7 +50,7 @@ Developer → Push to GitHub → GitHub Actions → Build → Deploy to Cloudfla
 }
 ```
 
-4. This entire JSON object is stored as a single environment variable `NEXT_PUBLIC_FIREBASE_CONFIG` (see [Environment Variables](#environment-variables))
+4. This entire JSON object is stored as a single environment variable `NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG` (see [Environment Variables](#environment-variables))
 
 ## Cloudflare Pages Setup
 
@@ -99,11 +99,11 @@ Add these secrets in your repository under **Settings** → **Secrets and variab
 
 | Secret | Description |
 |--------|-------------|
-| `NEXT_PUBLIC_FIREBASE_CONFIG` | Firebase web config JSON (see [Firebase Setup](#2-get-firebase-client-configuration)) |
+| `NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG` | Firebase web config JSON (see [Firebase Setup](#2-get-firebase-client-configuration)) |
 | `CLOUDFLARE_API_TOKEN` | Cloudflare API token (for Pages deployment) |
 | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account ID |
 
-> **Note**: You do **not** need to add environment variables in the Cloudflare Pages dashboard. The `NEXT_PUBLIC_FIREBASE_CONFIG` secret is injected during the GitHub Actions build step, so the values are embedded into the static site at build time.
+> **Note**: You do **not** need to add environment variables in the Cloudflare Pages dashboard. The `NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG` secret is injected during the GitHub Actions build step, so the values are embedded into the static site at build time.
 
 ### Deploy Step Example
 
@@ -124,7 +124,7 @@ The Firebase configuration is provided through a single environment variable con
 
 | Variable | Description | Example |
 |----------|-------------|---------|
-| `NEXT_PUBLIC_FIREBASE_CONFIG` | Firebase web config JSON | `{"apiKey":"...","authDomain":"...","projectId":"...","storageBucket":"...","messagingSenderId":"...","appId":"...","measurementId":"..."}` |
+| `NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG` | Firebase web config JSON | `{"apiKey":"...","authDomain":"...","projectId":"...","storageBucket":"...","messagingSenderId":"...","appId":"...","measurementId":"..."}` |
 
 This variable is prefixed with `NEXT_PUBLIC_` so it is embedded into the static site at build time.
 
@@ -140,4 +140,4 @@ Edit `.env.local` with your Firebase config JSON. This file is git-ignored and s
 
 ### Production
 
-For production builds, set `NEXT_PUBLIC_FIREBASE_CONFIG` as a **GitHub Actions secret**. It is injected at build time and embedded into the static output — no additional configuration is needed in Cloudflare Pages.
+For production builds, set `NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG` as a **GitHub Actions secret**. It is injected at build time and embedded into the static output — no additional configuration is needed in Cloudflare Pages.

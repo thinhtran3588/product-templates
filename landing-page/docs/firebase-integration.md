@@ -56,7 +56,7 @@ All presentation and application code depends only on this interface, making it 
 **`FirebaseAnalyticsService`** wraps the Firebase JS SDK (`firebase/analytics`). On `initialize()` it:
 
 1. Skips initialisation on the server (`typeof window === "undefined"`).
-2. Reads the Firebase config from `NEXT_PUBLIC_FIREBASE_CONFIG`.
+2. Reads the Firebase config from `NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG`.
 3. Checks browser support via `isSupported()`.
 4. Reuses an existing Firebase app or creates a new one.
 5. Obtains the `Analytics` instance for subsequent calls.
@@ -71,7 +71,7 @@ Errors during initialisation are caught and logged to the console so they never 
 
 ```typescript
 const useFirebase =
-  typeof window !== "undefined" && !!process.env.NEXT_PUBLIC_FIREBASE_CONFIG;
+  typeof window !== "undefined" && !!process.env.NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG;
 
 container.register({
   analyticsService: asClass(
@@ -111,7 +111,7 @@ container.register({
 The entire JSON object is stored in a single variable:
 
 ```bash
-NEXT_PUBLIC_FIREBASE_CONFIG='{"apiKey":"...","authDomain":"...","projectId":"...","storageBucket":"...","messagingSenderId":"...","appId":"...","measurementId":"G-..."}'
+NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG='{"apiKey":"...","authDomain":"...","projectId":"...","storageBucket":"...","messagingSenderId":"...","appId":"...","measurementId":"G-..."}'
 ```
 
 For local development, add it to `.env.local` (git-ignored). For production, set it as a **GitHub Actions secret** so it is embedded at build time. See the [Deployment guide](deployment.md) for details.
@@ -120,7 +120,7 @@ For local development, add it to `.env.local` (git-ignored). For production, set
 
 | Variable                       | Required | Description                       |
 | ------------------------------ | -------- | --------------------------------- |
-| `NEXT_PUBLIC_FIREBASE_CONFIG`  | No       | Firebase web config as JSON string |
+| `NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG`  | No       | Firebase web config as JSON string |
 
 When the variable is **absent**, the app falls back to `LocalAnalyticsService` and logs analytics events to the browser console.
 
@@ -160,7 +160,7 @@ analytics.setUserProperties({ plan: "premium" });
 
 When developing without Firebase:
 
-1. Leave `NEXT_PUBLIC_FIREBASE_CONFIG` unset (or remove it from `.env.local`).
+1. Leave `NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG` unset (or remove it from `.env.local`).
 2. The app will use `LocalAnalyticsService`, which outputs events to `console.debug`:
 
 ```
