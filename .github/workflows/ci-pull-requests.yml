@@ -1,18 +1,17 @@
-name: "Landing Page: CI - Main"
+name: "Landing Page: CI - Pull Requests"
 
 on:
-  push:
+  pull_request:
     branches:
       - main
     paths:
       - "landing-page/**"
-      - ".github/workflows/landing-page-ci-main.yml"
+      - ".github/workflows/ci-pull-requests.yml"
 
 jobs:
-  validate-and-deploy:
-    name: Validate & Deploy (Staging)
+  validate:
+    name: Validate Code
     runs-on: ubuntu-latest
-    environment: Preview
     defaults:
       run:
         working-directory: landing-page
@@ -42,20 +41,3 @@ jobs:
 
       - name: Run validation
         run: npm run validate
-        env:
-          NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG: ${{ secrets.NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG }}
-
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          flags: landing-page
-          directory: landing-page/coverage
-
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy out --project-name=landing-page-demo-staging --branch=main
-          workingDirectory: landing-page

@@ -38,7 +38,10 @@ describe("FirebaseAnalyticsService", () => {
   beforeEach(async () => {
     vi.clearAllMocks();
     vi.resetModules();
-    process.env = { ...originalEnv, NEXT_PUBLIC_FIREBASE_CONFIG: mockConfig };
+    process.env = {
+      ...originalEnv,
+      NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG: mockConfig,
+    };
 
     // Default mock setup
     appMocks.getApps.mockReturnValue([]);
@@ -76,7 +79,7 @@ describe("FirebaseAnalyticsService", () => {
   });
 
   it("does not initialize if config is missing", async () => {
-    delete process.env.NEXT_PUBLIC_FIREBASE_CONFIG;
+    delete process.env.NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG;
 
     await service.initialize();
 

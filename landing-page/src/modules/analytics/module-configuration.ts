@@ -5,7 +5,8 @@ import { LocalAnalyticsService } from "@/modules/analytics/infrastructure/servic
 
 export function registerModule(container: AwilixContainer<object>): void {
   const useFirebase =
-    typeof window !== "undefined" && !!process.env.NEXT_PUBLIC_FIREBASE_CONFIG;
+    typeof window !== "undefined" &&
+    !!process.env.NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG;
 
   container.register({
     analyticsService: asClass(

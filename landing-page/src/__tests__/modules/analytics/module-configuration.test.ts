@@ -27,7 +27,7 @@ describe("analytics/module-configuration", () => {
   });
 
   it("registers FirebaseAnalyticsService when firebase config is present", async () => {
-    process.env.NEXT_PUBLIC_FIREBASE_CONFIG = JSON.stringify({
+    process.env.NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG = JSON.stringify({
       apiKey: "test",
     });
 
@@ -41,7 +41,7 @@ describe("analytics/module-configuration", () => {
   });
 
   it("registers LocalAnalyticsService when firebase config is absent", async () => {
-    delete process.env.NEXT_PUBLIC_FIREBASE_CONFIG;
+    delete process.env.NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG;
 
     const { registerModule } =
       await import("@/modules/analytics/module-configuration");

@@ -39,7 +39,7 @@ jobs:
       - name: Run validation
         run: npm run validate
         env:
-          NEXT_PUBLIC_FIREBASE_CONFIG: ${{ secrets.NEXT_PUBLIC_FIREBASE_CONFIG }}
+          NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG: ${{ secrets.NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG }}
 
       - name: Deploy to Cloudflare Pages (Production)
         uses: cloudflare/wrangler-action@v3
