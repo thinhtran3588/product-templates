@@ -1,18 +1,33 @@
-name: "Landing Page: CI - Main"
+name: "CI - Main"
 
 on:
   push:
     branches:
       - main
-    paths:
-      - "landing-page/**"
-      - ".github/workflows/ci-main.yml"
 
 jobs:
-  validate-and-deploy:
-    name: Validate & Deploy (Production)
+  detect-changes:
+    name: Detect Changes
     runs-on: ubuntu-latest
-    environment: Production
+    outputs:
+      landing-page: ${{ steps.filter.outputs.landing-page }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          base: ${{ github.event.before }}
+          ref: ${{ github.event.after }}
+          filters: |
+            landing-page:
+              - 'landing-page/**'
+
+  landing-page-validate-and-deploy:
+    name: "Landing Page: Validate & Deploy (Staging)"
+    needs: detect-changes
+    if: needs.detect-changes.outputs.landing-page == 'true'
+    runs-on: ubuntu-latest
+    environment: Preview
     defaults:
       run:
         working-directory: landing-page
@@ -49,11 +64,13 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          flags: landing-page
+          directory: landing-page/coverage
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy out --project-name=landing-page-demo --branch=main
+          command: pages deploy out --project-name=landing-page-demo-staging --branch=main
           workingDirectory: landing-page
