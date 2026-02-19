@@ -1,18 +1,39 @@
-name: "Landing Page: CI - Main"
+name: "Release - Production"
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "landing-page/**"
-      - ".github/workflows/landing-page-ci-main.yml"
+  release:
+    types: [published]
 
 jobs:
-  validate-and-deploy:
-    name: Validate & Deploy (Staging)
+  detect-changes:
+    name: Detect Changes
     runs-on: ubuntu-latest
-    environment: Preview
+    outputs:
+      landing-page: ${{ steps.changes.outputs.landing-page }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changes since last release
+        id: changes
+        run: |
+          CURRENT_TAG="${{ github.event.release.tag_name }}"
+          PREVIOUS_TAG=$(git tag --sort=-version:refname | grep -v "^${CURRENT_TAG}$" | head -n 1)
+          if [ -z "$PREVIOUS_TAG" ]; then
+            echo "landing-page=true" >> "$GITHUB_OUTPUT"
+          elif git diff --name-only "${PREVIOUS_TAG}..${CURRENT_TAG}" -- landing-page/ | grep -q .; then
+            echo "landing-page=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "landing-page=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  landing-page-validate-and-deploy:
+    name: "Landing Page: Validate & Deploy (Production)"
+    needs: detect-changes
+    if: needs.detect-changes.outputs.landing-page == 'true'
+    runs-on: ubuntu-latest
+    environment: Production
     defaults:
       run:
         working-directory: landing-page
@@ -45,17 +66,10 @@ jobs:
         env:
           NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG: ${{ secrets.NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG }}
 
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          flags: landing-page
-          directory: landing-page/coverage
-
-      - name: Deploy to Cloudflare Pages
+      - name: Deploy to Cloudflare Pages (Production)
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy out --project-name=landing-page-demo-staging --branch=main
+          command: pages deploy out --project-name=landing-page-demo --branch=main
           workingDirectory: landing-page

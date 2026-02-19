@@ -1,16 +1,31 @@
-name: "Landing Page: CI - Pull Requests"
+name: "CI - Pull Requests"
 
 on:
   pull_request:
     branches:
       - main
-    paths:
-      - "landing-page/**"
-      - ".github/workflows/ci-pull-requests.yml"
 
 jobs:
-  validate:
-    name: Validate Code
+  detect-changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      landing-page: ${{ steps.filter.outputs.landing-page }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            landing-page:
+              - 'landing-page/**'
+
+  landing-page-validate:
+    name: "Landing Page: Validate Code"
+    needs: detect-changes
+    if: needs.detect-changes.outputs.landing-page == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
