@@ -1,8 +1,5 @@
 # Landing page template
 
-[![CI - Main](https://github.com/thinhtran3588/product-templates/actions/workflows/ci-main.yml/badge.svg?branch=main)](https://github.com/thinhtran3588/product-templates/actions/workflows/landing-page-ci-main.yml)
-[![codecov - Main](https://codecov.io/gh/thinhtran3588/product-templates/branch/main/graph/badge.svg)](https://codecov.io/gh/thinhtran3588/product-templates/tree/main)
-
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)
 ![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat&logo=next.js&logoColor=white)
 ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)
