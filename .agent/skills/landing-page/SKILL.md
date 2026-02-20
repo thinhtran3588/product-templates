@@ -4,6 +4,13 @@ description: Conventions, architecture, and code style for the landing-page temp
 
 # Landing Page Conventions
 
+## Workflow
+
+> **CRITICAL**: For ALL code changes, you MUST follow the workflow defined in `.agent/workflows/development_flow.md`.
+>
+> - Always branch before coding (`feature/xxx`, `fix/xxx`).
+> - Run `npm run validate` before committing.
+
 ## Architecture
 
 Clean Architecture with modular structure. All code lives in `landing-page/src/`; `landing-page/app/` is routing only.

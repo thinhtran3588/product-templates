@@ -4,10 +4,8 @@ This guide provides step-by-step instructions for adding new features and creati
 
 ## Table of Contents
 
-1. [Git Workflow](#git-workflow)
-   - [Development Workflow](#development-workflow)
-   - [Branch Naming](#branch-naming)
-2. [Adding a New Feature](#adding-a-new-feature)
+
+1. [Adding a New Feature](#adding-a-new-feature)
    - [Step 1: Identify the Module](#step-1-identify-the-module)
    - [Step 2: Create Domain Types](#step-2-create-domain-types-if-needed)
    - [Step 3: Create Use Case](#step-3-create-use-case)
@@ -15,86 +13,16 @@ This guide provides step-by-step instructions for adding new features and creati
    - [Step 5: Create UI Components](#step-5-create-ui-components)
    - [Step 6: Add Route](#step-6-add-route)
    - [Step 7: Write Tests](#step-7-write-tests)
-3. [Creating a New Module](#creating-a-new-module)
+2. [Creating a New Module](#creating-a-new-module)
    - [Module Structure](#module-structure)
    - [Step-by-Step](#step-by-step)
-4. [Common Patterns](#common-patterns)
+3. [Common Patterns](#common-patterns)
    - [Use Case Pattern](#use-case-pattern)
    - [Form with Validation](#form-with-validation)
    - [Interface Implementation](#interface-implementation)
-5. [Testing](#testing)
+4. [Testing](#testing)
 
-## Git Workflow
 
-### Development Workflow
-
-```mermaid
-flowchart TD
-    Start([Start]) --> CheckBranch{Current branch?}
-    CheckBranch -->|main/develop| SwitchDevelop[git checkout develop]
-    CheckBranch -->|feature branch| Develop
-    SwitchDevelop --> FetchPull[git fetch && git pull]
-    FetchPull --> CreateBranch[Create feature/fix branch]
-    CreateBranch --> Develop[Develop & Write Tests]
-    Develop --> Validate[npm run validate]
-    Validate --> Pass{Pass?}
-    Pass -->|No| Develop
-    Pass -->|Yes| Commit[Commit & Push]
-    Commit --> PRExists{PR exists?}
-    PRExists -->|No| CreatePR[Create PR to develop]
-    PRExists -->|Yes| Review
-    CreatePR --> Review{Approved?}
-    Review -->|No| Develop
-    Review -->|Yes| Merge[Squash Merge]
-    Merge --> Done([Done])
-
-    style Start fill:#1565c0,color:#fff
-    style Done fill:#2e7d32,color:#fff
-    style CreateBranch fill:#ef6c00,color:#fff
-    style Merge fill:#00838f,color:#fff
-```
-
-### Workflow Steps
-
-#### Starting New Work
-
-1. **Create Feature/Fix Branch**
-
-   ```bash
-   git checkout develop
-   git fetch origin && git pull origin develop
-   git checkout -b feature/your-feature-name   # or fix/your-bug-fix
-   ```
-
-#### Continuing Existing Work
-
-1. **If already on feature branch**, continue development directly.
-
-#### Development Cycle
-
-1. **Develop and Validate**
-
-   ```bash
-   # Make changes, write tests
-   npm run validate  # Must pass before committing (lint + format + tests with 100% coverage)
-   ```
-
-2. **Commit and Push**
-
-   ```bash
-   git add . && git commit -m "feat: description"
-   git push -u origin feature/your-feature-name
-   ```
-
-3. **Create PR** targeting `develop` branch (if not already created), then squash merge after approval.
-
-### Branch Naming
-
-| Type | Pattern | Example |
-|------|---------|---------|
-| New feature | `feature/description` | `feature/add-user-profile` |
-| Bug fix | `fix/description` | `fix/login-validation` |
-| Hotfix | `hotfix/description` | `hotfix/security-patch` |
 
 ## Adding a New Feature
 

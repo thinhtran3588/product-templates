@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import Image from "next/image";
 
 import {
   Card,
@@ -7,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/common/components/card";
-import Image from "next/image";
 import { PlatformDownload } from "./components/platform-download";
 import { ScrollReveal } from "./components/scroll-reveal";
 import { TestimonialCard } from "./components/testimonial-card";
@@ -72,7 +72,13 @@ export function LandingPage() {
         <div className="relative z-10 container mx-auto px-4 text-center">
           <ScrollReveal>
             <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-[var(--glass-border)] bg-[var(--glass-bg)] shadow-xl backdrop-blur-sm">
-              <Image src="/icon.svg" alt="App icon" width={48} height={48} priority />
+              <Image
+                src="/icon.svg"
+                alt="App icon"
+                width={48}
+                height={48}
+                priority
+              />
             </div>
             <h1 className="mb-6 bg-gradient-to-br from-[var(--text-primary)] to-[var(--text-muted)] bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-7xl">
               {t("hero.title")}
