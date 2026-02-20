@@ -19,7 +19,7 @@
 - **Forms & Validation** — React Hook Form + Zod with type-safe schemas
 - **State & i18n** — Zustand for client state, next-intl for localization
 - **Testing** — Vitest + React Testing Library with 100% coverage requirement
-- **Firebase** — Auth, Firestore & Analytics with abstracted interfaces for easy provider swapping
+- **Firebase** — Analytics with abstracted interfaces for easy provider swapping
 
 ## Quick Start
 
