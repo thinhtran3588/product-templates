@@ -8,14 +8,15 @@ Follow this workflow to review code changes against the project's quality standa
 
 ## 1. Context & Prerequisites
 
-1. **Read Description**: Review the PR title and description.
-   - _Check_: Does it follow Conventional Commits? (e.g., `feat: ...`, `fix: ...`)
-   - _Check_: Are acceptance criteria listed?
-2. **CI Structure**: (If applicable) Verify that automated checks (Lint, Test, Build) would pass.
+1.  **Read Description**: Review the PR title and description.
+    - _Check_: Does it follow Conventional Commits? (e.g., `feat: ...`, `fix: ...`)
+    - _Check_: Are acceptance criteria listed?
+2.  **CI Structure**: Verify that the automated validation script (`npm run validate`) has passed.
+    - _Note_: This script covers linting, formatting, type checking, and testing with coverage.
 
 ## 2. Code Review Checklist
 
-Review the changed files using `view_file`.
+Review the changed files using `view_file` or check the diff.
 
 ### A. Functionality & Logic
 
@@ -26,6 +27,7 @@ Review the changed files using `view_file`.
 
 ### B. Quality & Style
 
+- [ ] **Validation Compliance**: Does the code pass `npm run validate` locally? (Zero tolerance for warnings/errors).
 - [ ] **Readability**: Is the code easy to understand? Are variables named clearly?
 - [ ] **Maintainability**: Is code modular and DRY (Don't Repeat Yourself)?
 - [ ] **Testing**: Are unit/integration tests included? Do they cover the changes?
@@ -40,7 +42,7 @@ Review the changed files using `view_file`.
 Based on the findings, determine the next step:
 
 1.  **Request Changes (Blocker)**:
-    - If there are Logic Errors, Security Flaws, or Missing Tests.
+    - If there are Logic Errors, Security Flaws, Missing Tests, or `npm run validate` failures.
     - _Action_: clearly list the issues required to be fixed.
 
 2.  **Comment (Minor)**:

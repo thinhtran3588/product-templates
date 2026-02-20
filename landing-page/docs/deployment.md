@@ -83,15 +83,15 @@ Developer → Push to GitHub → GitHub Actions → Build → Deploy to Cloudfla
 
 ## GitHub Actions CI/CD
 
-GitHub Actions automates building, testing, and deploying on every push. The project includes CI workflows for both `main` and `develop` branches.
+GitHub Actions automates building, testing, and deploying. The project uses a **Main → Staging**, **Release → Production** strategy.
 
 ### Workflow Overview
 
 | Workflow | Trigger | Purpose |
 |----------|---------|---------|
-| `ci-main.yml` | Push to `main` | Lint, test, build — production pipeline |
-| `ci-develop.yml` | Push to `develop` | Lint, test, build — development pipeline |
-| `ci-pull-requests.yml` | Pull requests | Lint, test — PR validation |
+| `ci-main.yml` | Push to `main` | Lint, test, build — **Staging** deployment |
+| `ci-pull-requests.yml` | Pull Request to `main` | Lint, test — PR validation |
+| `ci-release.yml` | Release Published | Lint, test, build — **Production** deployment |
 
 ### Required GitHub Secrets
 
@@ -116,6 +116,7 @@ To deploy to Cloudflare Pages from GitHub Actions, add a deploy step to your wor
     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
     command: pages deploy out --project-name=your-project-name
+    workingDirectory: landing-page
 ```
 
 ## Environment Variables
