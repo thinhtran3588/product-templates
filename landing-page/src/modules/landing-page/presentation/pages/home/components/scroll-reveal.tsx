@@ -17,6 +17,7 @@ export function ScrollReveal({
 
   useEffect(() => {
     const element = ref.current;
+    /* v8 ignore next */
     if (!element) return;
 
     // Respect user's motion preference — show immediately without animation

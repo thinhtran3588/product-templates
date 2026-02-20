@@ -3,6 +3,7 @@ import requestConfig, {
   requestConfig as resolveRequestConfig,
 } from "@/application/localization/request";
 import viMessages from "@/application/localization/vi.json";
+import zhMessages from "@/application/localization/zh.json";
 
 describe("request config", () => {
   it("loads messages for the requested locale", async () => {
@@ -35,5 +36,13 @@ describe("request config", () => {
     });
 
     expect(result).toEqual({ locale: "vi", messages: viMessages });
+  });
+
+  it("loads messages for Chinese locale", async () => {
+    const result = await requestConfig({
+      requestLocale: Promise.resolve("zh"),
+    });
+
+    expect(result).toEqual({ locale: "zh", messages: zhMessages });
   });
 });

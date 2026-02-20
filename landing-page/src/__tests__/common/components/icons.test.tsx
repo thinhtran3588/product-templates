@@ -3,6 +3,7 @@ import { render } from "@testing-library/react";
 import {
   AppleIcon,
   BackArrowIcon,
+  BrainIcon,
   ChevronDownIcon,
   ExternalLinkIcon,
   EyeIcon,
@@ -110,5 +111,10 @@ describe("Icons", () => {
     const { container } = render(<ExternalLinkIcon className="size-4" />);
     expect(container.querySelector("svg")).toBeInTheDocument();
     expect(container.querySelector("svg")).toHaveClass("size-4");
+  });
+
+  it("BrainIcon renders", () => {
+    const { container } = render(<BrainIcon />);
+    expect(container.querySelector("svg")).toBeInTheDocument();
   });
 });
