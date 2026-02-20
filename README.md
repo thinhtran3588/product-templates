@@ -13,8 +13,5 @@ Templates for building a new software product
 
 ## Templates
 
-- [**Landing Page**](./landing-page/README.md) - A production-ready landing page template built with Next.js, TypeScript, and Tailwind CSS. Features Clean Architecture with Awilix DI, modular structure, Firebase integration, i18n support, and 100% test coverage requirement. [![CI - Main](https://github.com/thinhtran3588/product-templates/actions/workflows/landing-page-ci-main.yml/badge.svg?branch=main)](https://github.com/thinhtran3588/product-templates/actions/workflows/landing-page-ci-main.yml)
-[![codecov - Main](https://codecov.io/gh/thinhtran3588/product-templates/branch/main/graph/badge.svg)](https://codecov.io/gh/thinhtran3588/product-templates/tree/main)
-
-
-
+- [**Landing Page**](./landing-page/README.md) - A production-ready landing page template built with Next.js, TypeScript, and Tailwind CSS. Features Clean Architecture with Awilix DI, modular structure, Firebase integration, i18n support, and 100% test coverage requirement.
+- [**API Server**](./api/README.md) - A production-ready API Server for building fast, scalable REST and GraphQL API servers with Clean Architecture, DDD, and CQRS. Features Fastify, TypeScript, PostgreSQL, Sequelize ORM, and Mercurius (GraphQL).
