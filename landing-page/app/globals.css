@@ -339,25 +339,6 @@ html.light body {
   }
 }
 
-.liquid-border {
-  position: relative;
-  overflow: hidden;
-}
-
-.liquid-border::after {
-  content: "";
-  position: absolute;
-  inset: -40%;
-  background: conic-gradient(
-    from 160deg,
-    var(--liquid-a),
-    var(--liquid-b),
-    var(--liquid-a)
-  );
-  animation: spin 18s linear infinite;
-  z-index: 0;
-}
-
 :root,
 .dark {
   --liquid-a: rgba(139, 184, 255, 0.2);
@@ -369,75 +350,19 @@ html.light body {
   --liquid-b: rgba(20, 184, 166, 0.2);
 }
 
-.liquid-border > * {
-  position: relative;
-  z-index: 1;
-}
-
-.liquid-border-static {
-  position: relative;
-  overflow: hidden;
-}
-
-.liquid-border-static::after {
-  content: "";
-  position: absolute;
-  inset: -40%;
-  background: conic-gradient(
-    from 160deg,
-    var(--liquid-a),
-    var(--liquid-b),
-    var(--liquid-a)
-  );
-  z-index: 0;
-}
-
-.liquid-border-static > * {
-  position: relative;
-  z-index: 1;
-}
-
-.default-panel {
-  position: relative;
-  overflow: hidden;
-}
-
-.default-panel::after {
-  content: "";
-  position: absolute;
-  inset: -40%;
-  background: conic-gradient(
-    from 160deg,
-    var(--liquid-a),
-    var(--liquid-b),
-    var(--liquid-a)
-  );
-  z-index: 0;
-  animation: none;
-}
-
-.light .default-panel::after {
-  background: conic-gradient(
-    from 160deg,
-    rgba(59, 130, 246, 0.25),
-    rgba(20, 184, 166, 0.2),
-    rgba(59, 130, 246, 0.25)
-  );
-}
-
-.dark .default-panel::after {
-  display: none;
-}
-
-.default-panel > * {
-  position: relative;
-  z-index: 1;
-}
-
+/* ── Shared conic border base ── */
+/* All panel variants inherit this ::after pseudo-element */
+.liquid-border,
+.liquid-border-static,
+.default-panel,
 .modal-panel {
+  position: relative;
   overflow: hidden;
 }
 
+.liquid-border::after,
+.liquid-border-static::after,
+.default-panel::after,
 .modal-panel::after {
   content: "";
   position: absolute;
@@ -452,6 +377,27 @@ html.light body {
   animation: none;
 }
 
+.liquid-border::after {
+  animation: spin 18s linear infinite;
+}
+
+/* Children always sit above the ::after overlay */
+.liquid-border > *,
+.liquid-border-static > *,
+.default-panel > *,
+.modal-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Dark mode — hide static overlays */
+.dark .default-panel::after,
+.dark .modal-panel::after {
+  display: none;
+}
+
+/* Light mode — use light liquid colors */
+.light .default-panel::after,
 .light .modal-panel::after {
   background: conic-gradient(
     from 160deg,
@@ -466,15 +412,6 @@ html.light body {
   box-shadow:
     0 1px 0 var(--glass-highlight),
     var(--glass-shadow);
-}
-
-.dark .modal-panel::after {
-  display: none;
-}
-
-.modal-panel > * {
-  position: relative;
-  z-index: 1;
 }
 
 .modal-panel .modal-header {
@@ -638,7 +575,8 @@ html.light body {
   .float,
   .glow-orb,
   .liquid-border::after,
-  .hero-shine::before {
+  .hero-shine::before,
+  .typing-cursor {
     animation: none;
   }
 
@@ -650,6 +588,8 @@ html.light body {
 
   .reveal {
     transition: none;
+    opacity: 1;
+    transform: none;
   }
 
   .nav-link-indicator::after {

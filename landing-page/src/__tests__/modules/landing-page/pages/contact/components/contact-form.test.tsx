@@ -1,17 +1,9 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { toast } from "sonner";
 import { describe, expect, it, vi, type Mock } from "vitest";
 
 import messages from "@/application/localization/en.json";
 import { useContainer } from "@/common/hooks/use-container";
 import { ContactForm } from "@/modules/landing-page/presentation/pages/contact/components/contact-form";
-
-vi.mock("sonner", () => ({
-  toast: {
-    success: vi.fn(),
-    error: vi.fn(),
-  },
-}));
 
 vi.mock("@/common/hooks/use-container", () => ({
   useContainer: vi.fn(),
@@ -103,13 +95,14 @@ describe("ContactForm", () => {
       );
     });
 
+    // Success: inline message shown, form hidden
     await waitFor(() => {
-      expect(toast.success).toHaveBeenCalledWith(
-        contactMessages.successMessage,
-      );
       expect(
         screen.getByText(contactMessages.successMessage),
       ).toBeInTheDocument();
+      expect(
+        screen.queryByRole("button", { name: formMessages.submitButton }),
+      ).not.toBeInTheDocument();
     });
   });
 
@@ -150,7 +143,7 @@ describe("ContactForm", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByRole("button", { name: formMessages.submitButton }),
+        screen.getByText(contactMessages.successMessage),
       ).toBeInTheDocument();
     });
   });
@@ -223,7 +216,7 @@ describe("ContactForm", () => {
     });
   });
 
-  it("handles API error response", async () => {
+  it("shows inline error on API failure", async () => {
     mockExecute.mockResolvedValue({
       success: false,
       error: "Failed to send message",
@@ -253,16 +246,17 @@ describe("ContactForm", () => {
     );
 
     await waitFor(() => {
-      expect(mockExecute).toHaveBeenCalled();
+      expect(screen.getByText("Failed to send message")).toBeInTheDocument();
     });
 
-    await waitFor(() => {
-      expect(toast.error).toHaveBeenCalledWith("Failed to send message");
-    });
+    // Form should still be visible so user can retry
+    expect(
+      screen.getByRole("button", { name: formMessages.submitButton }),
+    ).toBeInTheDocument();
   });
 
-  it("handles unexpected error types", async () => {
-    mockExecute.mockRejectedValue("String Error");
+  it("shows inline error on unexpected exception", async () => {
+    mockExecute.mockRejectedValue(new Error("Network Error"));
 
     render(<ContactForm />);
 
@@ -288,11 +282,9 @@ describe("ContactForm", () => {
     );
 
     await waitFor(() => {
-      expect(mockExecute).toHaveBeenCalled();
-    });
-
-    await waitFor(() => {
-      expect(toast.error).toHaveBeenCalledWith(contactMessages.errorMessage);
+      expect(
+        screen.getByText(contactMessages.errorMessage),
+      ).toBeInTheDocument();
     });
   });
 });
