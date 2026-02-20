@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest",
-    "test:coverage": "vitest --coverage",
+    "test:coverage": "vitest --coverage --run",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "preview": "npm run build && wrangler pages dev out",
