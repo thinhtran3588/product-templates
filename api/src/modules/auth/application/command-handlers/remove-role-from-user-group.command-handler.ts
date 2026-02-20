@@ -1,6 +1,6 @@
-import type { Transaction } from 'sequelize';
 import { AuthorizationService } from '@app/common/application/services/authorization.service';
 import type { EventDispatcher } from '@app/common/domain/interfaces/event-dispatcher';
+import type { DbTransaction } from '@app/common/domain/interfaces/repositories/db-transaction';
 import { Uuid } from '@app/common/domain/value-objects/uuid';
 import type { CommandHandler } from '@app/common/interfaces/command';
 import type { AppContext } from '@app/common/interfaces/context';
@@ -50,7 +50,7 @@ export class RemoveRoleFromUserGroupCommandHandler
 
     await this.userGroupRepository.save(
       userGroup,
-      async (transaction: Transaction) => {
+      async (transaction: DbTransaction) => {
         await this.userGroupRepository.removeRole(
           userGroupId,
           roleId,
