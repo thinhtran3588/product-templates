@@ -5,6 +5,7 @@ import {
   type ModelStatic,
   type Transaction,
 } from 'sequelize';
+import type { DbTransaction } from '@app/common/domain/interfaces/repositories/db-transaction';
 import { Uuid } from '@app/common/domain/value-objects/uuid';
 import { BaseRepository } from '@app/common/infrastructure/repositories/base-repository';
 import type { DomainEventRepository } from '@app/common/infrastructure/repositories/domain-event.repository';
@@ -92,7 +93,7 @@ export class UserGroupRepositoryImpl
   async addRole(
     userGroupId: Uuid,
     roleId: Uuid,
-    transaction?: Transaction
+    transaction?: DbTransaction
   ): Promise<void> {
     await UserGroupRoleModel.create(
       {
@@ -100,21 +101,21 @@ export class UserGroupRepositoryImpl
         roleId: roleId.getValue(),
         createdAt: new Date(),
       },
-      { transaction }
+      { transaction: transaction as unknown as Transaction }
     );
   }
 
   async removeRole(
     userGroupId: Uuid,
     roleId: Uuid,
-    transaction?: Transaction
+    transaction?: DbTransaction
   ): Promise<void> {
     await UserGroupRoleModel.destroy({
       where: {
         userGroupId: userGroupId.getValue(),
         roleId: roleId.getValue(),
       },
-      transaction,
+      transaction: transaction as unknown as Transaction,
     });
   }
 

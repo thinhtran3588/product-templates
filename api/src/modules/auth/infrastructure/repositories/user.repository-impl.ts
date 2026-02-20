@@ -1,4 +1,5 @@
 import { Op, Transaction, type Model, type ModelStatic } from 'sequelize';
+import type { DbTransaction } from '@app/common/domain/interfaces/repositories/db-transaction';
 import { Uuid } from '@app/common/domain/value-objects/uuid';
 import { SystemExceptionCode } from '@app/common/enums/system-exception-code';
 import { BaseRepository } from '@app/common/infrastructure/repositories/base-repository';
@@ -81,14 +82,14 @@ export class UserRepositoryImpl
 
   override async save(
     user: User,
-    postSaveCallback?: (transaction: Transaction) => Promise<void>
+    postSaveCallback?: (transaction: DbTransaction) => Promise<void>
   ): Promise<void> {
     await super.save(user, async (transaction) => {
       if (user.status === UserStatus.DELETED) {
         await UserPendingDeletionModel.findOrCreate({
           where: { id: user.id.getValue() },
           defaults: { id: user.id.getValue() },
-          transaction,
+          transaction: transaction as unknown as Transaction,
         });
       }
       if (postSaveCallback) {
@@ -196,7 +197,7 @@ export class UserRepositoryImpl
   async addToGroup(
     userId: Uuid,
     userGroupId: Uuid,
-    transaction?: Transaction
+    transaction?: DbTransaction
   ): Promise<void> {
     await UserGroupUserModel.create(
       {
@@ -204,21 +205,21 @@ export class UserRepositoryImpl
         userId: userId.getValue(),
         createdAt: new Date(),
       },
-      { transaction }
+      { transaction: transaction as unknown as Transaction }
     );
   }
 
   async removeFromGroup(
     userId: Uuid,
     userGroupId: Uuid,
-    transaction?: Transaction
+    transaction?: DbTransaction
   ): Promise<void> {
     await UserGroupUserModel.destroy({
       where: {
         userGroupId: userGroupId.getValue(),
         userId: userId.getValue(),
       },
-      transaction,
+      transaction: transaction as unknown as Transaction,
     });
   }
 }

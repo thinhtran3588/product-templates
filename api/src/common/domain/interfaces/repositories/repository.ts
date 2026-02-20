@@ -1,6 +1,7 @@
-import type { Transaction } from 'sequelize';
 import type { BaseAggregate } from '@app/common/domain/base-aggregate';
 import type { Uuid } from '@app/common/domain/value-objects/uuid';
+
+import type { DbTransaction } from './db-transaction';
 
 /**
  * Generic repository interface for aggregate persistence operations
@@ -19,7 +20,7 @@ export interface Repository<TAggregate extends BaseAggregate> {
    */
   save(
     aggregate: TAggregate,
-    postSaveCallback?: (transaction: Transaction) => Promise<void>
+    postSaveCallback?: (transaction: DbTransaction) => Promise<void>
   ): Promise<void>;
 
   /**

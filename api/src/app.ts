@@ -155,9 +155,8 @@ export async function createApp(): Promise<OpenAPIHono<AppEnv>> {
   logger.info(undefined, 'Routes registered');
 
   // Initialize external services
-  const externalAuthenticationService = container.resolve(
-    'externalAuthenticationService'
-  );
+  const externalAuthenticationService: ExternalAuthenticationService =
+    container.resolve('externalAuthenticationService');
   externalAuthenticationService.initialize();
   logger.info(undefined, 'External authentication service initialized');
 
