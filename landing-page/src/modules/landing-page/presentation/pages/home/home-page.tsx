@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/common/components/card";
-import { BrainIcon } from "@/common/components/icons";
+import Image from "next/image";
 import { PlatformDownload } from "./components/platform-download";
 import { ScrollReveal } from "./components/scroll-reveal";
 import { TestimonialCard } from "./components/testimonial-card";
@@ -20,6 +20,20 @@ export async function generateMetadata() {
   };
 }
 
+const FEATURE_KEYS = [
+  "visualThinking",
+  "collaboration",
+  "templates",
+  "crossPlatform",
+  "aiAssistance",
+  "export",
+] as const;
+
+const TESTIMONIAL_KEYS = ["user1", "user2", "user3"] as const;
+
+type FeatureKey = (typeof FEATURE_KEYS)[number];
+type TestimonialKey = (typeof TESTIMONIAL_KEYS)[number];
+
 export function LandingPage() {
   const t = useTranslations("modules.landing.pages.home");
 
@@ -27,19 +41,40 @@ export function LandingPage() {
     <div className="flex min-h-screen flex-col overflow-hidden">
       {/* Hero Section */}
       <section className="relative flex min-h-[90vh] flex-col items-center justify-center overflow-hidden pt-20">
-        {/* Background Gradients */}
-        <div className="absolute inset-0 z-0">
-          <div className="animate-blob absolute top-1/4 left-1/4 h-96 w-96 rounded-full bg-blue-500/20 mix-blend-multiply blur-3xl filter" />
-          <div className="animate-blob animation-delay-2000 absolute top-1/4 right-1/4 h-96 w-96 rounded-full bg-purple-500/20 mix-blend-multiply blur-3xl filter" />
-          <div className="animate-blob animation-delay-4000 absolute bottom-1/4 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-pink-500/20 mix-blend-multiply blur-3xl filter" />
+        {/* Background Orbs — uses design system glow-orb classes from globals.css */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <div
+            className="glow-orb h-96 w-96"
+            style={{
+              top: "20%",
+              left: "15%",
+              background: "var(--orb-1)",
+            }}
+          />
+          <div
+            className="glow-orb glow-orb-2 h-80 w-80"
+            style={{
+              top: "15%",
+              right: "15%",
+              background: "var(--orb-2)",
+            }}
+          />
+          <div
+            className="glow-orb glow-orb-3 h-72 w-72"
+            style={{
+              bottom: "20%",
+              left: "45%",
+              background: "var(--orb-3)",
+            }}
+          />
         </div>
 
         <div className="relative z-10 container mx-auto px-4 text-center">
           <ScrollReveal>
-            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-white/10 bg-gradient-to-br from-blue-500/10 to-purple-500/10 shadow-xl backdrop-blur-sm">
-              <BrainIcon className="h-10 w-10 text-blue-500" />
+            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-[var(--glass-border)] bg-[var(--glass-bg)] shadow-xl backdrop-blur-sm">
+              <Image src="/icon.svg" alt="App icon" width={48} height={48} priority />
             </div>
-            <h1 className="mb-6 bg-gradient-to-br from-[var(--text-primary)] to-[var(--text-secondary)] bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-7xl">
+            <h1 className="mb-6 bg-gradient-to-br from-[var(--text-primary)] to-[var(--text-muted)] bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-7xl">
               {t("hero.title")}
             </h1>
             <p className="mx-auto mb-10 max-w-2xl text-lg text-[var(--text-muted)] sm:text-xl">
@@ -67,24 +102,15 @@ export function LandingPage() {
           </ScrollReveal>
 
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              "visualThinking",
-              "collaboration",
-              "templates",
-              "crossPlatform",
-              "aiAssistance",
-              "export",
-            ].map((feature, index) => (
+            {FEATURE_KEYS.map((feature: FeatureKey, index) => (
               <ScrollReveal key={feature} delay={index * 100}>
-                <Card className="h-full p-6 transition-all hover:bg-[var(--surface-primary)]">
+                <Card className="h-full p-6 transition-all hover:bg-[var(--glass-bg-strong)]">
                   <CardHeader className="p-0">
                     <CardTitle className="mb-2 text-xl">
-                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                      {t(`features.items.${feature}.title` as any)}
+                      {t(`features.items.${feature}.title`)}
                     </CardTitle>
                     <CardDescription>
-                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                      {t(`features.items.${feature}.description` as any)}
+                      {t(`features.items.${feature}.description`)}
                     </CardDescription>
                   </CardHeader>
                 </Card>
@@ -96,7 +122,7 @@ export function LandingPage() {
 
       {/* Testimonials Section */}
       <section className="relative overflow-hidden py-24 sm:py-32">
-        <div className="absolute inset-0 skew-y-3 transform bg-[var(--surface-secondary)]/30" />
+        <div className="absolute inset-0 skew-y-3 transform bg-[var(--glass-bg)]/30" />
         <div className="relative container mx-auto px-4">
           <ScrollReveal>
             <div className="mx-auto mb-16 max-w-2xl text-center">
@@ -110,15 +136,12 @@ export function LandingPage() {
           </ScrollReveal>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {["user1", "user2", "user3"].map((user, index) => (
+            {TESTIMONIAL_KEYS.map((user: TestimonialKey, index) => (
               <ScrollReveal key={user} delay={index * 100}>
                 <TestimonialCard
-                  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-                  name={t(`testimonials.items.${user}.name` as any)}
-                  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-                  role={t(`testimonials.items.${user}.role` as any)}
-                  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-                  quote={t(`testimonials.items.${user}.quote` as any)}
+                  name={t(`testimonials.items.${user}.name`)}
+                  role={t(`testimonials.items.${user}.role`)}
+                  quote={t(`testimonials.items.${user}.quote`)}
                   delay={index * 100}
                 />
               </ScrollReveal>

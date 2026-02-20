@@ -62,43 +62,63 @@ export function PlatformDownload() {
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6">
         {platforms.map((platform) => {
           const isComingSoon = !platform.href;
+          const sharedClassName = cn(
+            "group relative flex flex-col items-center gap-4 rounded-2xl border p-6 transition-all duration-300",
+            "glass-panel",
+            platform.border,
+          );
+          const iconEl = (
+            <div
+              className={cn(
+                "flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-300",
+                !isComingSoon && "group-hover:scale-110",
+                platform.bg,
+                platform.color,
+              )}
+            >
+              <platform.icon className="h-6 w-6" />
+            </div>
+          );
+          const labelEl = (
+            <div className="flex flex-col items-center gap-1 text-center">
+              <span className="font-medium text-[var(--text-primary)]">
+                {platform.label}
+              </span>
+              {isComingSoon && (
+                <span className="text-[10px] font-bold tracking-wider text-[var(--text-muted)] uppercase">
+                  {t("comingSoon")}
+                </span>
+              )}
+            </div>
+          );
+
+          if (isComingSoon) {
+            return (
+              <div
+                key={platform.key}
+                className={cn(sharedClassName, "cursor-not-allowed opacity-60")}
+                aria-label={`${platform.label} — ${t("comingSoon")}`}
+                role="img"
+              >
+                {iconEl}
+                {labelEl}
+              </div>
+            );
+          }
+
           return (
             <a
               key={platform.key}
-              href={isComingSoon ? undefined : platform.href}
-              target={isComingSoon ? undefined : "_blank"}
-              rel={isComingSoon ? undefined : "noopener noreferrer"}
-              onClick={isComingSoon ? (e) => e.preventDefault() : undefined}
-              aria-disabled={isComingSoon}
+              href={platform.href}
+              target="_blank"
+              rel="noopener noreferrer"
               className={cn(
-                "group relative flex flex-col items-center gap-4 rounded-2xl border p-6 transition-all duration-300",
-                isComingSoon
-                  ? "cursor-not-allowed opacity-60"
-                  : "hover:-translate-y-1 hover:shadow-lg",
-                "glass-panel",
-                platform.border,
+                sharedClassName,
+                "hover:-translate-y-1 hover:shadow-lg",
               )}
             >
-              <div
-                className={cn(
-                  "flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-300",
-                  !isComingSoon && "group-hover:scale-110",
-                  platform.bg,
-                  platform.color,
-                )}
-              >
-                <platform.icon className="h-6 w-6" />
-              </div>
-              <div className="flex flex-col items-center gap-1 text-center">
-                <span className="font-medium text-[var(--text-primary)]">
-                  {platform.label}
-                </span>
-                {isComingSoon && (
-                  <span className="text-[10px] font-bold tracking-wider text-[var(--text-muted)] uppercase">
-                    {t("comingSoon")}
-                  </span>
-                )}
-              </div>
+              {iconEl}
+              {labelEl}
             </a>
           );
         })}

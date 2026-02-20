@@ -43,8 +43,13 @@ describe("PlatformDownload", () => {
     const comingSoonElements = screen.getAllByText("comingSoon");
     expect(comingSoonElements).toHaveLength(2);
 
-    const androidContainer = screen.getByText("platforms.android").closest("a");
-    const macosContainer = screen.getByText("platforms.macos").closest("a");
+    // Coming-soon platforms render as <div>, active ones as <a>
+    const androidContainer = screen
+      .getByText("platforms.android")
+      .closest("div[role='img']");
+    const macosContainer = screen
+      .getByText("platforms.macos")
+      .closest("div[role='img']");
     const webContainer = screen.getByText("platforms.web").closest("a");
     const iosContainer = screen.getByText("platforms.ios").closest("a");
 
@@ -75,16 +80,14 @@ describe("PlatformDownload", () => {
   it("prevents navigation when link is empty", () => {
     render(<PlatformDownload />);
 
-    const androidLink = screen.getByText("platforms.android").closest("a");
-    if (!androidLink) throw new Error("Link not found");
+    // Coming-soon platforms render as <div role="img">, not <a>
+    const androidDiv = screen
+      .getByText("platforms.android")
+      .closest("div[role='img']");
+    if (!androidDiv) throw new Error("Coming-soon container not found");
 
-    // Check if href is undefined/missing
-    expect(androidLink).not.toHaveAttribute("href");
-    expect(androidLink).not.toHaveAttribute("target");
-    expect(androidLink).not.toHaveAttribute("rel");
-    expect(androidLink).toHaveAttribute("aria-disabled", "true");
-    expect(androidLink).toHaveClass("cursor-not-allowed", "opacity-60");
-
-    fireEvent.click(androidLink);
+    // Should not be an anchor — no href or navigation attributes
+    expect(androidDiv.tagName).toBe("DIV");
+    expect(androidDiv).toHaveClass("cursor-not-allowed", "opacity-60");
   });
 });

@@ -1,15 +1,24 @@
 import { getRequestConfig } from "next-intl/server";
 
-import enMessages from "@/application/localization/en.json";
-import viMessages from "@/application/localization/vi.json";
-import zhMessages from "@/application/localization/zh.json";
 import { isSupportedLocale, routing } from "@/common/routing/routing";
 
-const messagesByLocale = {
-  en: enMessages,
-  vi: viMessages,
-  zh: zhMessages,
-} as const;
+type SupportedLocale = "en" | "vi" | "zh";
+type Messages = Record<string, unknown>;
+
+const messageLoaders: Record<SupportedLocale, () => Promise<Messages>> = {
+  en: () =>
+    import("@/application/localization/en.json").then(
+      (m) => m.default as Messages,
+    ),
+  vi: () =>
+    import("@/application/localization/vi.json").then(
+      (m) => m.default as Messages,
+    ),
+  zh: () =>
+    import("@/application/localization/zh.json").then(
+      (m) => m.default as Messages,
+    ),
+};
 
 type RequestConfigParams = {
   requestLocale: Promise<string | undefined>;
@@ -21,9 +30,11 @@ export async function requestConfig({ requestLocale }: RequestConfigParams) {
     ? locale
     : routing.defaultLocale;
 
+  const messages = await messageLoaders[resolvedLocale]();
+
   return {
     locale: resolvedLocale,
-    messages: messagesByLocale[resolvedLocale],
+    messages,
   };
 }
 

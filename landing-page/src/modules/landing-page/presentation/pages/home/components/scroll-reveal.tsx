@@ -16,15 +16,27 @@ export function ScrollReveal({
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const element = ref.current!;
+    const element = ref.current;
+    if (!element) return;
+
+    // Respect user's motion preference — show immediately without animation
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (prefersReducedMotion) {
+      element.classList.add("is-visible");
+      return;
+    }
+
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Apply delay before adding visible class or rely on CSS transition-delay
             if (delay > 0) {
-              setTimeout(() => {
+              timeoutId = setTimeout(() => {
                 entry.target.classList.add("is-visible");
               }, delay);
             } else {
@@ -39,7 +51,12 @@ export function ScrollReveal({
 
     observer.observe(element);
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      if (timeoutId !== undefined) {
+        clearTimeout(timeoutId);
+      }
+    };
   }, [delay]);
 
   return (

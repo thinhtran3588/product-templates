@@ -148,6 +148,7 @@ export function MainHeader({
               className="sm:hidden"
               aria-label={menuLabel}
               aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
               onClick={() => setIsMenuOpen((value) => !value)}
             >
               <MenuIcon className="h-4 w-4" />
@@ -163,6 +164,7 @@ export function MainHeader({
               data-testid="mobile-menu-backdrop"
             />
             <div
+              id="mobile-menu"
               className="mobile-menu-panel absolute top-full right-6 left-6 z-40 rounded-3xl px-4 py-4 text-sm sm:hidden"
               data-testid="mobile-menu"
             >

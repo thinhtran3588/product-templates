@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 
 import { Button } from "@/common/components/button";
 import {
@@ -29,6 +28,7 @@ export function ContactForm() {
   const t = useTranslations("modules.contact.pages.contact");
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const container = useContainer();
 
   const contactFormSchema = useMemo(
@@ -49,6 +49,7 @@ export function ContactForm() {
 
   async function onSubmit(values: ContactFormData) {
     setIsSubmitting(true);
+    setErrorMessage(null);
     try {
       const useCase = container.resolve<SubmitContactFormUseCase>(
         "submitContactFormUseCase",
@@ -58,12 +59,11 @@ export function ContactForm() {
       if (result.success) {
         setSubmitted(true);
         form.reset();
-        toast.success(t("successMessage"));
       } else {
-        toast.error(result.error);
+        setErrorMessage(result.error);
       }
     } catch {
-      toast.error(t("errorMessage"));
+      setErrorMessage(t("errorMessage"));
     } finally {
       setIsSubmitting(false);
     }
@@ -75,84 +75,97 @@ export function ContactForm() {
         <p className="text-sm text-[var(--text-primary)]" role="status">
           {t("successMessage")}
         </p>
-      ) : null}
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-          <div className="grid gap-5 sm:grid-cols-2">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("form.nameLabel")}</FormLabel>
-                  <FormControl>
-                    <Input placeholder={t("form.namePlaceholder")} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("form.emailLabel")}</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="email"
-                      placeholder={t("form.emailPlaceholder")}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <FormField
-            control={form.control}
-            name="subject"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("form.subjectLabel")}</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder={t("form.subjectPlaceholder")}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="message"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("form.messageLabel")}</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder={t("form.messagePlaceholder")}
-                    rows={6}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button
-            type="submit"
-            variant="primary"
-            className="w-full sm:w-auto"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? t("form.submittingButton") : t("form.submitButton")}
-          </Button>
-        </form>
-      </Form>
+      ) : (
+        <>
+          {errorMessage ? (
+            <p className="text-sm text-red-500" role="alert">
+              {errorMessage}
+            </p>
+          ) : null}
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+              <div className="grid gap-5 sm:grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("form.nameLabel")}</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder={t("form.namePlaceholder")}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("form.emailLabel")}</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder={t("form.emailPlaceholder")}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <FormField
+                control={form.control}
+                name="subject"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("form.subjectLabel")}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={t("form.subjectPlaceholder")}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="message"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("form.messageLabel")}</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder={t("form.messagePlaceholder")}
+                        rows={6}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                type="submit"
+                variant="primary"
+                className="w-full sm:w-auto"
+                disabled={isSubmitting}
+              >
+                {isSubmitting
+                  ? t("form.submittingButton")
+                  : t("form.submitButton")}
+              </Button>
+            </form>
+          </Form>
+        </>
+      )}
     </div>
   );
 }
