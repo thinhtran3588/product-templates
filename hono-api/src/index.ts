@@ -8,6 +8,7 @@ import { registerLogger } from './application/middleware/register-logger';
 import { registerRateLimit } from './application/middleware/register-rate-limit';
 import { registerSwagger } from './application/middleware/register-swagger';
 import type { AppEnv } from './common/interfaces';
+import { moduleConfiguration as authModule } from './modules/auth/module.configuration';
 
 const app = new OpenAPIHono<AppEnv>();
 
@@ -18,7 +19,7 @@ registerCors(app);
 registerRateLimit(app);
 
 // Modules
-const modules = [defaultModule];
+const modules = [defaultModule, authModule];
 
 // Register Module REST Routes
 modules.forEach((module) => {

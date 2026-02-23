@@ -39,8 +39,8 @@ export function createDIContainer(): AwilixContainer<Container> {
   // Register application-level services
   container.register({
     logger: asValue(logger),
-    userService: asClass(UserServiceImpl).scoped(),
-    userController: asClass(UserControllerImpl).scoped(),
+    userService: asClass(UserServiceImpl).singleton(),
+    userController: asClass(UserControllerImpl).singleton(),
   });
 
   return container;

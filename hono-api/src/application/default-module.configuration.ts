@@ -3,19 +3,21 @@ import { z } from 'zod';
 import type { App, ModuleConfiguration } from '@app/common/interfaces';
 
 export const moduleConfiguration: ModuleConfiguration = {
-  typeDefs: `
-    type HealthStatus {
-      status: String
-    }
-    type Query {
-      health: HealthStatus
-    }
-    type Mutation {
-      _empty: String
-    }
-  `,
-  resolvers: {
-    health: () => ({ status: 'ok' }),
+  graphql: {
+    typeDefs: `
+      type HealthStatus {
+        status: String
+      }
+      type Query {
+        health: HealthStatus
+      }
+      type Mutation {
+        _empty: String
+      }
+    `,
+    resolvers: {
+      health: () => ({ status: 'ok' }),
+    },
   },
   register(app: App): void {
     // GET /health
@@ -48,17 +50,6 @@ export const moduleConfiguration: ModuleConfiguration = {
       return c.json({
         message: 'Server is running!',
       });
-    });
-
-    // Sample User Route using Awilix
-    app.get('/users', async (c) => {
-      const { userController } = c.var.diContainer.cradle;
-      return userController.getAllUsers(c);
-    });
-
-    app.get('/users/:id', async (c) => {
-      const { userController } = c.var.diContainer.cradle;
-      return userController.getUser(c);
     });
   },
 };

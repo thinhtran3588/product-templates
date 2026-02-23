@@ -1,12 +1,12 @@
 import { asValue } from 'awilix';
 import { createDIContainer } from '@app/application/container';
-import type { App } from '@app/common/interfaces';
+import type { App, AppContext } from '@app/common/interfaces';
 import { getIP } from '@app/common/utils/get-ip';
 
 const container = createDIContainer();
 
 export const registerContainer = (app: App) => {
-  app.use('*', async (c, next) => {
+  app.use('*', async (c: AppContext, next) => {
     const ip = getIP(c);
 
     // Create a child logger with the request IP
