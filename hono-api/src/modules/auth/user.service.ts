@@ -16,6 +16,7 @@ export class UserServiceImpl implements UserService {
 
   async getUsers(): Promise<User[]> {
     this.logger.info({ users: this.users }, 'Fetching all users');
+    throw new Error('Error fetching users');
     return Promise.resolve(this.users);
   }
 

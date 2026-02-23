@@ -1,15 +1,13 @@
 import { asValue } from 'awilix';
-import { getConnInfo } from 'hono/bun';
 import { createDIContainer } from '@app/application/container';
 import type { App } from '@app/common/interfaces';
+import { getIP } from '@app/common/utils/get-ip';
 
 const container = createDIContainer();
 
 export const registerContainer = (app: App) => {
   app.use('*', async (c, next) => {
-    const info = getConnInfo(c);
-    const ip =
-      c.req.header('x-forwarded-for') || info.remote.address || 'unknown';
+    const ip = getIP(c);
 
     // Create a child logger with the request IP
     const childLogger = container.cradle.logger.child({ ip });

@@ -3,12 +3,12 @@
   "name": "api-demo",
   "main": "src/index.ts",
   "compatibility_date": "2026-02-23",
-  // "compatibility_flags": [
-  //   "nodejs_compat"
-  // ],
-  // "vars": {
-  //   "MY_VAR": "my-variable"
-  // },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "vars": {
+    "LOGGER_ENABLED": "true"
+  },
   // "kv_namespaces": [
   //   {
   //     "binding": "MY_KV_NAMESPACE",
@@ -31,8 +31,8 @@
   // "ai": {
   //   "binding": "AI"
   // },
-  // "observability": {
-  //   "enabled": true,
-  //   "head_sampling_rate": 1
-  // }
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
 }
