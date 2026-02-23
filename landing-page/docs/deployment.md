@@ -14,11 +14,11 @@ This guide covers deploying the landing page to production using **Firebase** fo
 
 The deployment pipeline consists of three parts:
 
-| Component | Purpose |
-|-----------|---------|
-| **Firebase** | Analytics (see [Firebase Integration](firebase-integration.md)) |
-| **Cloudflare Pages** | Static site hosting with global CDN |
-| **GitHub Actions** | Automated build, test, and deploy on push |
+| Component            | Purpose                                                         |
+| -------------------- | --------------------------------------------------------------- |
+| **Firebase**         | Analytics (see [Firebase Integration](firebase-integration.md)) |
+| **Cloudflare Pages** | Static site hosting with global CDN                             |
+| **GitHub Actions**   | Automated build, test, and deploy on push                       |
 
 ```
 Developer → Push to GitHub → GitHub Actions → Build → Deploy to Cloudflare Pages
@@ -67,11 +67,11 @@ Developer → Push to GitHub → GitHub Actions → Build → Deploy to Cloudfla
 2. Select your GitHub repository
 3. Configure the build settings:
 
-| Setting | Value |
-|---------|-------|
-| **Framework preset** | `Next.js (Static Export)` |
-| **Build command** | `npm run build` |
-| **Build output directory** | `out` |
+| Setting                    | Value                     |
+| -------------------------- | ------------------------- |
+| **Framework preset**       | `Next.js (Static Export)` |
+| **Build command**          | `npm run build`           |
+| **Build output directory** | `out`                     |
 
 > **Note**: If your Next.js app uses `output: "export"` in `next.config.ts`, the output directory is `out`. If using the default server mode with `@cloudflare/next-on-pages`, follow Cloudflare's [Next.js on Pages guide](https://developers.cloudflare.com/pages/framework-guides/nextjs/).
 
@@ -87,21 +87,21 @@ GitHub Actions automates building, testing, and deploying. The project uses a **
 
 ### Workflow Overview
 
-| Workflow | Trigger | Purpose |
-|----------|---------|---------|
-| `ci-main.yml` | Push to `main` | Lint, test, build — **Staging** deployment |
-| `ci-pull-requests.yml` | Pull Request to `main` | Lint, test — PR validation |
-| `ci-release.yml` | Release Published | Lint, test, build — **Production** deployment |
+| Workflow               | Trigger                | Purpose                                       |
+| ---------------------- | ---------------------- | --------------------------------------------- |
+| `ci-main.yml`          | Push to `main`         | Lint, test, build — **Staging** deployment    |
+| `ci-pull-requests.yml` | Pull Request to `main` | Lint, test — PR validation                    |
+| `ci-release.yml`       | Release Published      | Lint, test, build — **Production** deployment |
 
 ### Required GitHub Secrets
 
 Add these secrets in your repository under **Settings** → **Secrets and variables** → **Actions**:
 
-| Secret | Description |
-|--------|-------------|
+| Secret                                     | Description                                                                           |
+| ------------------------------------------ | ------------------------------------------------------------------------------------- |
 | `NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG` | Firebase web config JSON (see [Firebase Setup](#2-get-firebase-client-configuration)) |
-| `CLOUDFLARE_API_TOKEN` | Cloudflare API token (for Pages deployment) |
-| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account ID |
+| `CLOUDFLARE_API_TOKEN`                     | Cloudflare API token (for Pages deployment)                                           |
+| `CLOUDFLARE_ACCOUNT_ID`                    | Cloudflare account ID                                                                 |
 
 > **Note**: You do **not** need to add environment variables in the Cloudflare Pages dashboard. The `NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG` secret is injected during the GitHub Actions build step, so the values are embedded into the static site at build time.
 
@@ -123,8 +123,8 @@ To deploy to Cloudflare Pages from GitHub Actions, add a deploy step to your wor
 
 The Firebase configuration is provided through a single environment variable containing the full web config as a JSON string.
 
-| Variable | Description | Example |
-|----------|-------------|---------|
+| Variable                                   | Description              | Example                                                                                                                                     |
+| ------------------------------------------ | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
 | `NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG` | Firebase web config JSON | `{"apiKey":"...","authDomain":"...","projectId":"...","storageBucket":"...","messagingSenderId":"...","appId":"...","measurementId":"..."}` |
 
 This variable is prefixed with `NEXT_PUBLIC_` so it is embedded into the static site at build time.

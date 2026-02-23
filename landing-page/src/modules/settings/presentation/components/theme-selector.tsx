@@ -1,24 +1,24 @@
-"use client";
+'use client';
 
-import { useTranslations } from "next-intl";
+import { useTranslations } from 'next-intl';
 
-import { Button } from "@/common/components/button";
+import { Button } from '@/common/components/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/common/components/dropdown-menu";
+} from '@/common/components/dropdown-menu';
 import {
   ChevronDownIcon,
   MonitorIcon,
   MoonIcon,
   SunIcon,
-} from "@/common/components/icons";
-import type { Theme } from "@/common/utils/theme";
-import { useUserSettingsStore } from "@/modules/settings/presentation/hooks/use-user-settings-store";
+} from '@/common/components/icons';
+import type { Theme } from '@/common/utils/theme';
+import { useUserSettingsStore } from '@/modules/settings/presentation/hooks/use-user-settings-store';
 
-const DEFAULT_THEME: Theme = "system";
+const DEFAULT_THEME: Theme = 'system';
 
 const themeIcons: Record<Theme, React.ComponentType<{ className?: string }>> = {
   system: MonitorIcon,
@@ -27,16 +27,16 @@ const themeIcons: Record<Theme, React.ComponentType<{ className?: string }>> = {
 };
 
 export function ThemeSelector() {
-  const t = useTranslations("settings");
+  const t = useTranslations('settings');
   const settings = useUserSettingsStore((s) => s.settings);
   const setTheme = useUserSettingsStore((s) => s.setTheme);
   const theme = (settings.theme ?? DEFAULT_THEME) as Theme;
 
-  const themeLabel = t("theme.label");
+  const themeLabel = t('theme.label');
   const themeOptions: { theme: Theme; label: string }[] = [
-    { theme: "system", label: t("theme.options.system") },
-    { theme: "light", label: t("theme.options.light") },
-    { theme: "dark", label: t("theme.options.dark") },
+    { theme: 'system', label: t('theme.options.system') },
+    { theme: 'light', label: t('theme.options.light') },
+    { theme: 'dark', label: t('theme.options.dark') },
   ];
 
   const currentOption = themeOptions.find((option) => option.theme === theme);
@@ -50,7 +50,7 @@ export function ThemeSelector() {
           variant="secondary"
           size="sm"
           className="gap-2 px-2 sm:px-3"
-          aria-label={`${themeLabel}: ${currentOption?.label ?? ""}`}
+          aria-label={`${themeLabel}: ${currentOption?.label ?? ''}`}
         >
           <CurrentIcon className="h-3.5 w-3.5" />
           <ChevronDownIcon className="h-3 w-3" />
@@ -64,7 +64,7 @@ export function ThemeSelector() {
           return (
             <DropdownMenuItem
               key={option.theme}
-              className={isActive ? "bg-[var(--glass-highlight)]" : ""}
+              className={isActive ? 'bg-[var(--glass-highlight)]' : ''}
               onClick={() => setTheme(option.theme)}
             >
               <Icon className="h-3.5 w-3.5" />

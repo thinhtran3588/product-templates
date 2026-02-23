@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslations } from 'next-intl';
+import { useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-import { Button } from "@/common/components/button";
+import { Button } from '@/common/components/button';
 import {
   Form,
   FormControl,
@@ -13,19 +13,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/common/components/form";
-import { Input } from "@/common/components/input";
-import { Textarea } from "@/common/components/textarea";
-import { useContainer } from "@/common/hooks/use-container";
-import { getWindowHost } from "@/common/utils/browser";
-import type { SubmitContactFormUseCase } from "@/modules/landing-page/application/submit-contact-form-use-case";
+} from '@/common/components/form';
+import { Input } from '@/common/components/input';
+import { Textarea } from '@/common/components/textarea';
+import { useContainer } from '@/common/hooks/use-container';
+import { getWindowHost } from '@/common/utils/browser';
+import type { SubmitContactFormUseCase } from '@/modules/landing-page/application/submit-contact-form-use-case';
 import {
   createContactFormSchema,
   type ContactFormData,
-} from "@/modules/landing-page/domain/schemas";
+} from '@/modules/landing-page/domain/schemas';
 
 export function ContactForm() {
-  const t = useTranslations("modules.contact.pages.contact");
+  const t = useTranslations('modules.contact.pages.contact');
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -33,16 +33,16 @@ export function ContactForm() {
 
   const contactFormSchema = useMemo(
     () => createContactFormSchema((key) => t(`form.validation.${key}`)),
-    [t],
+    [t]
   );
 
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
+      name: '',
+      email: '',
+      subject: '',
+      message: '',
       source: getWindowHost(),
     },
   });
@@ -52,7 +52,7 @@ export function ContactForm() {
     setErrorMessage(null);
     try {
       const useCase = container.resolve<SubmitContactFormUseCase>(
-        "submitContactFormUseCase",
+        'submitContactFormUseCase'
       );
       const result = await useCase.execute(values);
 
@@ -63,7 +63,7 @@ export function ContactForm() {
         setErrorMessage(result.error);
       }
     } catch {
-      setErrorMessage(t("errorMessage"));
+      setErrorMessage(t('errorMessage'));
     } finally {
       setIsSubmitting(false);
     }
@@ -73,7 +73,7 @@ export function ContactForm() {
     <div className="space-y-6">
       {submitted ? (
         <p className="text-sm text-[var(--text-primary)]" role="status">
-          {t("successMessage")}
+          {t('successMessage')}
         </p>
       ) : (
         <>
@@ -90,10 +90,10 @@ export function ContactForm() {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t("form.nameLabel")}</FormLabel>
+                      <FormLabel>{t('form.nameLabel')}</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder={t("form.namePlaceholder")}
+                          placeholder={t('form.namePlaceholder')}
                           {...field}
                         />
                       </FormControl>
@@ -106,11 +106,11 @@ export function ContactForm() {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t("form.emailLabel")}</FormLabel>
+                      <FormLabel>{t('form.emailLabel')}</FormLabel>
                       <FormControl>
                         <Input
                           type="email"
-                          placeholder={t("form.emailPlaceholder")}
+                          placeholder={t('form.emailPlaceholder')}
                           {...field}
                         />
                       </FormControl>
@@ -124,10 +124,10 @@ export function ContactForm() {
                 name="subject"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("form.subjectLabel")}</FormLabel>
+                    <FormLabel>{t('form.subjectLabel')}</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder={t("form.subjectPlaceholder")}
+                        placeholder={t('form.subjectPlaceholder')}
                         {...field}
                       />
                     </FormControl>
@@ -140,10 +140,10 @@ export function ContactForm() {
                 name="message"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("form.messageLabel")}</FormLabel>
+                    <FormLabel>{t('form.messageLabel')}</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder={t("form.messagePlaceholder")}
+                        placeholder={t('form.messagePlaceholder')}
                         rows={6}
                         {...field}
                       />
@@ -159,8 +159,8 @@ export function ContactForm() {
                 disabled={isSubmitting}
               >
                 {isSubmitting
-                  ? t("form.submittingButton")
-                  : t("form.submitButton")}
+                  ? t('form.submittingButton')
+                  : t('form.submitButton')}
               </Button>
             </form>
           </Form>

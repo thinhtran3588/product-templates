@@ -1,8 +1,8 @@
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from 'next-intl/server';
 
-import { LandingPage } from "@/modules/landing-page/presentation/pages/home/home-page";
+import { LandingPage } from '@/modules/landing-page/presentation/pages/home/home-page';
 
-export { generateMetadata } from "@/modules/landing-page/presentation/pages/home/home-page";
+export { generateMetadata } from '@/modules/landing-page/presentation/pages/home/home-page';
 
 export default async function Page({
   params,

@@ -1,7 +1,7 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-import { Button } from "@/common/components/button";
-import { ErrorPageView } from "@/common/components/error-page-view";
+import { Button } from '@/common/components/button';
+import { ErrorPageView } from '@/common/components/error-page-view';
 
 export default function RootNotFound() {
   return (

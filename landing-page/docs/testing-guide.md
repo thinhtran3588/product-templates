@@ -106,10 +106,10 @@ src/__tests__/
 
 ```typescript
 // src/__tests__/modules/auth/application/sign-in-with-email-use-case.test.ts
-import { SignInWithEmailUseCase } from "@/modules/auth/application/sign-in-with-email-use-case";
-import type { AuthenticationService } from "@/modules/auth/domain/interfaces";
+import { SignInWithEmailUseCase } from '@/modules/auth/application/sign-in-with-email-use-case';
+import type { AuthenticationService } from '@/modules/auth/domain/interfaces';
 
-describe("SignInWithEmailUseCase", () => {
+describe('SignInWithEmailUseCase', () => {
   let useCase: SignInWithEmailUseCase;
   let mockAuthService: AuthenticationService;
 
@@ -127,12 +127,15 @@ describe("SignInWithEmailUseCase", () => {
     useCase = new SignInWithEmailUseCase(mockAuthService);
   });
 
-  it("calls auth service with credentials", async () => {
-    await useCase.execute({ email: "test@example.com", password: "password123" });
-    
+  it('calls auth service with credentials', async () => {
+    await useCase.execute({
+      email: 'test@example.com',
+      password: 'password123',
+    });
+
     expect(mockAuthService.signInWithEmail).toHaveBeenCalledWith(
-      "test@example.com",
-      "password123"
+      'test@example.com',
+      'password123'
     );
   });
 });
@@ -174,24 +177,24 @@ describe("SignInForm", () => {
 
 ```typescript
 // src/__tests__/modules/auth/domain/schemas.test.ts
-import { loginSchema } from "@/modules/auth/domain/schemas";
+import { loginSchema } from '@/modules/auth/domain/schemas';
 
-describe("loginSchema", () => {
-  it("validates correct input", () => {
+describe('loginSchema', () => {
+  it('validates correct input', () => {
     const result = loginSchema.safeParse({
-      email: "test@example.com",
-      password: "password123",
+      email: 'test@example.com',
+      password: 'password123',
     });
-    
+
     expect(result.success).toBe(true);
   });
 
-  it("rejects invalid email", () => {
+  it('rejects invalid email', () => {
     const result = loginSchema.safeParse({
-      email: "invalid",
-      password: "password123",
+      email: 'invalid',
+      password: 'password123',
     });
-    
+
     expect(result.success).toBe(false);
   });
 });
@@ -201,21 +204,22 @@ describe("loginSchema", () => {
 
 Shared helpers in `src/__tests__/test-utils/`:
 
-| File | Purpose |
-|------|---------|
-| `setup.ts` | Global setup (jest-dom, mocks, environment) |
-| `render.tsx` | Custom render with providers (if needed) |
-| `fixtures.ts` | Shared test data |
+| File          | Purpose                                     |
+| ------------- | ------------------------------------------- |
+| `setup.ts`    | Global setup (jest-dom, mocks, environment) |
+| `render.tsx`  | Custom render with providers (if needed)    |
+| `fixtures.ts` | Shared test data                            |
 
 ### Example Setup
 
 ```typescript
 // src/__tests__/test-utils/setup.ts
-import "@testing-library/jest-dom/vitest";
-import { vi } from "vitest";
+import '@testing-library/jest-dom/vitest';
+
+import { vi } from 'vitest';
 
 // Mock browser APIs
-Object.defineProperty(window, "matchMedia", {
+Object.defineProperty(window, 'matchMedia', {
   value: vi.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
@@ -229,12 +233,12 @@ Object.defineProperty(window, "matchMedia", {
 
 **100% coverage is mandatory** for:
 
-| Metric | Threshold |
-|--------|-----------|
-| Lines | 100% |
-| Functions | 100% |
-| Branches | 100% |
-| Statements | 100% |
+| Metric     | Threshold |
+| ---------- | --------- |
+| Lines      | 100%      |
+| Functions  | 100%      |
+| Branches   | 100%      |
+| Statements | 100%      |
 
 ### Branch Coverage
 
@@ -270,10 +274,10 @@ npm run validate      # Full validation (includes tests)
    it("does something", () => {
      // Arrange
      const input = { ... };
-     
+
      // Act
      const result = doSomething(input);
-     
+
      // Assert
      expect(result).toBe(expected);
    });
@@ -283,11 +287,11 @@ npm run validate      # Full validation (includes tests)
 
    ```typescript
    // Good
-   screen.getByRole("button", { name: /submit/i });
+   screen.getByRole('button', { name: /submit/i });
    screen.getByLabelText(/email/i);
-   
+
    // Avoid
-   screen.getByTestId("submit-button");
+   screen.getByTestId('submit-button');
    ```
 
 3. **Mock at the boundary** - Mock services/repositories, not use cases
@@ -295,7 +299,7 @@ npm run validate      # Full validation (includes tests)
    ```typescript
    // Good - mock the service interface
    const mockService: AuthenticationService = { ... };
-   
+
    // Avoid - mocking internal implementation
    vi.mock("firebase/auth");
    ```

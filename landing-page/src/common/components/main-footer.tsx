@@ -1,4 +1,4 @@
-import { Link } from "@/common/routing/navigation";
+import { Link } from '@/common/routing/navigation';
 
 type MainFooterProps = {
   privacyLabel: string;

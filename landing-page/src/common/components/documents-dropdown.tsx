@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
-import { ChevronDownIcon } from "@/common/components/icons";
-import { Link, usePathname } from "@/common/routing/navigation";
-import { cn } from "@/common/utils/cn";
+import { ChevronDownIcon } from '@/common/components/icons';
+import { Link, usePathname } from '@/common/routing/navigation';
+import { cn } from '@/common/utils/cn';
 
 export type DocItem = {
   label: string;
@@ -24,7 +24,7 @@ export function DocumentsDropdown({
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const isActive = pathname.startsWith("/docs");
+  const isActive = pathname.startsWith('/docs');
 
   useEffect(() => {
     const handlePointerDown = (event: PointerEvent) => {
@@ -46,11 +46,11 @@ export function DocumentsDropdown({
       }
     };
 
-    document.addEventListener("pointerdown", handlePointerDown);
-    document.addEventListener("focusin", handleFocusIn);
+    document.addEventListener('pointerdown', handlePointerDown);
+    document.addEventListener('focusin', handleFocusIn);
     return () => {
-      document.removeEventListener("pointerdown", handlePointerDown);
-      document.removeEventListener("focusin", handleFocusIn);
+      document.removeEventListener('pointerdown', handlePointerDown);
+      document.removeEventListener('focusin', handleFocusIn);
     };
   }, []);
 
@@ -59,11 +59,11 @@ export function DocumentsDropdown({
       <button
         type="button"
         className={cn(
-          "nav-link-indicator relative flex items-center gap-1 py-1 text-[var(--text-muted)] transition hover:text-[var(--text-primary)]",
+          'nav-link-indicator relative flex items-center gap-1 py-1 text-[var(--text-muted)] transition hover:text-[var(--text-primary)]',
           "after:absolute after:bottom-0 after:left-0 after:block after:h-0.5 after:w-full after:origin-left after:bg-[var(--text-primary)] after:transition-transform after:duration-300 after:content-['']",
           isActive
-            ? "font-bold text-[var(--text-primary)] after:scale-x-100"
-            : "after:scale-x-0",
+            ? 'font-bold text-[var(--text-primary)] after:scale-x-100'
+            : 'after:scale-x-0'
         )}
         aria-label={documentsLabel}
         aria-expanded={isOpen}
@@ -72,7 +72,7 @@ export function DocumentsDropdown({
       >
         {documentsLabel}
         <ChevronDownIcon
-          className={cn("h-3 w-3 transition-transform", isOpen && "rotate-180")}
+          className={cn('h-3 w-3 transition-transform', isOpen && 'rotate-180')}
         />
       </button>
       {isOpen ? (
@@ -87,10 +87,10 @@ export function DocumentsDropdown({
               href={item.href}
               role="menuitem"
               className={cn(
-                "rounded-lg px-3 py-2 font-medium transition hover:bg-[var(--glass-highlight)] hover:text-[var(--text-primary)]",
+                'rounded-lg px-3 py-2 font-medium transition hover:bg-[var(--glass-highlight)] hover:text-[var(--text-primary)]',
                 pathname === item.href
-                  ? "bg-[var(--glass-highlight)] text-[var(--text-primary)]"
-                  : "text-[var(--text-muted)]",
+                  ? 'bg-[var(--glass-highlight)] text-[var(--text-primary)]'
+                  : 'text-[var(--text-muted)]'
               )}
               onClick={() => setIsOpen(false)}
             >

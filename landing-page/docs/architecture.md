@@ -96,12 +96,12 @@ graph LR
 
 **Layer Details:**
 
-| Layer | Location | Contents |
-|-------|----------|----------|
-| **Presentation** | `app/`, `presentation/` | Routes, Pages, Components, Hooks |
-| **Application** | `application/` | Use Cases |
-| **Domain** | `domain/` | types.ts, schemas.ts, interfaces.ts |
-| **Infrastructure** | `infrastructure/` | Services, Repositories |
+| Layer              | Location                | Contents                            |
+| ------------------ | ----------------------- | ----------------------------------- |
+| **Presentation**   | `app/`, `presentation/` | Routes, Pages, Components, Hooks    |
+| **Application**    | `application/`          | Use Cases                           |
+| **Domain**         | `domain/`               | types.ts, schemas.ts, interfaces.ts |
+| **Infrastructure** | `infrastructure/`       | Services, Repositories              |
 
 **App-level setup** (not a layer): `src/application/` contains `register-container.ts` and app config. DI Container utilities live in `src/common/utils/container.ts`.
 
@@ -364,14 +364,14 @@ See [Coding Conventions](./coding-conventions.md) for detailed routing examples 
 
 ## Technology Stack
 
-| Category | Technology |
-|----------|------------|
-| **Framework** | Next.js (App Router), React |
-| **Language** | TypeScript (strict mode) |
-| **UI** | shadcn-style components (Radix UI + Tailwind CSS) |
-| **State** | Zustand (client-only state) |
-| **Forms** | React Hook Form + Zod |
-| **i18n** | next-intl |
-| **DI** | Awilix |
-| **Auth** | (Optional) |
-| **Testing** | Vitest, React Testing Library |
+| Category      | Technology                                        |
+| ------------- | ------------------------------------------------- |
+| **Framework** | Next.js (App Router), React                       |
+| **Language**  | TypeScript (strict mode)                          |
+| **UI**        | shadcn-style components (Radix UI + Tailwind CSS) |
+| **State**     | Zustand (client-only state)                       |
+| **Forms**     | React Hook Form + Zod                             |
+| **i18n**      | next-intl                                         |
+| **DI**        | Awilix                                            |
+| **Auth**      | (Optional)                                        |
+| **Testing**   | Vitest, React Testing Library                     |

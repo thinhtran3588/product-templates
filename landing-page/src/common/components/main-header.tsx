@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
 
-import { Button } from "@/common/components/button";
-import { DocumentsDropdown } from "@/common/components/documents-dropdown";
-import { GitHubIcon, MenuIcon } from "@/common/components/icons";
-import type { ResolvedMenuItem } from "@/common/interfaces";
-import { Link, usePathname } from "@/common/routing/navigation";
-import { cn } from "@/common/utils/cn";
+import { Button } from '@/common/components/button';
+import { DocumentsDropdown } from '@/common/components/documents-dropdown';
+import { GitHubIcon, MenuIcon } from '@/common/components/icons';
+import type { ResolvedMenuItem } from '@/common/interfaces';
+import { Link, usePathname } from '@/common/routing/navigation';
+import { cn } from '@/common/utils/cn';
 
 type MainHeaderProps = {
   badge: string;
@@ -22,8 +22,8 @@ const SCROLL_HIDE_THRESHOLD = 32;
 const SCROLL_DELTA = 4;
 
 const navLinkClass = cn(
-  "relative py-1 transition-all duration-[var(--duration-normal)] ease-[var(--ease-spring)] text-[var(--text-muted)] hover:text-[var(--text-primary)] nav-link-indicator",
-  "after:absolute after:bottom-0 after:left-0 after:block after:h-0.5 after:w-full after:bg-[var(--text-primary)] after:content-[''] after:transition-transform after:duration-[var(--duration-normal)] after:ease-[var(--ease-spring)] after:origin-left",
+  'relative py-1 transition-all duration-[var(--duration-normal)] ease-[var(--ease-spring)] text-[var(--text-muted)] hover:text-[var(--text-primary)] nav-link-indicator',
+  "after:absolute after:bottom-0 after:left-0 after:block after:h-0.5 after:w-full after:bg-[var(--text-primary)] after:content-[''] after:transition-transform after:duration-[var(--duration-normal)] after:ease-[var(--ease-spring)] after:origin-left"
 );
 
 export function MainHeader({
@@ -39,7 +39,7 @@ export function MainHeader({
   const lastScrollY = useRef(0);
 
   const isActive = (path: string) =>
-    path === "/" ? pathname === "/" || pathname === "" : pathname === path;
+    path === '/' ? pathname === '/' || pathname === '' : pathname === path;
 
   useEffect(() => {
     lastScrollY.current = window.scrollY;
@@ -65,16 +65,16 @@ export function MainHeader({
       lastScrollY.current = currentScrollY;
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
     <header
       className={`glass-header fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         isHidden
-          ? "pointer-events-none -translate-y-full opacity-0"
-          : "translate-y-0 opacity-100"
+          ? 'pointer-events-none -translate-y-full opacity-0'
+          : 'translate-y-0 opacity-100'
       }`}
     >
       <div className="relative">
@@ -111,14 +111,14 @@ export function MainHeader({
                     className={cn(
                       navLinkClass,
                       isActive(item.href)
-                        ? "font-bold text-[var(--text-primary)] after:scale-x-100"
-                        : "after:scale-x-0",
+                        ? 'font-bold text-[var(--text-primary)] after:scale-x-100'
+                        : 'after:scale-x-0'
                     )}
                     href={item.href}
                   >
                     {item.label}
                   </Link>
-                ),
+                )
               )}
             </nav>
             {githubUrl ? (
@@ -183,9 +183,9 @@ export function MainHeader({
                           <Link
                             key={child.id}
                             className={cn(
-                              "block py-1 text-[var(--text-muted)] transition hover:text-[var(--text-primary)]",
+                              'block py-1 text-[var(--text-muted)] transition hover:text-[var(--text-primary)]',
                               isActive(child.href) &&
-                                "font-bold text-[var(--text-primary)]",
+                                'font-bold text-[var(--text-primary)]'
                             )}
                             href={child.href}
                           >
@@ -198,15 +198,15 @@ export function MainHeader({
                     <Link
                       key={item.id}
                       className={cn(
-                        "py-1 text-[var(--text-muted)] transition hover:text-[var(--text-primary)]",
+                        'py-1 text-[var(--text-muted)] transition hover:text-[var(--text-primary)]',
                         isActive(item.href) &&
-                          "font-bold text-[var(--text-primary)]",
+                          'font-bold text-[var(--text-primary)]'
                       )}
                       href={item.href}
                     >
                       {item.label}
                     </Link>
-                  ),
+                  )
                 )}
               </nav>
             </div>

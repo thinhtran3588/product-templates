@@ -4,7 +4,6 @@ This guide provides step-by-step instructions for adding new features and creati
 
 ## Table of Contents
 
-
 1. [Adding a New Feature](#adding-a-new-feature)
    - [Step 1: Identify the Module](#step-1-identify-the-module)
    - [Step 2: Create Domain Types](#step-2-create-domain-types-if-needed)
@@ -21,8 +20,6 @@ This guide provides step-by-step instructions for adding new features and creati
    - [Form with Validation](#form-with-validation)
    - [Interface Implementation](#interface-implementation)
 4. [Testing](#testing)
-
-
 
 ## Adding a New Feature
 
@@ -41,17 +38,17 @@ Determine which module the feature belongs to:
 Add types and schemas in `src/modules/{module}/domain/`:
 
 ```typescript
+// domain/schemas.ts
+import { z } from 'zod';
+
 // domain/types.ts
 export type NewFeatureData = {
   id: string;
   name: string;
 };
 
-// domain/schemas.ts
-import { z } from "zod";
-
 export const newFeatureSchema = z.object({
-  name: z.string().min(1, "Name is required"),
+  name: z.string().min(1, 'Name is required'),
 });
 
 export type NewFeatureInput = z.infer<typeof newFeatureSchema>;
@@ -63,8 +60,8 @@ Add use case in `src/modules/{module}/application/`:
 
 ```typescript
 // application/create-feature-use-case.ts
-import { BaseUseCase } from "@/common/utils/base-use-case";
-import type { FeatureRepository } from "@/modules/{module}/domain/interfaces";
+import { BaseUseCase } from '@/common/utils/base-use-case';
+import type { FeatureRepository } from '@/modules/{module}/domain/interfaces';
 
 type Input = { userId: string; data: NewFeatureInput };
 type Output = { success: boolean };
@@ -86,8 +83,9 @@ export class CreateFeatureUseCase extends BaseUseCase<Input, Output> {
 Update `src/modules/{module}/module-configuration.ts`:
 
 ```typescript
-import { asFunction } from "awilix";
-import { CreateFeatureUseCase } from "./application/create-feature-use-case";
+import { asFunction } from 'awilix';
+
+import { CreateFeatureUseCase } from './application/create-feature-use-case';
 
 export function registerModule(container: AwilixContainer<object>): void {
   container.register({
@@ -104,9 +102,9 @@ Add page in `src/modules/{module}/presentation/pages/{page}/`:
 
 ```typescript
 // presentation/pages/new-feature/page.tsx
-"use client";
+'use client';
 
-import { useContainer } from "@/common/hooks/use-container";
+import { useContainer } from '@/common/hooks/use-container';
 
 export function NewFeaturePage() {
   const { createFeatureUseCase } = useContainer();
@@ -133,8 +131,8 @@ Add tests in `src/__tests__/modules/{module}/`:
 
 ```typescript
 // __tests__/modules/{module}/application/create-feature-use-case.test.ts
-describe("CreateFeatureUseCase", () => {
-  it("creates feature successfully", async () => {
+describe('CreateFeatureUseCase', () => {
+  it('creates feature successfully', async () => {
     // ... test implementation
   });
 });
@@ -196,8 +194,8 @@ src/modules/{module-name}/
 6. **Register module** in `src/application/register-container.ts`:
 
    ```typescript
-   import { registerModule as registerFeatureModule } from "@/modules/feature/module-configuration";
-   
+   import { registerModule as registerFeatureModule } from '@/modules/feature/module-configuration';
+
    export function registerContainer(container: AwilixContainer<object>): void {
      // ... existing registrations
      registerFeatureModule(container);
@@ -232,7 +230,7 @@ export class MyUseCase extends BaseUseCase<Input, Output> {
 ```typescript
 const form = useForm<FormData>({
   resolver: zodResolver(formSchema),
-  defaultValues: { name: "" },
+  defaultValues: { name: '' },
 });
 
 const onSubmit = async (data: FormData) => {
@@ -267,11 +265,11 @@ export class FirestoreFeatureRepository implements FeatureRepository {
 
 ### Quick Reference
 
-| Command | Purpose |
-|---------|---------|
-| `npm test` | Run all tests |
-| `npm run test:coverage` | Run with coverage report |
-| `npm run validate` | Full validation (includes tests) |
+| Command                 | Purpose                          |
+| ----------------------- | -------------------------------- |
+| `npm test`              | Run all tests                    |
+| `npm run test:coverage` | Run with coverage report         |
+| `npm run validate`      | Full validation (includes tests) |
 
 ### Key Points
 

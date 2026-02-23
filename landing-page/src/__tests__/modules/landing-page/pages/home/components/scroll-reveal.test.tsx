@@ -1,9 +1,9 @@
-import { act, render, screen } from "@testing-library/react";
-import { vi } from "vitest";
+import { act, render, screen } from '@testing-library/react';
+import { vi } from 'vitest';
 
-import { ScrollReveal } from "@/modules/landing-page/presentation/pages/home/components/scroll-reveal";
+import { ScrollReveal } from '@/modules/landing-page/presentation/pages/home/components/scroll-reveal';
 
-describe("ScrollReveal", () => {
+describe('ScrollReveal', () => {
   const originalIntersectionObserver = window.IntersectionObserver;
   const originalMatchMedia = window.matchMedia;
 
@@ -34,38 +34,38 @@ describe("ScrollReveal", () => {
     vi.useRealTimers();
   });
 
-  it("renders children", () => {
+  it('renders children', () => {
     render(
       <ScrollReveal>
         <span data-testid="child">Content</span>
-      </ScrollReveal>,
+      </ScrollReveal>
     );
-    expect(screen.getByTestId("child")).toBeInTheDocument();
-    expect(screen.getByText("Content")).toBeInTheDocument();
+    expect(screen.getByTestId('child')).toBeInTheDocument();
+    expect(screen.getByText('Content')).toBeInTheDocument();
   });
 
-  it("applies className when provided", () => {
+  it('applies className when provided', () => {
     const { container } = render(
       <ScrollReveal className="custom">
         <span>Content</span>
-      </ScrollReveal>,
+      </ScrollReveal>
     );
     const wrapper = container.firstChild as HTMLElement;
-    expect(wrapper).toHaveClass("reveal");
-    expect(wrapper).toHaveClass("custom");
+    expect(wrapper).toHaveClass('reveal');
+    expect(wrapper).toHaveClass('custom');
   });
 
-  it("has reveal class when className is not provided", () => {
+  it('has reveal class when className is not provided', () => {
     const { container } = render(
       <ScrollReveal>
         <span>Content</span>
-      </ScrollReveal>,
+      </ScrollReveal>
     );
     const wrapper = container.firstChild as HTMLElement;
-    expect(wrapper).toHaveClass("reveal");
+    expect(wrapper).toHaveClass('reveal');
   });
 
-  it("adds is-visible when IntersectionObserver fires", () => {
+  it('adds is-visible when IntersectionObserver fires', () => {
     let callback: IntersectionObserverCallback;
     window.IntersectionObserver = vi.fn().mockImplementation((cb) => {
       callback = cb;
@@ -79,7 +79,7 @@ describe("ScrollReveal", () => {
     const { container } = render(
       <ScrollReveal>
         <span>Content</span>
-      </ScrollReveal>,
+      </ScrollReveal>
     );
     const wrapper = container.firstChild as HTMLElement;
 
@@ -93,15 +93,15 @@ describe("ScrollReveal", () => {
               target: wrapper,
             } as unknown as IntersectionObserverEntry,
           ],
-          {} as IntersectionObserver,
+          {} as IntersectionObserver
         );
       }
     });
 
-    expect(wrapper).toHaveClass("is-visible");
+    expect(wrapper).toHaveClass('is-visible');
   });
 
-  it("delays adding visibility class when delay is provided", () => {
+  it('delays adding visibility class when delay is provided', () => {
     vi.useFakeTimers();
     let callback: IntersectionObserverCallback;
     const observeMock = vi.fn();
@@ -119,7 +119,7 @@ describe("ScrollReveal", () => {
     const { container } = render(
       <ScrollReveal delay={500}>
         <span>Content</span>
-      </ScrollReveal>,
+      </ScrollReveal>
     );
     const wrapper = container.firstChild as HTMLElement;
 
@@ -133,26 +133,26 @@ describe("ScrollReveal", () => {
               target: wrapper,
             } as unknown as IntersectionObserverEntry,
           ],
-          {} as IntersectionObserver,
+          {} as IntersectionObserver
         );
       }
     });
 
     // Should not be visible yet
-    expect(wrapper).not.toHaveClass("is-visible");
+    expect(wrapper).not.toHaveClass('is-visible');
 
     // Fast forward time
     act(() => {
       vi.advanceTimersByTime(500);
     });
 
-    expect(wrapper).toHaveClass("is-visible");
+    expect(wrapper).toHaveClass('is-visible');
     expect(unobserveMock).toHaveBeenCalledWith(wrapper);
   });
 
-  it("shows immediately if prefers-reduced-motion is true", () => {
+  it('shows immediately if prefers-reduced-motion is true', () => {
     window.matchMedia = vi.fn().mockImplementation((query) => ({
-      matches: query === "(prefers-reduced-motion: reduce)",
+      matches: query === '(prefers-reduced-motion: reduce)',
       media: query,
       onchange: null,
       addListener: vi.fn(),
@@ -165,14 +165,14 @@ describe("ScrollReveal", () => {
     const { container } = render(
       <ScrollReveal delay={500}>
         <span>Content</span>
-      </ScrollReveal>,
+      </ScrollReveal>
     );
     const wrapper = container.firstChild as HTMLElement;
 
-    expect(wrapper).toHaveClass("is-visible");
+    expect(wrapper).toHaveClass('is-visible');
   });
 
-  it("clears timeout on unmount", () => {
+  it('clears timeout on unmount', () => {
     vi.useFakeTimers();
     let callback: IntersectionObserverCallback;
     const disconnectMock = vi.fn();
@@ -189,7 +189,7 @@ describe("ScrollReveal", () => {
     const { container, unmount } = render(
       <ScrollReveal delay={500}>
         <span>Content</span>
-      </ScrollReveal>,
+      </ScrollReveal>
     );
     const wrapper = container.firstChild as HTMLElement;
 
@@ -203,7 +203,7 @@ describe("ScrollReveal", () => {
               target: wrapper,
             } as unknown as IntersectionObserverEntry,
           ],
-          {} as IntersectionObserver,
+          {} as IntersectionObserver
         );
       }
     });

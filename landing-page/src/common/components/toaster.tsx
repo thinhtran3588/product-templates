@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Toaster as SonnerToaster } from "sonner";
+import { Toaster as SonnerToaster } from 'sonner';
 
 export function Toaster() {
   return (
@@ -9,9 +9,9 @@ export function Toaster() {
       toastOptions={{
         classNames: {
           toast:
-            "border border-[var(--glass-border)] bg-[var(--glass-bg-strong)] text-[var(--text-primary)] backdrop-blur-xl",
-          success: "text-green-500",
-          error: "text-red-500",
+            'border border-[var(--glass-border)] bg-[var(--glass-bg-strong)] text-[var(--text-primary)] backdrop-blur-xl',
+          success: 'text-green-500',
+          error: 'text-red-500',
         },
       }}
     />

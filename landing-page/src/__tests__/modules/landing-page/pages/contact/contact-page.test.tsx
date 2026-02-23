@@ -1,47 +1,47 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen } from '@testing-library/react';
 
-import messages from "@/application/localization/en.json";
-import { ContactPage } from "@/modules/landing-page/presentation/pages/contact/contact-page";
+import messages from '@/application/localization/en.json';
+import { ContactPage } from '@/modules/landing-page/presentation/pages/contact/contact-page';
 
 const contactMessages = messages.modules.contact.pages.contact;
 
-describe("ContactPage", () => {
-  it("renders the page title", async () => {
+describe('ContactPage', () => {
+  it('renders the page title', async () => {
     render(await ContactPage());
 
     expect(
-      screen.getByRole("heading", { name: contactMessages.title }),
+      screen.getByRole('heading', { name: contactMessages.title })
     ).toBeInTheDocument();
   });
 
-  it("renders the subtitle with support email link", async () => {
+  it('renders the subtitle with support email link', async () => {
     render(await ContactPage());
 
-    const emailLinks = screen.getAllByRole("link", {
-      name: "support@gemsignal.com",
+    const emailLinks = screen.getAllByRole('link', {
+      name: 'support@gemsignal.com',
     });
     expect(emailLinks.length).toBeGreaterThanOrEqual(1);
     expect(emailLinks[0]).toHaveAttribute(
-      "href",
-      "mailto:support@gemsignal.com",
+      'href',
+      'mailto:support@gemsignal.com'
     );
   });
 
-  it("renders the email note section with support email", async () => {
+  it('renders the email note section with support email', async () => {
     render(await ContactPage());
 
     expect(
-      screen.getByText(contactMessages.emailNote, { exact: false }),
+      screen.getByText(contactMessages.emailNote, { exact: false })
     ).toBeInTheDocument();
   });
 
-  it("renders the back to home button", async () => {
+  it('renders the back to home button', async () => {
     render(await ContactPage());
 
     expect(
-      screen.getByRole("link", {
+      screen.getByRole('link', {
         name: messages.common.navigation.backToHome,
-      }),
+      })
     ).toBeInTheDocument();
   });
 });

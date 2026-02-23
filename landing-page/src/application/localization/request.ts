@@ -1,22 +1,22 @@
-import { getRequestConfig } from "next-intl/server";
+import { getRequestConfig } from 'next-intl/server';
 
-import { isSupportedLocale, routing } from "@/common/routing/routing";
+import { isSupportedLocale, routing } from '@/common/routing/routing';
 
-type SupportedLocale = "en" | "vi" | "zh";
+type SupportedLocale = 'en' | 'vi' | 'zh';
 type Messages = Record<string, unknown>;
 
 const messageLoaders: Record<SupportedLocale, () => Promise<Messages>> = {
   en: () =>
-    import("@/application/localization/en.json").then(
-      (m) => m.default as Messages,
+    import('@/application/localization/en.json').then(
+      (m) => m.default as Messages
     ),
   vi: () =>
-    import("@/application/localization/vi.json").then(
-      (m) => m.default as Messages,
+    import('@/application/localization/vi.json').then(
+      (m) => m.default as Messages
     ),
   zh: () =>
-    import("@/application/localization/zh.json").then(
-      (m) => m.default as Messages,
+    import('@/application/localization/zh.json').then(
+      (m) => m.default as Messages
     ),
 };
 

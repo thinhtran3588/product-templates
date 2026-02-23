@@ -1,6 +1,6 @@
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 
-import { PrivacyPolicyPage } from "@/modules/landing-page/presentation/pages/privacy-policy/privacy-policy-page";
+import { PrivacyPolicyPage } from '@/modules/landing-page/presentation/pages/privacy-policy/privacy-policy-page';
 
 export async function generateMetadata({
   params,
@@ -9,11 +9,11 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("modules.legal.pages.privacy-policy");
+  const t = await getTranslations('modules.legal.pages.privacy-policy');
 
   return {
-    title: t("title"),
-    description: t("metadata.description"),
+    title: t('title'),
+    description: t('metadata.description'),
   };
 }
 

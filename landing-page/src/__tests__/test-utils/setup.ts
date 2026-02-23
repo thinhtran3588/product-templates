@@ -1,24 +1,24 @@
-import "@testing-library/jest-dom/vitest";
+import '@testing-library/jest-dom/vitest';
 
-import { vi } from "vitest";
+import { vi } from 'vitest';
 
-import messages from "@/application/localization/en.json";
-import { initializeContainer } from "@/application/register-container";
-import { getContainerOrNull } from "@/common/utils/container";
+import messages from '@/application/localization/en.json';
+import { initializeContainer } from '@/application/register-container';
+import { getContainerOrNull } from '@/common/utils/container';
 
-vi.mock("@/application/config/firebase-config", () => ({
+vi.mock('@/application/config/firebase-config', () => ({
   getAnalyticsInstance: vi.fn(() => null),
   getAuthInstance: vi.fn(() => null),
   getFirestoreInstance: vi.fn(() => null),
 }));
 
-vi.mock("firebase/analytics", () => ({
+vi.mock('firebase/analytics', () => ({
   getAnalytics: vi.fn(),
   logEvent: vi.fn(),
   setUserId: vi.fn(),
 }));
 
-vi.mock("firebase/auth", () => ({
+vi.mock('firebase/auth', () => ({
   getAuth: vi.fn(),
   GoogleAuthProvider: vi.fn(),
   EmailAuthProvider: { credential: vi.fn() },
@@ -35,7 +35,7 @@ vi.mock("firebase/auth", () => ({
   updateProfile: vi.fn(),
 }));
 
-vi.mock("firebase/firestore", () => ({
+vi.mock('firebase/firestore', () => ({
   getFirestore: vi.fn(),
   doc: vi.fn(),
   getDoc: vi.fn(),
@@ -58,18 +58,18 @@ if (getContainerOrNull() === null) {
 }
 
 const lookupMessage = (fullKey: string) => {
-  const value = fullKey.split(".").reduce<unknown>((result, key) => {
-    if (result && typeof result === "object" && key in result) {
+  const value = fullKey.split('.').reduce<unknown>((result, key) => {
+    if (result && typeof result === 'object' && key in result) {
       return (result as Record<string, unknown>)[key];
     }
     return undefined;
   }, messages);
 
-  return typeof value === "string" ? value : String(value ?? fullKey);
+  return typeof value === 'string' ? value : String(value ?? fullKey);
 };
 
-vi.mock("next/navigation", () => ({
-  usePathname: vi.fn(() => "/"),
+vi.mock('next/navigation', () => ({
+  usePathname: vi.fn(() => '/'),
   useRouter: vi.fn(() => ({
     push: vi.fn(),
     replace: vi.fn(),
@@ -78,19 +78,17 @@ vi.mock("next/navigation", () => ({
   useSearchParams: vi.fn(() => new URLSearchParams()),
 }));
 
-vi.mock("next-intl/server", () => ({
+vi.mock('next-intl/server', () => ({
   getTranslations: async (namespace?: string) => (key: string) =>
     lookupMessage(namespace ? `${namespace}.${key}` : key),
   getMessages: async () => messages,
-  getLocale: async () => "en",
+  getLocale: async () => 'en',
   getRequestConfig: (
-    handler: (params: {
-      requestLocale: Promise<string | undefined>;
-    }) => unknown,
+    handler: (params: { requestLocale: Promise<string | undefined> }) => unknown
   ) => handler,
 }));
 
-vi.mock("next-intl", () => ({
+vi.mock('next-intl', () => ({
   useTranslations: (namespace?: string) => {
     const t = (key: string) =>
       lookupMessage(namespace ? `${namespace}.${key}` : key);
@@ -98,7 +96,7 @@ vi.mock("next-intl", () => ({
       lookupMessage(namespace ? `${namespace}.${key}` : key);
     return t;
   },
-  useLocale: vi.fn(() => "en"),
+  useLocale: vi.fn(() => 'en'),
 }));
 
 class IntersectionObserverMock implements IntersectionObserver {
@@ -109,18 +107,18 @@ class IntersectionObserverMock implements IntersectionObserver {
 
   constructor(
     callback: IntersectionObserverCallback,
-    options?: IntersectionObserverInit,
+    options?: IntersectionObserverInit
   ) {
     this.callback = callback;
     this.root = options?.root ?? null;
-    this.rootMargin = options?.rootMargin ?? "0px";
+    this.rootMargin = options?.rootMargin ?? '0px';
     const threshold = options?.threshold ?? 0;
     this.thresholds = Array.isArray(threshold) ? threshold : [threshold];
   }
 
   observe(target: Element) {
     const boundingClientRect =
-      "getBoundingClientRect" in target
+      'getBoundingClientRect' in target
         ? target.getBoundingClientRect()
         : new DOMRect();
     this.callback(
@@ -135,7 +133,7 @@ class IntersectionObserverMock implements IntersectionObserver {
           time: 0,
         } as IntersectionObserverEntry,
       ],
-      this,
+      this
     );
   }
 
@@ -148,13 +146,13 @@ class IntersectionObserverMock implements IntersectionObserver {
   }
 }
 
-Object.defineProperty(globalThis, "IntersectionObserver", {
+Object.defineProperty(globalThis, 'IntersectionObserver', {
   writable: true,
   value: IntersectionObserverMock,
 });
 
 const storage = new Map<string, string>();
-Object.defineProperty(globalThis, "localStorage", {
+Object.defineProperty(globalThis, 'localStorage', {
   writable: true,
   value: {
     getItem: (key: string) => storage.get(key) ?? null,
@@ -172,10 +170,10 @@ Object.defineProperty(globalThis, "localStorage", {
   },
 });
 
-Object.defineProperty(globalThis, "matchMedia", {
+Object.defineProperty(globalThis, 'matchMedia', {
   writable: true,
   value: vi.fn((query: string) => ({
-    matches: query === "(prefers-color-scheme: light)",
+    matches: query === '(prefers-color-scheme: light)',
     media: query,
     addEventListener: vi.fn(),
     removeEventListener: vi.fn(),

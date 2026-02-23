@@ -24,7 +24,7 @@ This document covers coding conventions, file organization, and framework-specif
 
 ```tsx
 // app/[locale]/auth/sign-in/page.tsx
-import { SignInPage } from "@/modules/auth/presentation/pages/sign-in/page";
+import { SignInPage } from '@/modules/auth/presentation/pages/sign-in/page';
 
 export default function Page() {
   return <SignInPage />;
@@ -71,18 +71,18 @@ Route groups (e.g. `(main)`) use a shared layout that provides `MainLayout` with
 
 ### Folder Structure
 
-| Path | Purpose |
-|------|---------|
-| `app/` | Routing only (page.tsx, layout.tsx, error.tsx, not-found.tsx); under `app/[locale]/` with next-intl |
-| `src/application/` | App-level setup: components, config, localization, register-container |
-| `src/common/components/` | Shared components (flat: button, card, dialog, form, input, label, etc.) |
-| `src/common/hooks/` | Shared hooks (e.g. use-container) |
-| `src/common/interfaces.ts` | Shared interfaces (MenuItem, ResolvedMenuItem) |
-| `src/common/pages/` | Shared page components (error-page, not-found-page) |
-| `src/common/routing/` | next-intl routing (routing.ts, navigation.ts) |
-| `src/common/utils/` | Utilities (cn, container, base-use-case, menu, read-doc) |
-| `src/modules/{module}/` | Feature modules with domain, application, infrastructure, presentation layers |
-| `src/__tests__/` | Tests mirror src structure |
+| Path                       | Purpose                                                                                             |
+| -------------------------- | --------------------------------------------------------------------------------------------------- |
+| `app/`                     | Routing only (page.tsx, layout.tsx, error.tsx, not-found.tsx); under `app/[locale]/` with next-intl |
+| `src/application/`         | App-level setup: components, config, localization, register-container                               |
+| `src/common/components/`   | Shared components (flat: button, card, dialog, form, input, label, etc.)                            |
+| `src/common/hooks/`        | Shared hooks (e.g. use-container)                                                                   |
+| `src/common/interfaces.ts` | Shared interfaces (MenuItem, ResolvedMenuItem)                                                      |
+| `src/common/pages/`        | Shared page components (error-page, not-found-page)                                                 |
+| `src/common/routing/`      | next-intl routing (routing.ts, navigation.ts)                                                       |
+| `src/common/utils/`        | Utilities (cn, container, base-use-case, menu, read-doc)                                            |
+| `src/modules/{module}/`    | Feature modules with domain, application, infrastructure, presentation layers                       |
+| `src/__tests__/`           | Tests mirror src structure                                                                          |
 
 ## Forms and Validation
 
@@ -93,10 +93,11 @@ Route groups (e.g. `(main)`) use a shared layout that provides `MainLayout` with
 ### Example
 
 ```tsx
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, type LoginFormData } from "@/modules/auth/domain/schemas";
-import { useContainer } from "@/common/hooks/use-container";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+
+import { useContainer } from '@/common/hooks/use-container';
+import { loginSchema, type LoginFormData } from '@/modules/auth/domain/schemas';
 
 function SignInForm() {
   const { signInWithEmailUseCase } = useContainer();
@@ -122,6 +123,7 @@ function SignInForm() {
 ### Translation Files
 
 Translation JSON files are stored in `src/application/localization/`:
+
 - `en.json` - English
 - `vi.json` - Vietnamese
 - `zh.json` - Chinese
@@ -130,19 +132,19 @@ Translation JSON files are stored in `src/application/localization/`:
 
 ```tsx
 // Server Component
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
 export default async function Page() {
-  const t = await getTranslations("auth");
-  return <h1>{t("signIn.title")}</h1>;
+  const t = await getTranslations('auth');
+  return <h1>{t('signIn.title')}</h1>;
 }
 
 // Client Component
-"use client";
-import { useTranslations } from "next-intl";
+('use client');
 
 export function SignInForm() {
-  const t = useTranslations("auth");
-  return <button>{t("signIn.submit")}</button>;
+  const t = useTranslations('auth');
+  return <button>{t('signIn.submit')}</button>;
 }
 ```

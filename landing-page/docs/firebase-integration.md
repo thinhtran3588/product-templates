@@ -16,10 +16,10 @@ This guide covers the Firebase Analytics integration built into the landing page
 
 The analytics module provides a unified interface for tracking events, user identity, and user properties. It ships with two implementations:
 
-| Implementation               | When used                                            |
-| ---------------------------- | ---------------------------------------------------- |
-| `FirebaseAnalyticsService`   | Browser environment **and** Firebase config is set   |
-| `LocalAnalyticsService`      | Server-side rendering **or** Firebase config is unset |
+| Implementation             | When used                                             |
+| -------------------------- | ----------------------------------------------------- |
+| `FirebaseAnalyticsService` | Browser environment **and** Firebase config is set    |
+| `LocalAnalyticsService`    | Server-side rendering **or** Firebase config is unset |
 
 The active implementation is selected automatically at container registration time — no code changes are needed to switch between them.
 
@@ -42,12 +42,12 @@ src/modules/analytics/
 
 The `AnalyticsService` interface defines four methods:
 
-| Method              | Description                                       |
-| ------------------- | ------------------------------------------------- |
-| `initialize()`      | Initialise the analytics provider                 |
-| `logEvent()`        | Log a named event with optional parameters        |
-| `setUserId()`       | Associate a user ID with subsequent events        |
-| `setUserProperties()` | Attach custom properties to the current user   |
+| Method                | Description                                  |
+| --------------------- | -------------------------------------------- |
+| `initialize()`        | Initialise the analytics provider            |
+| `logEvent()`          | Log a named event with optional parameters   |
+| `setUserId()`         | Associate a user ID with subsequent events   |
+| `setUserProperties()` | Attach custom properties to the current user |
 
 All presentation and application code depends only on this interface, making it straightforward to swap providers (e.g. replace Firebase with Mixpanel or PostHog) without touching consumers.
 
@@ -71,11 +71,12 @@ Errors during initialisation are caught and logged to the console so they never 
 
 ```typescript
 const useFirebase =
-  typeof window !== "undefined" && !!process.env.NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG;
+  typeof window !== 'undefined' &&
+  !!process.env.NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG;
 
 container.register({
   analyticsService: asClass(
-    useFirebase ? FirebaseAnalyticsService : LocalAnalyticsService,
+    useFirebase ? FirebaseAnalyticsService : LocalAnalyticsService
   ).singleton(),
 });
 ```
@@ -118,9 +119,9 @@ For local development, add it to `.env.local` (git-ignored). For production, set
 
 ## Configuration
 
-| Variable                       | Required | Description                       |
-| ------------------------------ | -------- | --------------------------------- |
-| `NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG`  | No       | Firebase web config as JSON string |
+| Variable                                   | Required | Description                        |
+| ------------------------------------------ | -------- | ---------------------------------- |
+| `NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG` | No       | Firebase web config as JSON string |
 
 When the variable is **absent**, the app falls back to `LocalAnalyticsService` and logs analytics events to the browser console.
 
@@ -133,7 +134,7 @@ Analytics is initialised automatically by the `AppInitializer` component on the 
 useEffect(() => {
   const container = getContainer();
   const analyticsService =
-    container.resolve<AnalyticsService>("analyticsService");
+    container.resolve<AnalyticsService>('analyticsService');
   void analyticsService.initialize();
 }, []);
 ```
@@ -141,19 +142,19 @@ useEffect(() => {
 To log events or set user context elsewhere in the app, resolve the service from the container:
 
 ```typescript
-import { getContainer } from "@/common/utils/container";
-import { type AnalyticsService } from "@/modules/analytics/domain/interfaces";
+import { getContainer } from '@/common/utils/container';
+import { type AnalyticsService } from '@/modules/analytics/domain/interfaces';
 
-const analytics = getContainer().resolve<AnalyticsService>("analyticsService");
+const analytics = getContainer().resolve<AnalyticsService>('analyticsService');
 
 // Log a custom event
-analytics.logEvent("page_view", { page: "/home" });
+analytics.logEvent('page_view', { page: '/home' });
 
 // Set user identity
-analytics.setUserId("user_abc123");
+analytics.setUserId('user_abc123');
 
 // Set user properties
-analytics.setUserProperties({ plan: "premium" });
+analytics.setUserProperties({ plan: 'premium' });
 ```
 
 ## Local Development

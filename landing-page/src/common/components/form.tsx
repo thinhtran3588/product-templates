@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { Slot } from "@radix-ui/react-slot";
-import * as React from "react";
+import { Slot } from '@radix-ui/react-slot';
+import * as React from 'react';
 import {
   Controller,
   ControllerProps,
@@ -9,10 +9,10 @@ import {
   FieldValues,
   FormProvider,
   useFormContext,
-} from "react-hook-form";
+} from 'react-hook-form';
 
-import { Label } from "@/common/components/label";
-import { cn } from "@/common/utils/cn";
+import { Label } from '@/common/components/label';
+import { cn } from '@/common/utils/cn';
 
 const Form = FormProvider;
 
@@ -24,7 +24,7 @@ type FormFieldContextValue<
 };
 
 const FormFieldContext = React.createContext<FormFieldContextValue>(
-  {} as FormFieldContextValue,
+  {} as FormFieldContextValue
 );
 
 function FormField<
@@ -45,11 +45,11 @@ function useFormField() {
 
   if (!fieldContext.name) {
     return {
-      id: "",
-      name: "",
-      formItemId: "",
-      formDescriptionId: "",
-      formMessageId: "",
+      id: '',
+      name: '',
+      formItemId: '',
+      formDescriptionId: '',
+      formMessageId: '',
       error: undefined,
     };
   }
@@ -71,7 +71,7 @@ type FormItemContextValue = {
 };
 
 const FormItemContext = React.createContext<FormItemContextValue>(
-  {} as FormItemContextValue,
+  {} as FormItemContextValue
 );
 
 const FormItem = React.forwardRef<
@@ -81,11 +81,11 @@ const FormItem = React.forwardRef<
   const id = React.useId();
   return (
     <FormItemContext.Provider value={{ id }}>
-      <div ref={ref} className={cn("space-y-4", className)} {...props} />
+      <div ref={ref} className={cn('space-y-4', className)} {...props} />
     </FormItemContext.Provider>
   );
 });
-FormItem.displayName = "FormItem";
+FormItem.displayName = 'FormItem';
 
 const FormLabel = React.forwardRef<
   React.ElementRef<typeof Label>,
@@ -95,13 +95,13 @@ const FormLabel = React.forwardRef<
   return (
     <Label
       ref={ref}
-      className={cn(error && "text-red-500", className)}
+      className={cn(error && 'text-red-500', className)}
       htmlFor={formItemId}
       {...props}
     />
   );
 });
-FormLabel.displayName = "FormLabel";
+FormLabel.displayName = 'FormLabel';
 
 const FormControl = React.forwardRef<
   React.ElementRef<typeof Slot>,
@@ -123,7 +123,7 @@ const FormControl = React.forwardRef<
     />
   );
 });
-FormControl.displayName = "FormControl";
+FormControl.displayName = 'FormControl';
 
 const FormMessage = React.forwardRef<
   HTMLParagraphElement,
@@ -136,14 +136,14 @@ const FormMessage = React.forwardRef<
     <p
       ref={ref}
       id={formMessageId}
-      className={cn("text-sm text-red-500", className)}
+      className={cn('text-sm text-red-500', className)}
       {...props}
     >
       {body}
     </p>
   );
 });
-FormMessage.displayName = "FormMessage";
+FormMessage.displayName = 'FormMessage';
 
 export {
   Form,

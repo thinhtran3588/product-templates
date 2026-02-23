@@ -1,6 +1,6 @@
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 
-import { ContactPage } from "@/modules/landing-page/presentation/pages/contact/contact-page";
+import { ContactPage } from '@/modules/landing-page/presentation/pages/contact/contact-page';
 
 export async function generateMetadata({
   params,
@@ -9,11 +9,11 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("modules.contact.pages.contact");
+  const t = await getTranslations('modules.contact.pages.contact');
 
   return {
-    title: t("title"),
-    description: t("metadata.description"),
+    title: t('title'),
+    description: t('metadata.description'),
   };
 }
 

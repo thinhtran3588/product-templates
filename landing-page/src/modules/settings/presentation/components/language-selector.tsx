@@ -1,27 +1,27 @@
-"use client";
+'use client';
 
-import { useLocale, useTranslations } from "next-intl";
+import { useLocale, useTranslations } from 'next-intl';
 
-import { Button } from "@/common/components/button";
+import { Button } from '@/common/components/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/common/components/dropdown-menu";
-import { ChevronDownIcon } from "@/common/components/icons";
-import { Link, usePathname } from "@/common/routing/navigation";
-import { routing } from "@/common/routing/routing";
-import { useUserSettingsStore } from "@/modules/settings/presentation/hooks/use-user-settings-store";
+} from '@/common/components/dropdown-menu';
+import { ChevronDownIcon } from '@/common/components/icons';
+import { Link, usePathname } from '@/common/routing/navigation';
+import { routing } from '@/common/routing/routing';
+import { useUserSettingsStore } from '@/modules/settings/presentation/hooks/use-user-settings-store';
 
 export function LanguageSelector() {
-  const t = useTranslations("settings");
+  const t = useTranslations('settings');
   const locale = useLocale();
   const setLocale = useUserSettingsStore((s) => s.setLocale);
 
   const pathname = usePathname();
 
-  const languageLabel = t("language.label");
+  const languageLabel = t('language.label');
   const localeOptions = routing.locales.map((targetLocale) => ({
     locale: targetLocale,
     label: t(`language.options.${targetLocale}`),
@@ -29,7 +29,7 @@ export function LanguageSelector() {
   }));
 
   const currentLocaleOption = localeOptions.find(
-    (option) => option.locale === locale,
+    (option) => option.locale === locale
   );
 
   return (
@@ -40,7 +40,7 @@ export function LanguageSelector() {
           variant="secondary"
           size="sm"
           className="gap-2 px-2 sm:px-3"
-          aria-label={`${languageLabel}: ${currentLocaleOption?.label ?? ""}`}
+          aria-label={`${languageLabel}: ${currentLocaleOption?.label ?? ''}`}
         >
           <span className="text-sm">{currentLocaleOption?.flag}</span>
           <span className="hidden sm:inline">{currentLocaleOption?.label}</span>

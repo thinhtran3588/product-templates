@@ -1,8 +1,8 @@
-import { getTranslations } from "next-intl/server";
+import { getTranslations } from 'next-intl/server';
 
-import { MainFooter } from "@/common/components/main-footer";
-import { MainHeader } from "@/common/components/main-header";
-import type { ResolvedMenuItem } from "@/common/interfaces";
+import { MainFooter } from '@/common/components/main-footer';
+import { MainHeader } from '@/common/components/main-header';
+import type { ResolvedMenuItem } from '@/common/interfaces';
 
 type MainLayoutProps = {
   children: React.ReactNode;
@@ -16,8 +16,8 @@ export async function MainLayout({
   settingsSlot,
 }: MainLayoutProps) {
   const [tCommon, tHome] = await Promise.all([
-    getTranslations("common"),
-    getTranslations("modules.landing.pages.home"),
+    getTranslations('common'),
+    getTranslations('modules.landing.pages.home'),
   ]);
 
   return (
@@ -36,9 +36,9 @@ export async function MainLayout({
       />
 
       <MainHeader
-        badge={tHome("badge")}
+        badge={tHome('badge')}
         menuItems={menuItems}
-        menuLabel={tCommon("navigation.menu")}
+        menuLabel={tCommon('navigation.menu')}
         settingsSlot={settingsSlot}
       />
 
@@ -47,11 +47,11 @@ export async function MainLayout({
       </main>
 
       <MainFooter
-        privacyLabel={tCommon("navigation.privacy")}
+        privacyLabel={tCommon('navigation.privacy')}
         privacyHref="/privacy-policy"
-        termsLabel={tCommon("navigation.terms")}
+        termsLabel={tCommon('navigation.terms')}
         termsHref="/terms-of-service"
-        copyright={tCommon("footer.copyright")}
+        copyright={tCommon('footer.copyright')}
       />
     </div>
   );

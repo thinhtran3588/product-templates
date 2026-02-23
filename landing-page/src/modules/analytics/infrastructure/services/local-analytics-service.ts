@@ -1,8 +1,8 @@
-import { AnalyticsService } from "../../domain/interfaces";
+import { AnalyticsService } from '../../domain/interfaces';
 
 export class LocalAnalyticsService implements AnalyticsService {
   initialize(): void {
-    console.log("LocalAnalyticsService initialized");
+    console.log('LocalAnalyticsService initialized');
   }
 
   logEvent(eventName: string, params?: Record<string, unknown>): void {

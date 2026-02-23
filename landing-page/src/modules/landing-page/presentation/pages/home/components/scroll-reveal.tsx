@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
 type ScrollRevealProps = {
   children: React.ReactNode;
@@ -22,11 +22,11 @@ export function ScrollReveal({
 
     // Respect user's motion preference — show immediately without animation
     const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
+      '(prefers-reduced-motion: reduce)'
     ).matches;
 
     if (prefersReducedMotion) {
-      element.classList.add("is-visible");
+      element.classList.add('is-visible');
       return;
     }
 
@@ -38,16 +38,16 @@ export function ScrollReveal({
           if (entry.isIntersecting) {
             if (delay > 0) {
               timeoutId = setTimeout(() => {
-                entry.target.classList.add("is-visible");
+                entry.target.classList.add('is-visible');
               }, delay);
             } else {
-              entry.target.classList.add("is-visible");
+              entry.target.classList.add('is-visible');
             }
             observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.2 },
+      { threshold: 0.2 }
     );
 
     observer.observe(element);
@@ -61,7 +61,7 @@ export function ScrollReveal({
   }, [delay]);
 
   return (
-    <div ref={ref} className={`reveal ${className ?? ""}`.trim()}>
+    <div ref={ref} className={`reveal ${className ?? ''}`.trim()}>
       {children}
     </div>
   );

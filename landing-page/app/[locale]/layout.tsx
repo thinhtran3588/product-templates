@@ -1,14 +1,14 @@
-import { NextIntlClientProvider } from "next-intl";
+import { NextIntlClientProvider } from 'next-intl';
 import {
   getMessages,
   getTranslations,
   setRequestLocale,
-} from "next-intl/server";
+} from 'next-intl/server';
 
-import { AppInitializer } from "@/application/components/app-initializer";
-import { RootLayout } from "@/common/components/root-layout";
-import { Toaster } from "@/common/components/toaster";
-import { routing } from "@/common/routing/routing";
+import { AppInitializer } from '@/application/components/app-initializer';
+import { RootLayout } from '@/common/components/root-layout';
+import { Toaster } from '@/common/components/toaster';
+import { routing } from '@/common/routing/routing';
 
 export async function generateMetadata({
   params,
@@ -17,11 +17,11 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("common");
+  const t = await getTranslations('common');
 
   return {
-    title: t("app.metadata.title"),
-    description: t("app.metadata.description"),
+    title: t('app.metadata.title'),
+    description: t('app.metadata.description'),
   };
 }
 

@@ -1,23 +1,23 @@
-import { forwardRef } from "react";
+import { forwardRef } from 'react';
 
-import { cn } from "@/common/utils/cn";
+import { cn } from '@/common/utils/cn';
 
 const Card = forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & { variant?: "default" | "strong" }
->(({ className, variant = "default", ...props }, ref) => (
+  React.HTMLAttributes<HTMLDivElement> & { variant?: 'default' | 'strong' }
+>(({ className, variant = 'default', ...props }, ref) => (
   <div
     ref={ref}
     className={cn(
-      "rounded-xl transition-[transform,box-shadow] duration-[var(--duration-normal)] ease-[var(--ease-spring)] sm:rounded-2xl",
-      variant === "strong" ? "glass-panel-strong" : "glass-panel",
-      className,
+      'rounded-xl transition-[transform,box-shadow] duration-[var(--duration-normal)] ease-[var(--ease-spring)] sm:rounded-2xl',
+      variant === 'strong' ? 'glass-panel-strong' : 'glass-panel',
+      className
     )}
     data-slot="card"
     {...props}
   />
 ));
-Card.displayName = "Card";
+Card.displayName = 'Card';
 
 const CardHeader = forwardRef<
   HTMLDivElement,
@@ -25,12 +25,12 @@ const CardHeader = forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex flex-col space-y-1.5", className)}
+    className={cn('flex flex-col space-y-1.5', className)}
     data-slot="card-header"
     {...props}
   />
 ));
-CardHeader.displayName = "CardHeader";
+CardHeader.displayName = 'CardHeader';
 
 const CardTitle = forwardRef<
   HTMLHeadingElement,
@@ -39,14 +39,14 @@ const CardTitle = forwardRef<
   <h3
     ref={ref}
     className={cn(
-      "text-base font-semibold text-[var(--text-primary)] sm:text-lg",
-      className,
+      'text-base font-semibold text-[var(--text-primary)] sm:text-lg',
+      className
     )}
     data-slot="card-title"
     {...props}
   />
 ));
-CardTitle.displayName = "CardTitle";
+CardTitle.displayName = 'CardTitle';
 
 const CardDescription = forwardRef<
   HTMLParagraphElement,
@@ -55,14 +55,14 @@ const CardDescription = forwardRef<
   <p
     ref={ref}
     className={cn(
-      "text-sm leading-relaxed text-[var(--text-muted)]",
-      className,
+      'text-sm leading-relaxed text-[var(--text-muted)]',
+      className
     )}
     data-slot="card-description"
     {...props}
   />
 ));
-CardDescription.displayName = "CardDescription";
+CardDescription.displayName = 'CardDescription';
 
 const CardContent = forwardRef<
   HTMLDivElement,
@@ -70,11 +70,11 @@ const CardContent = forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("pt-0", className)}
+    className={cn('pt-0', className)}
     data-slot="card-content"
     {...props}
   />
 ));
-CardContent.displayName = "CardContent";
+CardContent.displayName = 'CardContent';
 
 export { Card, CardHeader, CardTitle, CardDescription, CardContent };

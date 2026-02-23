@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 type LinkProps = {
   href: string;
@@ -15,11 +15,11 @@ export function Link({ href, children, ...rest }: LinkProps) {
 }
 
 export function redirect() {
-  throw new Error("redirect is not supported in tests");
+  throw new Error('redirect is not supported in tests');
 }
 
 export function usePathname() {
-  return "/";
+  return '/';
 }
 
 export function useRouter() {

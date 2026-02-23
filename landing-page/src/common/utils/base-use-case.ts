@@ -9,7 +9,7 @@ export abstract class BaseUseCase {
 
   protected async handle<TData, TError>(
     action: () => Promise<TData>,
-    mapError?: (err: unknown) => TError,
+    mapError?: (err: unknown) => TError
   ): Promise<UseCaseResult<TData, TError>> {
     try {
       const data = await action();

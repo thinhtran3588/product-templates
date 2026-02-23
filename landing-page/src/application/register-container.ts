@@ -1,9 +1,9 @@
-import { type AwilixContainer } from "awilix";
+import { type AwilixContainer } from 'awilix';
 
-import { createContainer, setContainer } from "@/common/utils/container";
-import { registerModule as registerAnalyticsModule } from "@/modules/analytics/module-configuration";
-import { registerModule as registerLandingPageModule } from "@/modules/landing-page/module-configuration";
-import { registerModule as registerSettingsModule } from "@/modules/settings/module-configuration";
+import { createContainer, setContainer } from '@/common/utils/container';
+import { registerModule as registerAnalyticsModule } from '@/modules/analytics/module-configuration';
+import { registerModule as registerLandingPageModule } from '@/modules/landing-page/module-configuration';
+import { registerModule as registerSettingsModule } from '@/modules/settings/module-configuration';
 
 export function registerContainer(container: AwilixContainer<object>): void {
   registerAnalyticsModule(container);

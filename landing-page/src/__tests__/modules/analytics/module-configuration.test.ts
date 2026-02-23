@@ -1,7 +1,7 @@
-import { createContainer } from "awilix";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { createContainer } from 'awilix';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-vi.mock("firebase/analytics", () => ({
+vi.mock('firebase/analytics', () => ({
   getAnalytics: vi.fn(),
   isSupported: vi.fn(),
   logEvent: vi.fn(),
@@ -9,12 +9,12 @@ vi.mock("firebase/analytics", () => ({
   setUserProperties: vi.fn(),
 }));
 
-vi.mock("firebase/app", () => ({
+vi.mock('firebase/app', () => ({
   getApps: vi.fn().mockReturnValue([]),
   initializeApp: vi.fn(),
 }));
 
-describe("analytics/module-configuration", () => {
+describe('analytics/module-configuration', () => {
   const originalEnv = process.env;
 
   beforeEach(() => {
@@ -26,29 +26,29 @@ describe("analytics/module-configuration", () => {
     process.env = originalEnv;
   });
 
-  it("registers FirebaseAnalyticsService when firebase config is present", async () => {
+  it('registers FirebaseAnalyticsService when firebase config is present', async () => {
     process.env.NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG = JSON.stringify({
-      apiKey: "test",
+      apiKey: 'test',
     });
 
     const { registerModule } =
-      await import("@/modules/analytics/module-configuration");
+      await import('@/modules/analytics/module-configuration');
     const container = createContainer();
     registerModule(container);
 
-    const service = container.resolve("analyticsService");
-    expect(service.constructor.name).toBe("FirebaseAnalyticsService");
+    const service = container.resolve('analyticsService');
+    expect(service.constructor.name).toBe('FirebaseAnalyticsService');
   });
 
-  it("registers LocalAnalyticsService when firebase config is absent", async () => {
+  it('registers LocalAnalyticsService when firebase config is absent', async () => {
     delete process.env.NEXT_PUBLIC_LANDING_PAGE_FIREBASE_CONFIG;
 
     const { registerModule } =
-      await import("@/modules/analytics/module-configuration");
+      await import('@/modules/analytics/module-configuration');
     const container = createContainer();
     registerModule(container);
 
-    const service = container.resolve("analyticsService");
-    expect(service.constructor.name).toBe("LocalAnalyticsService");
+    const service = container.resolve('analyticsService');
+    expect(service.constructor.name).toBe('LocalAnalyticsService');
   });
 });

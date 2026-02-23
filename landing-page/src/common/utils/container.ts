@@ -1,7 +1,7 @@
 import {
   createContainer as createAwilixContainer,
   InjectionMode,
-} from "awilix";
+} from 'awilix';
 
 export type AppContainer = ReturnType<typeof createAwilixContainer>;
 
@@ -20,7 +20,7 @@ export function setContainer(container: AppContainer): void {
 export function getContainer(): AppContainer {
   if (!containerInstance) {
     throw new Error(
-      "Container not initialized. Ensure AppInitializer has run.",
+      'Container not initialized. Ensure AppInitializer has run.'
     );
   }
   return containerInstance;

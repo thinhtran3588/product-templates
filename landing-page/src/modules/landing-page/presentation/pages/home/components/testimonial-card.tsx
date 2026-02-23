@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { StarIcon, UserIcon } from "@/common/components/icons";
-import { cn } from "@/common/utils/cn";
+import { StarIcon, UserIcon } from '@/common/components/icons';
+import { cn } from '@/common/utils/cn';
 
 type TestimonialCardProps = {
   name: string;
@@ -19,8 +19,8 @@ export function TestimonialCard({
   return (
     <div
       className={cn(
-        "glass-panel flex flex-col justify-between rounded-2xl p-6 transition-all duration-300 hover:bg-[var(--glass-highlight)]",
-        "fade-in-up", // Assuming this animation class exists or handled by parent
+        'glass-panel flex flex-col justify-between rounded-2xl p-6 transition-all duration-300 hover:bg-[var(--glass-highlight)]',
+        'fade-in-up' // Assuming this animation class exists or handled by parent
       )}
       style={{ animationDelay: `${delay}ms` }}
     >

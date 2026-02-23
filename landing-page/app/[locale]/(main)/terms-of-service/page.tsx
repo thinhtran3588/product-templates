@@ -1,6 +1,6 @@
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 
-import { TermsOfServicePage } from "@/modules/landing-page/presentation/pages/terms-of-service/terms-of-service-page";
+import { TermsOfServicePage } from '@/modules/landing-page/presentation/pages/terms-of-service/terms-of-service-page';
 
 export async function generateMetadata({
   params,
@@ -9,11 +9,11 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("modules.legal.pages.terms-of-service");
+  const t = await getTranslations('modules.legal.pages.terms-of-service');
 
   return {
-    title: t("title"),
-    description: t("metadata.description"),
+    title: t('title'),
+    description: t('metadata.description'),
   };
 }
 

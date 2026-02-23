@@ -1,8 +1,8 @@
-import type { MenuItem, ResolvedMenuItem } from "@/common/interfaces";
+import type { MenuItem, ResolvedMenuItem } from '@/common/interfaces';
 
 export function resolveMenuItems(
   items: MenuItem[],
-  t: (key: string) => string,
+  t: (key: string) => string
 ): ResolvedMenuItem[] {
   return items.map((item) => ({
     id: item.id,

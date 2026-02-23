@@ -1,16 +1,16 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
-import type { UserSettings } from "@/modules/settings/domain/types";
+import type { UserSettings } from '@/modules/settings/domain/types';
 
 type UserSettingsState = {
   settings: UserSettings;
   setSettings: (settings: UserSettings) => void;
   setLocale: (locale: string) => void;
-  setTheme: (theme: UserSettings["theme"]) => void;
+  setTheme: (theme: UserSettings['theme']) => void;
 };
 
-const STORAGE_KEY = "user-settings";
+const STORAGE_KEY = 'user-settings';
 
 export const useUserSettingsStore = create<UserSettingsState>()(
   persist(
@@ -31,6 +31,6 @@ export const useUserSettingsStore = create<UserSettingsState>()(
     {
       name: STORAGE_KEY,
       partialize: (state) => ({ settings: state.settings }),
-    },
-  ),
+    }
+  )
 );

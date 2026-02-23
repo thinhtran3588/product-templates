@@ -1,20 +1,23 @@
 {
-  "name": "landing-page-demo",
+  "name": "landing-page",
   "version": "0.0.1",
   "description": "A production-ready landing page template with Clean Architecture and modular structure for scalable frontend development.",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "lint:fix": "eslint --fix",
     "test": "vitest",
     "test:coverage": "vitest --coverage --run",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "preview": "npm run build && wrangler pages dev out",
     "deploy": "npm run build && wrangler pages deploy out",
-    "validate": "npm run lint && npm run format:check && npm run test:coverage && npm run build"
+    "validate": "npm run lint && npm run format:check && npm run test:coverage && npm run build",
+    "validate:fix": "npm run lint:fix && npm run format"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

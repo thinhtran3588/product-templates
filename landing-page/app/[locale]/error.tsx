@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import ErrorPage from "@/common/pages/error-page";
+import ErrorPage from '@/common/pages/error-page';
 
 type ErrorProps = {
   error: Error & { digest?: string };
