@@ -1,0 +1,4 @@
+export enum SystemExceptionCode {
+  INTERNAL_ERROR = 'INTERNAL_ERROR',
+  DATA_CORRUPTION_ERROR = 'DATA_CORRUPTION_ERROR',
+}

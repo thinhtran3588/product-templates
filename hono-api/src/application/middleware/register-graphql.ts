@@ -5,12 +5,15 @@ import type { App, ModuleConfiguration } from '@app/common/interfaces';
 export const registerGraphQL = (app: App, modules: ModuleConfiguration[]) => {
   if (process.env.GRAPHQL_ENABLED !== 'false') {
     const typeDefs = modules
-      .map((m) => m.graphql?.typeDefs)
+      .flatMap((m) => m.adapters.map((a) => a.graphql?.typeDefs))
       .filter(Boolean)
       .join('\n');
 
     const resolvers = modules.reduce((acc, m) => {
-      return { ...acc, ...(m.graphql?.resolvers || {}) };
+      const moduleResolvers = m.adapters.reduce((adapterAcc, a) => {
+        return { ...adapterAcc, ...(a.graphql?.resolvers || {}) };
+      }, {});
+      return { ...acc, ...moduleResolvers };
     }, {});
 
     if (typeDefs) {

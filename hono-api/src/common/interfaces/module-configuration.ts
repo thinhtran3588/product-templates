@@ -1,9 +1,8 @@
-import type { App } from './';
+import type { AwilixContainer } from 'awilix';
+
+import type { AdapterConfiguration } from './adapter-configuration';
 
 export interface ModuleConfiguration {
-  register(app: App): void;
-  graphql?: {
-    typeDefs: string;
-    resolvers: Record<string, unknown>;
-  };
+  registerDependencies(container: AwilixContainer<any>): void;
+  adapters: AdapterConfiguration[];
 }

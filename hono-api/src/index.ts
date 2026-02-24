@@ -1,5 +1,6 @@
 import { OpenAPIHono } from '@hono/zod-openapi';
 
+import { createDIContainer } from './application/container';
 import { moduleConfiguration as defaultModule } from './application/default-module.configuration';
 import { registerContainer } from './application/middleware/register-container';
 import { registerCors } from './application/middleware/register-cors';
@@ -11,9 +12,10 @@ import type { AppEnv } from './common/interfaces';
 import { moduleConfiguration as authModule } from './modules/auth/module.configuration';
 
 const app = new OpenAPIHono<AppEnv>();
+const container = createDIContainer();
 
 // Middlewares
-registerContainer(app);
+registerContainer(app, container);
 registerLogger(app);
 registerCors(app);
 registerRateLimit(app);
@@ -21,9 +23,12 @@ registerRateLimit(app);
 // Modules
 const modules = [defaultModule, authModule];
 
-// Register Module REST Routes
+// Register Module Dependencies and Routes
 modules.forEach((module) => {
-  module.register(app);
+  module.registerDependencies(container);
+  module.adapters.forEach((adapter) => {
+    adapter.registerRoutes(app);
+  });
 });
 
 // Register Swagger and GraphQL

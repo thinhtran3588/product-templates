@@ -7,8 +7,6 @@ import {
 import pino from 'pino';
 import type { Logger } from '@app/common/interfaces';
 import type { AuthContainer } from '@app/modules/auth/interfaces';
-import { UserControllerImpl } from '@app/modules/auth/user.controller';
-import { UserServiceImpl } from '@app/modules/auth/user.service';
 
 /**
  * Common application dependencies
@@ -39,8 +37,6 @@ export function createDIContainer(): AwilixContainer<Container> {
   // Register application-level services
   container.register({
     logger: asValue(logger),
-    userService: asClass(UserServiceImpl).singleton(),
-    userController: asClass(UserControllerImpl).singleton(),
   });
 
   return container;
