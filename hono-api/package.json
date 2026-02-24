@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "bun run --hot src/index.ts",
     "start": "bun run src/index.ts",
+    "build": "bun build src/index.ts --minify --outdir ./dist --sourcemap",
     "build:executable": "bun build src/index.ts --compile --outfile api",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
@@ -12,7 +13,7 @@
     "test:coverage": "vitest --coverage --run",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "validate": "bun lint && bun format:check && bun test:coverage && bun run build",
+    "validate": "bun lint && bun format:check && bun test:coverage && bun --bun tsc --noEmit",
     "validate:fix": "bun lint:fix && bun format",
     "worker:dev": "wrangler dev",
     "worker:deploy": "wrangler deploy --minify",

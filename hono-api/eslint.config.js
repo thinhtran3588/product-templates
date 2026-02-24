@@ -59,12 +59,9 @@ export default tseslint.config(
   },
   prettierConfig,
   {
-    ignores: [
-      'dist/',
-      'coverage/',
-      'node_modules/',
-      '*.js',
-    ],
   },
+  {
+    ignores: ['dist/**', 'coverage/**', 'node_modules/**', '*.js'],
+  }
 );
 

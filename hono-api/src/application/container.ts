@@ -1,9 +1,4 @@
-import {
-  asClass,
-  asValue,
-  createContainer,
-  type AwilixContainer,
-} from 'awilix';
+import { asValue, createContainer, type AwilixContainer } from 'awilix';
 import pino from 'pino';
 import type { Logger } from '@app/common/interfaces';
 import type { AuthContainer } from '@app/modules/auth/interfaces';

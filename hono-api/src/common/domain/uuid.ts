@@ -17,10 +17,7 @@ export class Uuid {
    * @returns Uuid value object
    * @throws ValidationException if UUID is invalid
    */
-  static create(
-    value: string | undefined | null,
-    fieldName: string = 'id'
-  ): Uuid {
+  static create(value: string | undefined, fieldName: string = 'id'): Uuid {
     const result = Uuid.tryCreate(value, fieldName);
     if (result.error) {
       throw result.error;
@@ -35,13 +32,13 @@ export class Uuid {
    * @returns Object with uuid and error, where error is undefined if valid
    */
   static tryCreate(
-    value: string | undefined | null,
+    value: string | undefined,
     fieldName: string = 'id'
   ): {
     uuid?: Uuid;
     error?: ValidationException;
   } {
-    if (value === undefined || value === null) {
+    if (value === undefined) {
       return {
         error: new ValidationException(
           ValidationErrorCode.FIELD_IS_REQUIRED,

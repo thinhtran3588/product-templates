@@ -3,7 +3,7 @@ import { z } from 'zod';
 import type { App, ModuleConfiguration } from '@app/common/interfaces';
 
 export const moduleConfiguration: ModuleConfiguration = {
-  registerDependencies(container): void {
+  registerDependencies(_container): void {
     // No dependencies to register
   },
   adapters: [

@@ -3,9 +3,7 @@
   "name": "api-demo",
   "main": "src/index.ts",
   "compatibility_date": "2026-02-23",
-  "compatibility_flags": [
-    "nodejs_compat"
-  ],
+  "compatibility_flags": ["nodejs_compat"],
   "vars": {
     "NODE_ENV": "production",
     "SWAGGER_ENABLED": "true",
@@ -15,7 +13,7 @@
     "CORS_ENABLED": "true",
     "RATE_LIMIT_ENABLED": "true",
     "RATE_LIMIT_WINDOW_MS": "60000",
-    "RATE_LIMIT_MAX": "100"
+    "RATE_LIMIT_MAX": "100",
   },
   // "kv_namespaces": [
   //   {
@@ -41,6 +39,6 @@
   // },
   "observability": {
     "enabled": true,
-    "head_sampling_rate": 1
-  }
+    "head_sampling_rate": 1,
+  },
 }

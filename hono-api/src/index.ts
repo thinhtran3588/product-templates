@@ -1,6 +1,6 @@
 import { OpenAPIHono } from '@hono/zod-openapi';
 
-import { createDIContainer } from './application/container';
+import { createDIContainer, type Container } from './application/container';
 import { moduleConfiguration as defaultModule } from './application/default-module-configuration';
 import { registerContainer } from './application/middleware/register-container';
 import { registerCors } from './application/middleware/register-cors';
@@ -11,7 +11,7 @@ import { registerSwagger } from './application/middleware/register-swagger';
 import type { AppEnv } from './common/interfaces';
 import { moduleConfiguration as authModule } from './modules/auth/module-configuration';
 
-const app = new OpenAPIHono<AppEnv>();
+const app = new OpenAPIHono<AppEnv<Container>>();
 const container = createDIContainer();
 
 // Middlewares
@@ -27,7 +27,9 @@ const modules = [defaultModule, authModule];
 modules.forEach((module) => {
   module.registerDependencies(container);
   module.adapters.forEach((adapter) => {
-    adapter.registerRoutes(app);
+    adapter.registerRoutes(
+      app as unknown as Parameters<typeof adapter.registerRoutes>[0]
+    );
   });
 });
 

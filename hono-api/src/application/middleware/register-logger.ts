@@ -10,10 +10,8 @@ export const registerLogger = (app: App) => {
 
       const end = Date.now();
       const ms = end - start;
-      const status = c.res.status;
-
-      const container = c.var.diContainer;
-      const logger = container.cradle.logger;
+      const { status } = c.res;
+      const { logger } = c.var.diContainer.cradle;
       const message = `${method} ${path} ${status} ${ms}ms`;
 
       if (status >= 400) {

@@ -1,10 +1,11 @@
 import { asValue, type AwilixContainer } from 'awilix';
+import type { Container } from '@app/application/container';
 import type { App, AppContext } from '@app/common/interfaces';
 import { getIP } from '@app/common/utils/get-ip';
 
 export const registerContainer = (
   app: App,
-  container: AwilixContainer<any>
+  container: AwilixContainer<Container>
 ) => {
   app.use('*', async (c: AppContext, next) => {
     const ip = getIP(c);

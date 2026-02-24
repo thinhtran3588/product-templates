@@ -5,14 +5,16 @@ import type {
   AppContext,
 } from '@app/common/interfaces';
 
+import type { AuthContainer } from '../interfaces';
+
 const UserSchema = z.object({
   id: z.string().openapi({ example: '1' }),
   name: z.string().openapi({ example: 'John Doe' }),
   email: z.string().email().openapi({ example: 'john@example.com' }),
 });
 
-export const userAdapter: AdapterConfiguration = {
-  registerRoutes(app: App): void {
+export const userAdapter: AdapterConfiguration<AuthContainer> = {
+  registerRoutes(app: App<AuthContainer>): void {
     // GET /users
     app.openapi(
       createRoute({
@@ -36,9 +38,11 @@ export const userAdapter: AdapterConfiguration = {
           },
         },
       }),
-      (c) => {
-        const { userController } = c.var.diContainer.cradle;
-        return userController.findUsers(c as unknown as AppContext) as never;
+      async (c) => {
+        const { findUsersQueryHandler } = c.var.diContainer.cradle;
+        const name = c.req.query('name');
+        const users = await findUsersQueryHandler.execute({ name });
+        return c.json(users);
       }
     );
 
@@ -68,9 +72,14 @@ export const userAdapter: AdapterConfiguration = {
           },
         },
       }),
-      (c) => {
-        const { userController } = c.var.diContainer.cradle;
-        return userController.getUser(c as unknown as AppContext) as never;
+      async (c) => {
+        const { getUserByIdQueryHandler } = c.var.diContainer.cradle;
+        const { id } = c.req.valid('param');
+        const user = await getUserByIdQueryHandler.execute({ id });
+        if (!user) {
+          return c.json({ error: 'User not found' }, 404);
+        }
+        return c.json(user);
       }
     );
 
@@ -101,9 +110,11 @@ export const userAdapter: AdapterConfiguration = {
           },
         },
       }),
-      (c) => {
-        const { userController } = c.var.diContainer.cradle;
-        return userController.createUser(c as unknown as AppContext) as never;
+      async (c) => {
+        const { createUserCommandHandler } = c.var.diContainer.cradle;
+        const data = c.req.valid('json');
+        const user = await createUserCommandHandler.execute(data);
+        return c.json(user, 201);
       }
     );
 
@@ -140,9 +151,15 @@ export const userAdapter: AdapterConfiguration = {
           },
         },
       }),
-      (c) => {
-        const { userController } = c.var.diContainer.cradle;
-        return userController.updateUser(c as unknown as AppContext) as never;
+      async (c) => {
+        const { updateUserCommandHandler } = c.var.diContainer.cradle;
+        const { id } = c.req.valid('param');
+        const data = c.req.valid('json');
+        const user = await updateUserCommandHandler.execute({ id, ...data });
+        if (!user) {
+          return c.json({ error: 'User not found' }, 404);
+        }
+        return c.json(user);
       }
     );
 
@@ -172,9 +189,14 @@ export const userAdapter: AdapterConfiguration = {
           },
         },
       }),
-      (c) => {
-        const { userController } = c.var.diContainer.cradle;
-        return userController.deleteUser(c as unknown as AppContext) as never;
+      async (c) => {
+        const { deleteUserCommandHandler } = c.var.diContainer.cradle;
+        const { id } = c.req.valid('param');
+        const success = await deleteUserCommandHandler.execute({ id });
+        if (!success) {
+          return c.json({ error: 'User not found' }, 404);
+        }
+        return c.json({ success: true });
       }
     );
   },
@@ -198,31 +220,37 @@ export const userAdapter: AdapterConfiguration = {
       }
     `,
     resolvers: {
-      users: async ({ name }: { name?: string }, c: AppContext) => {
-        const { userService } = c.var.diContainer.cradle;
-        return userService.findUsers(name);
+      users: async (
+        { name }: { name?: string },
+        c: AppContext<AuthContainer>
+      ) => {
+        const { findUsersQueryHandler } = c.var.diContainer.cradle;
+        return findUsersQueryHandler.execute({ name });
       },
-      user: async ({ id }: { id: string }, c: AppContext) => {
-        const { userService } = c.var.diContainer.cradle;
-        return userService.getUserById(id);
+      user: async ({ id }: { id: string }, c: AppContext<AuthContainer>) => {
+        const { getUserByIdQueryHandler } = c.var.diContainer.cradle;
+        return getUserByIdQueryHandler.execute({ id });
       },
       createUser: async (
         data: { name: string; email: string },
-        c: AppContext
+        c: AppContext<AuthContainer>
       ) => {
-        const { userService } = c.var.diContainer.cradle;
-        return userService.createUser(data);
+        const { createUserCommandHandler } = c.var.diContainer.cradle;
+        return createUserCommandHandler.execute(data);
       },
       updateUser: async (
         { id, ...data }: { id: string; name?: string; email?: string },
-        c: AppContext
+        c: AppContext<AuthContainer>
       ) => {
-        const { userService } = c.var.diContainer.cradle;
-        return userService.updateUser(id, data);
+        const { updateUserCommandHandler } = c.var.diContainer.cradle;
+        return updateUserCommandHandler.execute({ id, ...data });
       },
-      deleteUser: async ({ id }: { id: string }, c: AppContext) => {
-        const { userService } = c.var.diContainer.cradle;
-        return userService.deleteUser(id);
+      deleteUser: async (
+        { id }: { id: string },
+        c: AppContext<AuthContainer>
+      ) => {
+        const { deleteUserCommandHandler } = c.var.diContainer.cradle;
+        return deleteUserCommandHandler.execute({ id });
       },
     },
   },

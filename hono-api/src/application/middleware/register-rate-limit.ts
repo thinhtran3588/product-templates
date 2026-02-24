@@ -16,7 +16,8 @@ export const registerRateLimit = (app: App) => {
           keyGenerator: (c: AppContext) => getIP(c),
         });
       }
-      return limiter(c, next);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
+      return limiter(c as any, next);
     });
   }
 };
