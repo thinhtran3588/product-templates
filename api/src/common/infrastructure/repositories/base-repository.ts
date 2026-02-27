@@ -5,10 +5,10 @@ import type {
   Model,
   ModelStatic,
   Sequelize,
-  Transaction,
   WhereOptions,
 } from 'sequelize';
 import { BaseAggregate } from '@app/common/domain/base-aggregate';
+import type { DbTransaction } from '@app/common/domain/interfaces/repositories/db-transaction';
 import { Uuid } from '@app/common/domain/value-objects/uuid';
 import { ValidationErrorCode } from '@app/common/enums/validation-error-code';
 import { ValidationException } from '@app/common/utils/exceptions';
@@ -69,7 +69,7 @@ export abstract class BaseRepository<
    */
   async save(
     aggregate: TAggregate,
-    postSaveCallback?: (transaction: Transaction) => Promise<void>
+    postSaveCallback?: (transaction: DbTransaction) => Promise<void>
   ): Promise<void> {
     const model = this.getModel();
     const database = model.sequelize as Sequelize;
@@ -125,7 +125,7 @@ export abstract class BaseRepository<
       }
 
       if (postSaveCallback) {
-        await postSaveCallback(transaction);
+        await postSaveCallback(transaction as unknown as DbTransaction);
       }
 
       await transaction.commit();

@@ -1,4 +1,4 @@
-import type { Transaction } from 'sequelize';
+import type { DbTransaction } from '@app/common/domain/interfaces/repositories/db-transaction';
 import type { Repository } from '@app/common/domain/interfaces/repositories/repository';
 import type { Uuid } from '@app/common/domain/value-objects/uuid';
 import type { User } from '@app/modules/auth/domain/aggregates/user';
@@ -61,7 +61,7 @@ export interface UserRepository extends Repository<User> {
   addToGroup(
     userId: Uuid,
     userGroupId: Uuid,
-    transaction?: Transaction
+    transaction?: DbTransaction
   ): Promise<void>;
 
   /**
@@ -74,6 +74,6 @@ export interface UserRepository extends Repository<User> {
   removeFromGroup(
     userId: Uuid,
     userGroupId: Uuid,
-    transaction?: Transaction
+    transaction?: DbTransaction
   ): Promise<void>;
 }
