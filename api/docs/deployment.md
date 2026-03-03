@@ -1,185 +1,113 @@
-# Deployment Guide
-
-This guide provides instructions for building and deploying the API application.
+# Deployment
 
 ## Table of Contents
 
-1. [Build and Push Docker Image](#build-and-push-docker-image)
-2. [Docker Build](#docker-build)
-3. [Environment Variables](#environment-variables)
-4. [Database Migrations](#database-migrations)
-5. [Health Check](#health-check)
-6. [Production Checklist](#production-checklist)
-7. [Docker Compose](#docker-compose)
-8. [Troubleshooting](#troubleshooting)
+1. [Overview](#overview)
+2. [Database and Firebase Setup](#database-and-firebase-setup)
+3. [Cloudflare Workers Setup](#cloudflare-workers-setup)
+4. [GitHub Actions CI/CD](#github-actions-cicd)
+5. [Environment Variables](#environment-variables)
 
-## Build and Push Docker Image
+## Overview
 
-Build and push the Docker image to your container registry (e.g., AWS ECR, Docker Hub):
+The API is deployed to Cloudflare Workers using Wrangler. CI workflows run validation first, then deploy to staging on `main` and to production on release.
 
-```bash
-# Build the image
-docker build -t your-api-name:latest .
+```mermaid
+flowchart LR
+    PR[Pull Request] --> PRCI[CI - Pull Requests<br/>Validate API]
+    Main[Push to main] --> MainCI[CI - Main<br/>Validate and Deploy Staging]
+    Release[Release Published] --> RelCI[Release - Production<br/>Validate and Deploy Production]
 
-# Tag for your registry (replace with your registry URL)
-docker tag your-api-name:latest your-registry-url/your-api-name:tag
+    MainCI --> Staging[Cloudflare Worker<br/>api-demo-staging]
+    RelCI --> Production[Cloudflare Worker<br/>api-demo]
 
-# Push to registry
-docker push your-registry-url/your-api-name:tag
+    style PR fill:#1976d2,color:#fff
+    style Main fill:#1976d2,color:#fff
+    style Release fill:#1976d2,color:#fff
+    style PRCI fill:#f57c00,color:#fff
+    style MainCI fill:#f57c00,color:#fff
+    style RelCI fill:#f57c00,color:#fff
+    style Staging fill:#388e3c,color:#fff
+    style Production fill:#388e3c,color:#fff
 ```
 
-## Docker Build
+Deployment targets:
 
-The Dockerfile uses a multi-stage build:
+- Staging: `api-demo-staging`
+- Production: `api-demo`
 
-1. **Builder Stage**: Installs all dependencies (including dev dependencies) and builds TypeScript to JavaScript
-2. **Production Stage**: Installs only production dependencies and copies compiled JavaScript
+## Database and Firebase Setup
 
-The application runs as a non-root user (`nodejs`) for security.
+### 1. Provision PostgreSQL
+
+Create read/write database endpoints and ensure they are reachable from Cloudflare runtime.
+
+### 2. Configure Firebase
+
+Create a Firebase service account with required permissions and configure authentication providers.
+
+## Cloudflare Workers Setup
+
+### 1. Create a Cloudflare Account
+
+Create a Cloudflare account and a Workers project if you do not already have one.
+
+### 2. Configure Wrangler
+
+`api/wrangler.toml` defines defaults for staging. CI overrides worker name during deploy.
+
+### 3. Custom Domains (Optional)
+
+Map staging and production domains to each worker name as needed.
+
+## GitHub Actions CI/CD
+
+### Workflow Overview
+
+- `ci-pull-requests.yml`: validate changed projects
+- `ci-main.yml`: validate + deploy staging for changed projects
+- `ci-release.yml`: validate + deploy production for changed projects
+
+### Required GitHub Secrets
+
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+- `CODECOV_TOKEN`
+- project runtime secrets (for example Firebase and database credentials)
+
+### Deploy Step Example
+
+```yaml
+- name: Deploy to Cloudflare Workers (Staging)
+  uses: cloudflare/wrangler-action@v3
+  with:
+    apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    command: deploy --name api-demo-staging
+    workingDirectory: api
+```
 
 ## Environment Variables
 
-The application loads environment variables from:
+Core runtime variables:
 
-1. `.env` file (base configuration, always loaded first)
-2. `.env.{NODE_ENV}` file (environment-specific overrides)
+- `WRITE_DATABASE_URI`
+- `READ_DATABASE_URI`
+- `FIREBASE_SERVICE_ACCOUNT_JSON`
+- `FIREBASE_API_KEY`
+- `JWT_PRIVATE_KEY`
+- `JWT_PUBLIC_KEY`
 
-### Required Environment Variables
-
-**Application Configuration:**
-
-- `NODE_ENV`: Environment (development, production, test)
-- `PORT`: Server port (default: 8080)
-- `HOST`: Server host (default: 0.0.0.0)
-
-**Database Configuration:**
-
-The application uses two separate database connections for read and write operations:
-
-- `WRITE_DATABASE_URI`: PostgreSQL connection URI for write operations (commands, mutations)
-  - Format: `postgresql://username:password@host:port/database`
-  - Example: `postgresql://postgres:postgres@localhost:5432/postgres_write`
-  - Required for all write operations (create, update, delete)
-- `READ_DATABASE_URI`: PostgreSQL connection URI for read operations (queries)
-  - Format: `postgresql://username:password@host:port/database`
-  - Example: `postgresql://postgres:postgres@localhost:5432/postgres_read`
-  - Required for all read operations (queries, searches)
-  - If not provided, falls back to `WRITE_DATABASE_URI`
-
-**Firebase Configuration:**
-
-- `FIREBASE_SERVICE_ACCOUNT_JSON`: Firebase service account JSON (required)
-- `FIREBASE_API_KEY`: Firebase API key (required for password verification, get from Firebase Web app settings)
-
-**JWT Configuration:**
-
-- `JWT_ACCESS_TOKEN_EXPIRES_IN`: JWT access token expiration time (default: `15m`). Accepts values like `1h`, `30m`, `2h`, etc.
-- `JWT_PRIVATE_KEY`: Private key for JWT signing (optional, takes precedence over `FIREBASE_SERVICE_ACCOUNT_JSON` private key)
-- `JWT_PUBLIC_KEY`: Public key for JWT verification (optional, auto-derived from private key if not provided)
-- `JWT_ISSUER`: JWT issuer claim (default: `issuer`). Used when `JWT_PRIVATE_KEY` is set. If not set and `JWT_PRIVATE_KEY` is used, defaults to `issuer`.
-
-**Web Configuration:**
-
-- `WEB_CORS_ENABLED`: Enable CORS (true/false, default: false)
-- `WEB_CORS_ORIGINS`: Comma-separated list of allowed origins (default: empty)
-- `WEB_RATE_LIMIT_MAX`: Maximum requests per time window (default: 1000)
-- `WEB_RATE_LIMIT_TIME_WINDOW`: Time window for rate limiting (default: `1 minute`)
-
-**Swagger Configuration:**
-
-- `SWAGGER_ENABLED`: Enable Swagger UI (true/false, default: false)
-- `SWAGGER_DOCUMENTATION_ROUTE_PREFIX`: Swagger UI route prefix (default: `/docs`)
-- `SWAGGER_CONTACT_NAME`: Contact name for API documentation
-- `SWAGGER_CONTACT_EMAIL`: Contact email for API documentation
-- `SWAGGER_CONTACT_URL`: Contact URL for API documentation
-- `SWAGGER_PRODUCTION_URL`: Production server URL for Swagger documentation
-
-**GraphQL Configuration:**
-
-- `GRAPHQL_ENDPOINT`: GraphQL endpoint path (default: `/graphql`)
-- `GRAPHQL_UI_ENABLED`: Enable GraphiQL UI (set to `'true'` to enable the GraphQL UI, similar to Swagger UI) (default: `'false'`)
-
-**Module Configuration:**
-
-- `MODULE_WHITELIST`: Comma-separated list of module names to load (optional, loads all modules if not set)
-
-## Database Migrations
-
-Run database migrations before starting the application:
+### Local Development
 
 ```bash
-# Run migrations
-npm run migrate
-
-# Check migration status
-npm run migrate:status
-
-# Rollback last migration
-npm run migrate:down
-
-# Create new migration
-npm run migrate:create
+cp .env.example .env
+bun run migrate
+bun run dev
 ```
 
-Migrations are located in `sequelize/migrations/` and are executed using Sequelize CLI.
+### Production
 
-## Health Check
-
-The application provides a health check endpoint at `/health` that returns the application status.
-
-## Production Checklist
-
-Before deploying to production:
-
-- [ ] All environment variables are set and documented
-- [ ] Database migrations have been tested and applied
-- [ ] Database connection pooling is configured appropriately
-- [ ] CORS is properly restricted to allowed origins
-- [ ] Rate limiting is configured for expected load
-- [ ] JWT keys are securely stored (not in code)
-- [ ] Firebase service account credentials are securely stored
-- [ ] Swagger UI is disabled or restricted in production
-- [ ] GraphQL endpoint is properly secured in production
-- [ ] Logging is configured and tested
-- [ ] Error handling is comprehensive
-- [ ] Health check endpoint is working
-- [ ] Graceful shutdown is implemented
-- [ ] Backup and recovery procedures are documented
-- [ ] Monitoring and alerting are set up
-
-## Docker Compose
-
-For local development, use Docker Compose:
-
-```bash
-docker-compose up -d
-```
-
-This will start PostgreSQL and the application with appropriate environment variables.
-
-## Troubleshooting
-
-**Application won't start:**
-
-- Check that all required environment variables are set
-- Verify database connection settings
-- Check that database migrations have been run
-- Review application logs for errors
-
-**Database connection errors:**
-
-- Verify database credentials
-- Check that database is running and accessible
-- Ensure database exists and migrations have been applied
-
-**JWT errors:**
-
-- Verify `JWT_PRIVATE_KEY` or `FIREBASE_SERVICE_ACCOUNT_JSON` is set
-- Check that private key is in valid PEM format
-- Ensure `JWT_ISSUER` matches your configuration
-
-**Module discovery errors:**
-
-- Verify `MODULE_WHITELIST` contains valid module names (if set)
-- Check that `module-configuration.ts` exists in each module directory
-- Review module discovery logs for specific errors
+- Store sensitive variables as Cloudflare secrets.
+- Keep non-sensitive defaults in `wrangler.toml` or environment-specific config.
+- Run migrations before promoting a release.

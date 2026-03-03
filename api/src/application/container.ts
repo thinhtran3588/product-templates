@@ -1,28 +1,33 @@
 import {
   asClass,
   asValue,
-  createContainer,
+  createContainer as createAwilixContainer,
   type AwilixContainer,
 } from 'awilix';
-import { Sequelize } from 'sequelize';
-import { AuthorizationService } from '@app/common/application/services/authorization.service';
-import type { EventDispatcher as IEventDispatcher } from '@app/common/domain/interfaces/event-dispatcher';
-import type { Logger } from '@app/common/domain/interfaces/logger';
-import { EventDispatcher } from '@app/common/infrastructure/event-dispatcher';
-import type { DomainEventRepository } from '@app/common/infrastructure/repositories/domain-event.repository';
-import { SequelizeDomainEventRepository } from '@app/common/infrastructure/repositories/domain-event.repository-impl';
-import { JwtService } from '@app/common/infrastructure/services/jwt.service';
+import {
+  AuthorizationService,
+  DrizzleDomainEventRepository,
+  EventDispatcherImpl,
+  JwtService,
+  type App,
+  type DatabaseClient,
+  type DomainEventRepository,
+  type EventDispatcher,
+  type Logger,
+  type ModuleConfiguration,
+} from '@app/common';
+import type { AuthContainer } from '@app/modules/auth/interfaces/auth-container';
 
 /**
  * Application-level services (shared across all modules)
  */
-export interface ApplicationServices {
+export interface BaseContainer {
   authorizationService: AuthorizationService;
   jwtService: JwtService;
-  writeDatabase: Sequelize;
-  readDatabase: Sequelize;
+  writeDatabase: DatabaseClient;
+  readDatabase: DatabaseClient;
   logger: Logger;
-  eventDispatcher: IEventDispatcher;
+  eventDispatcher: EventDispatcher;
   domainEventRepository: DomainEventRepository;
 }
 
@@ -30,35 +35,49 @@ export interface ApplicationServices {
  * Application container type
  * Composed from all module containers + application-level services
  */
-export type Container = ApplicationServices;
-// Future modules will extend this type automatically
-// e.g., type Container = AuthContainer & AssetTrackerContainer & OtherModuleContainer & ApplicationServices;
+export type Container = BaseContainer & AuthContainer;
 
 /**
  * Creates and configures the dependency injection container
- * @param writeDatabase - The Sequelize write database instance
- * @param readDatabase - The Sequelize read database instance
+ * @param options - Initialization options
  * @returns The dependency injection container
  */
-export function createDIContainer(
-  writeDatabase: Sequelize,
-  readDatabase: Sequelize,
-  logger: Logger
-): AwilixContainer<Container> {
-  const container = createContainer<Container>({
-    injectionMode: 'CLASSIC', // Use constructor injection
+export function createContainer({
+  logger,
+  writeDatabase,
+  readDatabase,
+}: {
+  logger: Logger;
+  writeDatabase: DatabaseClient;
+  readDatabase: DatabaseClient;
+}): AwilixContainer<Container> {
+  const container = createAwilixContainer<Container>({
+    injectionMode: 'PROXY', // Use proxy injection (cradle)
   });
 
   // Register application-level services (shared across all modules)
   container.register({
     authorizationService: asClass(AuthorizationService).singleton(),
     jwtService: asClass(JwtService).singleton(),
-    writeDatabase: asValue<Sequelize>(writeDatabase),
-    readDatabase: asValue<Sequelize>(readDatabase),
+    writeDatabase: asValue<DatabaseClient>(writeDatabase),
+    readDatabase: asValue<DatabaseClient>(readDatabase),
     logger: asValue<Logger>(logger),
-    eventDispatcher: asClass(EventDispatcher).singleton(),
-    domainEventRepository: asClass(SequelizeDomainEventRepository).singleton(),
+    eventDispatcher: asClass(EventDispatcherImpl).singleton(),
+    domainEventRepository: asClass(DrizzleDomainEventRepository).singleton(),
   });
 
   return container;
+}
+
+export function registerModules(
+  app: App<Container>,
+  modules: ModuleConfiguration[],
+  container: AwilixContainer<Container>
+): void {
+  modules.forEach((module) => {
+    module.registerDependencies(container);
+    module.adapters.forEach((adapter) => {
+      adapter.registerRoutes(app);
+    });
+  });
 }

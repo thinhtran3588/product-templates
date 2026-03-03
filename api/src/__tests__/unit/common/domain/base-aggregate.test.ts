@@ -1,538 +1,130 @@
 import { describe, expect, it } from 'vitest';
-import {
-  BaseAggregate,
-  type BaseAggregateParams,
-} from '@app/common/domain/base-aggregate';
-import { Uuid } from '@app/common/domain/value-objects/uuid';
+import { BaseAggregate } from '@app/common/domain/base-aggregate';
+import { Uuid } from '@app/common/domain/uuid';
 import { ValidationErrorCode } from '@app/common/enums/validation-error-code';
-import { ValidationException } from '@app/common/utils/exceptions';
 
 class TestAggregate extends BaseAggregate {
-  constructor(params: BaseAggregateParams) {
+  constructor(
+    params: ConstructorParameters<typeof BaseAggregate>[0],
+    private readonly name: string = 'test'
+  ) {
     super(params);
   }
 
-  public testUpdateLastModifiedAt(operatorId: Uuid): void {
-    this.prepareUpdate(operatorId);
-  }
-
-  public toJson(): Record<string, unknown> {
-    return {
-      id: this.id.getValue(),
-      ...this.getBaseJson(),
-    };
-  }
-
-  public testGetBaseJson(): Record<string, unknown> {
-    return this.getBaseJson();
-  }
-
-  public testRegisterEvent(
-    eventType: string,
+  emit(
+    type: string,
     data: Record<string, unknown>,
     metadata?: Record<string, unknown>
   ): void {
-    this.registerEvent(eventType, data, metadata);
+    this.registerEvent(type, data, metadata);
+  }
+
+  toJson(): Record<string, unknown> {
+    return {
+      name: this.name,
+      ...this.getBaseJson(),
+    };
   }
 }
 
 describe('BaseAggregate', () => {
-  const now = new Date('2024-01-01T00:00:00Z');
-  const later = new Date('2024-01-02T00:00:00Z');
-  const operatorId = Uuid.create('550e8400-e29b-41d4-a716-446655440999');
+  const aggregateId = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
+  const creatorId = Uuid.create('660e8400-e29b-41d4-a716-446655440000');
+  const operatorId = Uuid.create('770e8400-e29b-41d4-a716-446655440000');
 
-  describe('constructor - happy path', () => {
-    it('should create aggregate with all properties', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const createdBy = Uuid.create('550e8400-e29b-41d4-a716-446655440001');
-      const lastModifiedBy = Uuid.create(
-        '550e8400-e29b-41d4-a716-446655440002'
-      );
-      const params: BaseAggregateParams = {
-        id,
-        createdAt: now,
-        lastModifiedAt: now,
-        createdBy,
-        lastModifiedBy,
-      };
+  it('initializes default values', () => {
+    const aggregate = new TestAggregate({ id: aggregateId });
 
-      const aggregate = new TestAggregate(params);
-
-      expect(aggregate.id).toBeInstanceOf(Uuid);
-      expect(aggregate.id.getValue()).toBe(id.getValue());
-      expect(aggregate.createdAt).toBe(now);
-      expect(aggregate.lastModifiedAt).toBe(now);
-      expect(aggregate.createdBy).toBe(createdBy);
-      expect(aggregate.lastModifiedBy).toBe(lastModifiedBy);
-    });
-
-    it('should create aggregate without optional properties', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const params: BaseAggregateParams = {
-        id,
-        createdAt: now,
-        lastModifiedAt: now,
-      };
-
-      const aggregate = new TestAggregate(params);
-
-      expect(aggregate.id).toBeInstanceOf(Uuid);
-      expect(aggregate.id.getValue()).toBe(id.getValue());
-      expect(aggregate.createdAt).toBe(now);
-      expect(aggregate.lastModifiedAt).toBe(now);
-      expect(aggregate.createdBy).toBeUndefined();
-      expect(aggregate.lastModifiedBy).toBeUndefined();
-    });
-
-    it('should default createdAt to current date when not provided', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const beforeCreation = new Date();
-      const params: BaseAggregateParams = {
-        id,
-      };
-
-      const aggregate = new TestAggregate(params);
-      const afterCreation = new Date();
-
-      expect(aggregate.createdAt.getTime()).toBeGreaterThanOrEqual(
-        beforeCreation.getTime()
-      );
-      expect(aggregate.createdAt.getTime()).toBeLessThanOrEqual(
-        afterCreation.getTime()
-      );
-      expect(aggregate.version).toBe(0);
-    });
-
-    it('should default version to 0 when not provided', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        createdAt: now,
-        lastModifiedAt: now,
-      });
-
-      expect(aggregate.version).toBe(0);
-    });
+    expect(aggregate.id.getValue()).toBe(aggregateId.getValue());
+    expect(aggregate.version).toBe(0);
+    expect(aggregate.createdAt).toBeInstanceOf(Date);
+    expect(aggregate.updatePrepared).toBe(false);
   });
 
-  describe('getters', () => {
-    it('should return id', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        createdAt: now,
-        lastModifiedAt: now,
-      });
-
-      expect(aggregate.id).toBeInstanceOf(Uuid);
-      expect(aggregate.id.getValue()).toBe(id.getValue());
+  it('prepareUpdate sets audit fields, increments version, and marks prepared', () => {
+    const aggregate = new TestAggregate({
+      id: aggregateId,
+      version: 2,
+      createdBy: creatorId,
     });
 
-    it('should return createdAt', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        createdAt: now,
-        lastModifiedAt: now,
-      });
+    aggregate.prepareUpdate(operatorId, 2);
 
-      expect(aggregate.createdAt).toBe(now);
-    });
-
-    it('should return lastModifiedAt', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        createdAt: now,
-        lastModifiedAt: later,
-      });
-
-      expect(aggregate.lastModifiedAt).toBe(later);
-    });
-
-    it('should return createdBy when set', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const createdBy = Uuid.create('550e8400-e29b-41d4-a716-446655440001');
-      const aggregate = new TestAggregate({
-        id,
-        createdAt: now,
-        lastModifiedAt: now,
-        createdBy,
-      });
-
-      expect(aggregate.createdBy).toBe(createdBy);
-    });
-
-    it('should return undefined for createdBy when not set', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        createdAt: now,
-        lastModifiedAt: now,
-      });
-
-      expect(aggregate.createdBy).toBeUndefined();
-    });
-
-    it('should return lastModifiedBy when set', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const lastModifiedBy = Uuid.create(
-        '550e8400-e29b-41d4-a716-446655440002'
-      );
-      const aggregate = new TestAggregate({
-        id,
-        createdAt: now,
-        lastModifiedAt: now,
-        lastModifiedBy,
-      });
-
-      expect(aggregate.lastModifiedBy).toBe(lastModifiedBy);
-    });
-
-    it('should return undefined for lastModifiedBy when not set', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        createdAt: now,
-        lastModifiedAt: now,
-      });
-
-      expect(aggregate.lastModifiedBy).toBeUndefined();
-    });
+    expect(aggregate.version).toBe(3);
+    expect(aggregate.lastModifiedBy?.getValue()).toBe(operatorId.getValue());
+    expect(aggregate.lastModifiedAt).toBeInstanceOf(Date);
+    expect(aggregate.updatePrepared).toBe(true);
   });
 
-  describe('updateLastModifiedAt', () => {
-    it('should update lastModifiedAt to current time', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        createdAt: now,
-        lastModifiedAt: now,
-      });
-
-      const beforeUpdate = aggregate.lastModifiedAt!;
-      aggregate.testUpdateLastModifiedAt(operatorId);
-      const afterUpdate = aggregate.lastModifiedAt!;
-
-      expect(afterUpdate.getTime()).toBeGreaterThan(beforeUpdate.getTime());
-    });
-
-    it('should update lastModifiedAt when called multiple times', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        createdAt: now,
-        lastModifiedAt: now,
-      });
-
-      aggregate.testUpdateLastModifiedAt(operatorId);
-      const firstUpdate = aggregate.lastModifiedAt!;
-
-      aggregate.testUpdateLastModifiedAt(operatorId);
-      const secondUpdate = aggregate.lastModifiedAt!;
-
-      expect(secondUpdate.getTime()).toBeGreaterThanOrEqual(
-        firstUpdate.getTime()
-      );
-    });
+  it('prepareUpdate works without expectedVersion', () => {
+    const aggregate = new TestAggregate({ id: aggregateId, version: 2 });
+    aggregate.prepareUpdate(operatorId);
+    expect(aggregate.version).toBe(3);
   });
 
-  describe('updateLastModifiedBy', () => {
-    it('should update lastModifiedBy and lastModifiedAt', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        createdAt: now,
-        lastModifiedAt: now,
-      });
+  it('prepareUpdate throws when version is outdated', () => {
+    const aggregate = new TestAggregate({ id: aggregateId, version: 1 });
 
-      const beforeUpdate = aggregate.lastModifiedAt!;
-      aggregate.prepareUpdate(operatorId);
-      const afterUpdate = aggregate.lastModifiedAt!;
-
-      expect(aggregate.lastModifiedBy).toBe(operatorId);
-      expect(afterUpdate.getTime()).toBeGreaterThan(beforeUpdate.getTime());
-    });
-
-    it('should update lastModifiedBy multiple times', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        createdAt: now,
-        lastModifiedAt: now,
-      });
-
-      aggregate.prepareUpdate(operatorId);
-      expect(aggregate.lastModifiedBy).toBe(operatorId);
-
-      aggregate.prepareUpdate(operatorId);
-      expect(aggregate.lastModifiedBy).toBe(operatorId);
-    });
-
-    it('should update lastModifiedAt each time lastModifiedBy is updated', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        createdAt: now,
-        lastModifiedAt: now,
-      });
-
-      aggregate.prepareUpdate(operatorId);
-      const firstUpdate = aggregate.lastModifiedAt!;
-
-      aggregate.prepareUpdate(operatorId);
-      const secondUpdate = aggregate.lastModifiedAt!;
-
-      expect(secondUpdate.getTime()).toBeGreaterThanOrEqual(
-        firstUpdate.getTime()
-      );
-    });
+    expect(() => aggregate.prepareUpdate(operatorId, 2)).toThrowError(
+      ValidationErrorCode.OUTDATED_VERSION
+    );
   });
 
-  describe('prepareUpdate', () => {
-    it('should validate version when expectedVersion is provided and matches', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        version: 5,
-        createdAt: now,
-        lastModifiedAt: now,
-      });
-
-      expect(() => {
-        aggregate.prepareUpdate(operatorId, 5);
-      }).not.toThrow();
-
-      expect(aggregate.version).toBe(6);
-      expect(aggregate.updatePrepared).toBe(true);
+  it('registers events and returns copies', () => {
+    const aggregate = new TestAggregate({
+      id: aggregateId,
+      createdBy: creatorId,
     });
 
-    it('should throw ValidationException when expectedVersion does not match', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        version: 5,
-        createdAt: now,
-        lastModifiedAt: now,
-      });
+    aggregate.emit('CREATED', { foo: 'bar' }, { source: 'unit-test' });
 
-      expect(() => {
-        aggregate.prepareUpdate(operatorId, 3);
-      }).toThrow(ValidationException);
+    const events = aggregate.getEvents();
+    expect(events).toHaveLength(1);
+    expect(events[0]?.eventType).toBe('CREATED');
+    expect(events[0]?.aggregateName).toBe('TestAggregate');
+    expect(events[0]?.aggregateId.getValue()).toBe(aggregateId.getValue());
+    expect(events[0]?.createdBy?.getValue()).toBe(creatorId.getValue());
 
-      expect(() => {
-        aggregate.prepareUpdate(operatorId, 3);
-      }).toThrow(ValidationErrorCode.OUTDATED_VERSION);
-
-      expect(aggregate.version).toBe(5);
-      expect(aggregate.updatePrepared).toBe(false);
-    });
-
-    it('should not validate version when expectedVersion is not provided', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        version: 5,
-        createdAt: now,
-        lastModifiedAt: now,
-      });
-
-      expect(() => {
-        aggregate.prepareUpdate(operatorId);
-      }).not.toThrow();
-
-      expect(aggregate.version).toBe(6);
-      expect(aggregate.updatePrepared).toBe(true);
-    });
+    events.push(events[0]!);
+    expect(aggregate.getEvents()).toHaveLength(1);
   });
 
-  describe('getBaseJson', () => {
-    it('should return base json with all fields when all are set', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const createdBy = Uuid.create('550e8400-e29b-41d4-a716-446655440001');
-      const lastModifiedBy = Uuid.create(
-        '550e8400-e29b-41d4-a716-446655440002'
-      );
-      const aggregate = new TestAggregate({
-        id,
-        version: 2,
-        createdAt: now,
-        lastModifiedAt: later,
-        createdBy,
-        lastModifiedBy,
-      });
-
-      const json = aggregate.testGetBaseJson();
-
-      expect(json['version']).toBe(2);
-      expect(json['createdAt']).toBe(now);
-      expect(json['lastModifiedAt']).toBe(later);
-      expect(json['createdBy']).toBe(createdBy.getValue());
-      expect(json['lastModifiedBy']).toBe(lastModifiedBy.getValue());
+  it('uses lastModifiedBy as createdBy for later events', () => {
+    const aggregate = new TestAggregate({
+      id: aggregateId,
+      createdBy: creatorId,
+      version: 0,
     });
+    aggregate.prepareUpdate(operatorId, 0);
+    aggregate.emit('UPDATED', { foo: 'bar' });
 
-    it('should return base json with undefined for optional fields when not set', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        version: 1,
-        createdAt: now,
-        lastModifiedAt: now,
-      });
-
-      const json = aggregate.testGetBaseJson();
-
-      expect(json['version']).toBe(1);
-      expect(json['createdAt']).toBe(now);
-      expect(json['lastModifiedAt']).toBe(now);
-      expect(json['createdBy']).toBeUndefined();
-      expect(json['lastModifiedBy']).toBeUndefined();
-    });
-
-    it('should return base json with only createdBy when lastModifiedBy is not set', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const createdBy = Uuid.create('550e8400-e29b-41d4-a716-446655440001');
-      const aggregate = new TestAggregate({
-        id,
-        version: 1,
-        createdAt: now,
-        lastModifiedAt: now,
-        createdBy,
-      });
-
-      const json = aggregate.testGetBaseJson();
-
-      expect(json['createdBy']).toBe(createdBy.getValue());
-      expect(json['lastModifiedBy']).toBeUndefined();
-    });
-
-    it('should return base json with only lastModifiedBy when createdBy is not set', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const lastModifiedBy = Uuid.create(
-        '550e8400-e29b-41d4-a716-446655440002'
-      );
-      const aggregate = new TestAggregate({
-        id,
-        version: 1,
-        createdAt: now,
-        lastModifiedAt: now,
-        lastModifiedBy,
-      });
-
-      const json = aggregate.testGetBaseJson();
-
-      expect(json['createdBy']).toBeUndefined();
-      expect(json['lastModifiedBy']).toBe(lastModifiedBy.getValue());
-    });
+    expect(aggregate.getEvents()[0]?.createdBy?.getValue()).toBe(
+      operatorId.getValue()
+    );
   });
 
-  describe('updatePrepared flag', () => {
-    it('should be false initially', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        createdAt: now,
-        lastModifiedAt: now,
-      });
+  it('clears events', () => {
+    const aggregate = new TestAggregate({ id: aggregateId });
+    aggregate.emit('CREATED', {});
+    expect(aggregate.getEvents()).toHaveLength(1);
 
-      expect(aggregate.updatePrepared).toBe(false);
-    });
-
-    it('should be set to true after prepareUpdate is called', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        createdAt: now,
-        lastModifiedAt: now,
-      });
-
-      expect(aggregate.updatePrepared).toBe(false);
-
-      aggregate.prepareUpdate(operatorId);
-
-      expect(aggregate.updatePrepared).toBe(true);
-    });
-
-    it('should remain true after multiple prepareUpdate calls', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        version: 1,
-        createdAt: now,
-        lastModifiedAt: now,
-      });
-
-      aggregate.prepareUpdate(operatorId);
-      expect(aggregate.updatePrepared).toBe(true);
-
-      aggregate.prepareUpdate(operatorId);
-      expect(aggregate.updatePrepared).toBe(true);
-    });
+    aggregate.clearEvents();
+    expect(aggregate.getEvents()).toHaveLength(0);
   });
 
-  describe('immutability', () => {
-    it('should not allow direct modification of id', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        createdAt: now,
-        lastModifiedAt: now,
-      });
-
-      expect(() => {
-        (aggregate as unknown as { id: Uuid }).id = Uuid.create(
-          '650e8400-e29b-41d4-a716-446655440000'
-        );
-      }).toThrow();
+  it('returns base json fields', () => {
+    const aggregate = new TestAggregate({
+      id: aggregateId,
+      version: 5,
+      createdBy: creatorId,
+      lastModifiedBy: operatorId,
+      createdAt: new Date('2026-01-01T00:00:00.000Z'),
+      lastModifiedAt: new Date('2026-01-02T00:00:00.000Z'),
     });
 
-    it('should not allow direct modification of createdAt', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        createdAt: now,
-        lastModifiedAt: now,
-      });
-
-      expect(() => {
-        (aggregate as unknown as { createdAt: Date }).createdAt = later;
-      }).toThrow();
-    });
-  });
-
-  describe('clearEvents', () => {
-    it('should clear all registered events', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        createdAt: now,
-        lastModifiedAt: now,
-      });
-
-      aggregate.testRegisterEvent('TEST_EVENT', { test: 'data' });
-
-      expect(aggregate.getEvents()).toHaveLength(1);
-
-      aggregate.clearEvents();
-
-      expect(aggregate.getEvents()).toHaveLength(0);
-      expect(aggregate.getEvents()).toEqual([]);
-    });
-
-    it('should clear events when no events are registered', () => {
-      const id = Uuid.create('550e8400-e29b-41d4-a716-446655440000');
-      const aggregate = new TestAggregate({
-        id,
-        createdAt: now,
-        lastModifiedAt: now,
-      });
-
-      expect(aggregate.getEvents()).toHaveLength(0);
-
-      aggregate.clearEvents();
-
-      expect(aggregate.getEvents()).toHaveLength(0);
-      expect(aggregate.getEvents()).toEqual([]);
-    });
+    const json = aggregate.toJson();
+    expect(json['version']).toBe(5);
+    expect(json['createdBy']).toBe(creatorId.getValue());
+    expect(json['lastModifiedBy']).toBe(operatorId.getValue());
   });
 });

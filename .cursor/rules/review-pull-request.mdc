@@ -1,0 +1,38 @@
+---
+description: Pull request review checklist for logic, quality, validation, and testing.
+alwaysApply: false
+---
+
+# Review Pull Request
+
+Use this checklist when reviewing a PR or code changes.
+
+## 1. Context and CI
+
+- Review PR title/description and acceptance criteria.
+- Check Conventional Commit style in title.
+- Verify CI and validation checks passed.
+
+## 2. Functionality and Logic
+
+- Completeness: requirements and user stories are covered.
+- Correctness: edge cases and error paths are handled.
+- Security: no exposed secrets, unsafe input handling, or obvious vulnerabilities.
+- Performance: no clear bottlenecks or unnecessary heavy operations.
+
+## 3. Quality and Style
+
+- Local/project validation passes (`npm run validate` or project equivalent).
+- Code is readable, modular, and maintainable.
+- Tests are present and aligned with behavior changes.
+
+## 4. Design Checks (UI-focused changes)
+
+- UI/UX consistency with design specs.
+- Responsive behavior for core breakpoints.
+
+## 5. Outcome
+
+- **Request changes** for blockers (logic, security, missing tests, failing validation).
+- **Comment** for non-blocking improvements.
+- **Approve** when quality standards are met.

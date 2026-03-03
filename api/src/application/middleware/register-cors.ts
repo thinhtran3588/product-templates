@@ -1,27 +1,17 @@
-import type { OpenAPIHono } from '@hono/zod-openapi';
 import { cors } from 'hono/cors';
-import { webConfig } from '@app/application/config/web.config';
-import type { AppEnv } from '@app/application/types/hono.env';
+import type { App } from '@app/common';
 
-/**
- * Registers the CORS middleware with the Hono instance
- * @param app - The Hono instance to register the middleware with
- * @returns void
- */
-export function registerCors(app: OpenAPIHono<AppEnv>): void {
-  const {
-    cors: { enabled, origins },
-  } = webConfig();
-
-  if (!enabled) {
-    return;
+export const registerCors = (app: App) => {
+  if (process.env['CORS_ENABLED'] === 'true') {
+    app.use(
+      '*',
+      cors({
+        origin: process.env['CORS_ORIGINS']
+          ? process.env['CORS_ORIGINS'].split(',')
+          : '*',
+        allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+        allowHeaders: ['Content-Type', 'Authorization'],
+      })
+    );
   }
-
-  app.use(
-    '*',
-    cors({
-      origin: origins?.length ? origins : '*',
-      credentials: true,
-    })
-  );
-}
+};

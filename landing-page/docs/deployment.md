@@ -14,6 +14,22 @@ This guide covers deploying the landing page to production using **Firebase** fo
 
 The deployment pipeline consists of three parts:
 
+```mermaid
+flowchart LR
+    Dev[Developer] --> GitHub[Push to GitHub]
+    GitHub --> CI[GitHub Actions]
+    CI --> Build[Build Static Site]
+    Build --> CF[Deploy to Cloudflare Pages]
+    CI --> FirebaseCfg[Inject Firebase Config Secret]
+
+    style Dev fill:#1976d2,color:#fff
+    style GitHub fill:#1976d2,color:#fff
+    style CI fill:#f57c00,color:#fff
+    style Build fill:#388e3c,color:#fff
+    style CF fill:#388e3c,color:#fff
+    style FirebaseCfg fill:#c2185b,color:#fff
+```
+
 | Component            | Purpose                                                         |
 | -------------------- | --------------------------------------------------------------- |
 | **Firebase**         | Analytics (see [Firebase Integration](firebase-integration.md)) |
@@ -84,6 +100,25 @@ Developer → Push to GitHub → GitHub Actions → Build → Deploy to Cloudfla
 ## GitHub Actions CI/CD
 
 GitHub Actions automates building, testing, and deploying. The project uses a **Main → Staging**, **Release → Production** strategy.
+
+```mermaid
+flowchart LR
+    PR[Pull Request] --> PRCI[CI - Pull Requests<br/>Validate Landing Page]
+    Main[Push to main] --> MainCI[CI - Main<br/>Validate and Deploy Staging]
+    Release[Release Published] --> RelCI[Release - Production<br/>Validate and Deploy Production]
+
+    MainCI --> Staging[Cloudflare Pages<br/>landing-page-demo-staging]
+    RelCI --> Production[Cloudflare Pages<br/>landing-page-demo]
+
+    style PR fill:#1976d2,color:#fff
+    style Main fill:#1976d2,color:#fff
+    style Release fill:#1976d2,color:#fff
+    style PRCI fill:#f57c00,color:#fff
+    style MainCI fill:#f57c00,color:#fff
+    style RelCI fill:#f57c00,color:#fff
+    style Staging fill:#388e3c,color:#fff
+    style Production fill:#388e3c,color:#fff
+```
 
 ### Workflow Overview
 

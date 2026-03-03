@@ -1,42 +1,49 @@
 import { swaggerUI } from '@hono/swagger-ui';
-import type { OpenAPIHono } from '@hono/zod-openapi';
-import {
-  swaggerConfig,
-  swaggerUiConfig,
-} from '@app/application/config/swagger.config';
-import type { AppEnv } from '@app/application/types/hono.env';
-import type { RouteTag } from '@app/common/interfaces/configuration';
+import { type App } from '@app/common';
 
-/**
- * Registers the Swagger middleware with the Hono instance
- * @param app - The Hono instance to register the middleware with
- * @param tags - The tags to register with the Swagger middleware
- * @returns void
- */
-export function registerSwagger(
-  app: OpenAPIHono<AppEnv>,
-  tags: RouteTag[]
-): void {
-  const enableSwagger = process.env['SWAGGER_ENABLED'] === 'true';
-  if (!enableSwagger) {
-    return;
+// eslint-disable-next-line no-restricted-imports
+import pkg from '../../../package.json';
+
+export const registerSwagger = (app: App) => {
+  if (process.env['SWAGGER_ENABLED'] === 'true') {
+    const routePrefix = process.env['SWAGGER_DOCUMENTATION_ROUTE'] ?? '/api';
+    const jsonRoute = `${routePrefix}.json`;
+
+    app.openAPIRegistry.registerComponent('securitySchemes', 'bearerAuth', {
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+      description: 'Enter JWT access token',
+    });
+
+    app.doc(jsonRoute, {
+      openapi: '3.0.0',
+      info: {
+        version: pkg.version,
+        title: pkg.name,
+        description: pkg.description,
+        contact: {
+          name: process.env['SWAGGER_CONTACT_NAME'] ?? '',
+          email: process.env['SWAGGER_CONTACT_EMAIL'] ?? '',
+          url: process.env['SWAGGER_CONTACT_URL'] ?? '',
+        },
+      },
+      servers: [
+        {
+          url: '/',
+          description: 'API server',
+        },
+        ...(process.env['SWAGGER_PRODUCTION_URL']
+          ? [
+              {
+                url: process.env['SWAGGER_PRODUCTION_URL'],
+                description: 'Production server',
+              },
+            ]
+          : []),
+      ],
+    });
+
+    app.get(routePrefix, swaggerUI({ url: jsonRoute }));
   }
-
-  const config = swaggerConfig().openapi;
-  const ui = swaggerUiConfig();
-
-  app.doc('/openapi.json', {
-    openapi: config.openapi,
-    info: config.info,
-    servers: config.servers,
-    security: [],
-    tags: tags as any,
-  });
-
-  app.get(
-    ui.routePrefix,
-    swaggerUI({
-      url: '/openapi.json',
-    })
-  );
-}
+};
