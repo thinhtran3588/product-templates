@@ -1,7 +1,7 @@
 {
   "name": "nodejs-api-starter-kit",
-  "version": "0.1.1",
-  "description": "API Demo",
+  "version": "0.1.0",
+  "description": "A production-ready API template with Clean Architecture and modular structure for scalable backend development.",
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
