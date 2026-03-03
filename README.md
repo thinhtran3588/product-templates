@@ -1,5 +1,8 @@
 # product-templates
 
+[![CI - Main](https://github.com/thinhtran3588/product-templates/actions/workflows/ci-main.yml/badge.svg?branch=main)](https://github.com/thinhtran3588/product-templates/actions/workflows/ci-main.yml)
+[![codecov](https://codecov.io/gh/thinhtran3588/product-templates/graph/badge.svg)](https://codecov.io/gh/thinhtran3588/product-templates)
+
 Templates for building a new software product
 
 ## Documentation

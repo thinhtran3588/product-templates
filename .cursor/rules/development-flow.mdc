@@ -1,0 +1,57 @@
+---
+description: Standard development workflow for branch, validation, commit, and PR.
+alwaysApply: true
+---
+
+# Development Flow
+
+Follow this workflow for all code changes.
+
+## 1. Preparation
+
+- Always create a new branch before coding.
+- Never commit directly to `main` unless explicitly instructed.
+
+### Branch naming
+
+- Feature: `feature/<short-description>`
+- Fix: `fix/<short-description>`
+- Chore/docs: `chore/<short-description>` or `docs/<short-description>`
+
+### Start commands
+
+```bash
+git checkout main
+git pull origin main
+git checkout -b <type>/<branch-name>
+```
+
+## 2. Implementation
+
+- Make atomic, logical changes.
+- For bugs, prefer TDD: write failing test first, then fix.
+- Add tests for happy path and edge cases.
+
+## 3. Validation Gate
+
+Before commit, run project validation and fix all failures.
+
+```bash
+npm run validate
+```
+
+For subprojects that use Bun, run their equivalent validation from the subproject directory.
+
+## 4. Finalize
+
+1. Stage changes
+2. Commit with Conventional Commits (`type(scope): description`)
+3. Push branch
+4. Open PR to `main`
+
+```bash
+git add .
+git commit -m "type(scope): description"
+git push -u origin HEAD
+gh pr create --title "type(scope): description" --body "Description of changes"
+```

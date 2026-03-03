@@ -38,12 +38,20 @@ export default tseslint.config(
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/no-misused-promises': 'error',
       '@typescript-eslint/await-thenable': 'error',
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        {
+          prefer: 'type-imports',
+          disallowTypeAnnotations: false,
+          fixStyle: 'inline-type-imports',
+        },
+      ],
       '@typescript-eslint/no-unnecessary-type-assertion': 'warn',
       '@typescript-eslint/prefer-nullish-coalescing': 'warn',
       '@typescript-eslint/prefer-optional-chain': 'warn',
 
       // General JavaScript/Node.js rules
-      'no-console': 'error', // Allow console in Node.js
+      'no-console': 'error', 
       'no-debugger': 'error',
       'no-duplicate-imports': 'error',
       'no-unused-expressions': 'error',
@@ -60,6 +68,18 @@ export default tseslint.config(
           array: false,
         },
       ],
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              regex: '^\\.\\./',
+              message:
+                'Use @app/... imports instead of parent relative paths (../...).',
+            },
+          ],
+        },
+      ],
     },
   },
   prettierConfig,
@@ -70,27 +90,7 @@ export default tseslint.config(
       '*.js',
       '*.mjs',
       '*.cjs',
-      'vitest.config.ts',
-      'src/__tests__/**',
-      'src/application/database/migrations/**',
-      'src/application/database/seeders/**',
-      'scripts/**',
-      'sequelize/**/*.sql',
-      'sequelize/**/*.ts',
     ],
   },
-  {
-    // Allow console in .mjs script files
-    files: ['**/*.mjs'],
-    languageOptions: {
-      globals: {
-        console: 'readonly',
-      },
-    },
-    rules: {
-      'no-console': 'off',
-    },
-  },
- 
 );
 
