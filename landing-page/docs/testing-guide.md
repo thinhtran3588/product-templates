@@ -260,10 +260,10 @@ Skip tests only for:
 ## Running Tests
 
 ```bash
-npm test              # Run all tests
-npm run test:watch    # Watch mode
-npm run test:coverage # With coverage report
-npm run validate      # Full validation (includes tests)
+bun run test          # Run all tests
+bun run test --watch  # Watch mode
+bun run test:coverage # With coverage report
+bun run validate      # Full validation (includes tests)
 ```
 
 ## Best Practices

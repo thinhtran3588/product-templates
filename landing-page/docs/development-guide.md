@@ -267,9 +267,9 @@ export class FirestoreFeatureRepository implements FeatureRepository {
 
 | Command                 | Purpose                          |
 | ----------------------- | -------------------------------- |
-| `npm test`              | Run all tests                    |
-| `npm run test:coverage` | Run with coverage report         |
-| `npm run validate`      | Full validation (includes tests) |
+| `bun run test`          | Run all tests                    |
+| `bun run test:coverage` | Run with coverage report         |
+| `bun run validate`      | Full validation (includes tests) |
 
 ### Key Points
 

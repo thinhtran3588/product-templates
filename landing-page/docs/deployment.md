@@ -86,7 +86,7 @@ Developer → Push to GitHub → GitHub Actions → Build → Deploy to Cloudfla
 | Setting                    | Value                     |
 | -------------------------- | ------------------------- |
 | **Framework preset**       | `Next.js (Static Export)` |
-| **Build command**          | `npm run build`           |
+| **Build command**          | `bun run build`           |
 | **Build output directory** | `out`                     |
 
 > **Note**: If your Next.js app uses `output: "export"` in `next.config.ts`, the output directory is `out`. If using the default server mode with `@cloudflare/next-on-pages`, follow Cloudflare's [Next.js on Pages guide](https://developers.cloudflare.com/pages/framework-guides/nextjs/).

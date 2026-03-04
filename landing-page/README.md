@@ -27,8 +27,8 @@
 ## Quick Start
 
 ```bash
-npm install
-npm run dev
+bun install
+bun run dev
 ```
 
 The app runs at `http://localhost:3000`.
@@ -37,9 +37,9 @@ The app runs at `http://localhost:3000`.
 
 | Command            | Description                                     |
 | ------------------ | ----------------------------------------------- |
-| `npm run dev`      | Start development server                        |
-| `npm run build`    | Build for production                            |
-| `npm run validate` | Run lint, format check, and tests with coverage |
+| `bun run dev`      | Start development server                        |
+| `bun run build`    | Build for production                            |
+| `bun run validate` | Run lint, format check, and tests with coverage |
 
 ## Documentation
 
